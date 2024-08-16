@@ -15,9 +15,10 @@ class SevenZipArchiveHandler implements ArchiveInterface
     /**
      * Извлекает содержимое архива 7-Zip в указанную директорию.
      *
-     * @param string $filePath Путь к архиву 7-Zip.
-     * @param string $destination Директория для извлечения архива. Директория будет создана, если её не существует.
-     * @param iterable $passwords Список паролей для защищённых архивов.
+     * @param string   $filePath    Путь к архиву 7-Zip.
+     * @param string   $destination Директория для извлечения архива. Директория будет создана, если её не существует.
+     * @param iterable $passwords   Список паролей для защищённых архивов.
+     *
      * @return bool Возвращает true, если извлечение прошло успешно, и false в противном случае.
      */
     public function extract(string $filePath, string $destination, iterable $passwords = []): bool
@@ -39,9 +40,10 @@ class SevenZipArchiveHandler implements ArchiveInterface
     /**
      * Попытка извлечь содержимое архива с опциональным паролем.
      *
-     * @param string $filePath Путь к архиву 7-Zip.
-     * @param string $destination Директория для извлечения архива.
-     * @param string|null $password Пароль (опционально).
+     * @param string      $filePath    Путь к архиву 7-Zip.
+     * @param string      $destination Директория для извлечения архива.
+     * @param string|null $password    Пароль (опционально).
+     *
      * @return bool Возвращает true, если извлечение прошло успешно, и false в противном случае.
      */
     protected function tryExtract(string $filePath, string $destination, ?string $password = null): bool
@@ -51,7 +53,7 @@ class SevenZipArchiveHandler implements ArchiveInterface
             '7z x %s -o%s %s -y',
             escapeshellarg($filePath),
             escapeshellarg($destination),
-            $password ? '-p' . escapeshellarg($password) : ''
+            $password ? '-p'.escapeshellarg($password) : ''
         );
 
         // Выполняем команду

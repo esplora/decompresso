@@ -4,6 +4,7 @@ namespace Esplora\Decompresso;
 
 use Esplora\Decompresso\Contracts\ArchiveInterface;
 use Esplora\Decompresso\Contracts\PasswordProviderInterface;
+use Esplora\Decompresso\Providers\ArrayPasswordProvider;
 
 /**
  * Класс для извлечения архивов с поддержкой паролей и обработчиков архива.
@@ -16,9 +17,9 @@ class Extractor
     /**
      * Провайдер паролей, используемый для попытки извлечения защищенных архива.
      *
-     * @var PasswordProviderInterface|null
+     * @var PasswordProviderInterface
      */
-    protected ?PasswordProviderInterface $passwordProvider = null;
+    protected PasswordProviderInterface $passwordProvider;
 
     /**
      * Массив обработчиков архивов, которые могут извлекать архивы.
@@ -48,6 +49,9 @@ class Extractor
      */
     public function __construct()
     {
+        // По умолчанию использует провайдер паролей с пустым списком паролей.
+        $this->passwordProvider = new ArrayPasswordProvider([]);
+
         // По умолчанию выбрасывает исключение при неудачном извлечении архива.
         $this->failureCallback = fn (string $filePath) => throw new \Exception("Не удалось извлечь архив: {$filePath}");
 
@@ -114,8 +118,7 @@ class Extractor
     /**
      * Извлекает архив в указанное место.
      *
-     * Этот метод пробует извлечь архив, находящийся по указанному пути, в указанный каталог. Сначала он проверяет
-     * наличие провайдера паролей, затем использует добавленные обработчики архива для извлечения. Если извлечение
+     * Этот метод пробует извлечь архив, находящийся по указанному пути, в указанный каталог. Использует добавленные обработчики архива для извлечения. Если извлечение
      * не удается, вызывается обработчик неудачного извлечения. В противном случае вызывается обработчик успешного
      * извлечения.
      *
@@ -127,15 +130,10 @@ class Extractor
      *
      * @return mixed Возвращает результат выполнения обработчика на случай успешного извлечения архива.
      */
-    public function extract(string $filePath, ?string $destination = null)
+    public function extract(string $filePath, ?string $destination = null): mixed
     {
         $destination = $destination ?: dirname($filePath);
         $success = false;
-
-        // Проверка наличия провайдера паролей.
-        if ($this->passwordProvider === null) {
-            throw new \LogicException('Password provider must be set before extraction.');
-        }
 
         // Попытка извлечения архива с использованием всех добавленных обработчиков.
         foreach ($this->archiveHandlers as $handler) {
@@ -145,11 +143,9 @@ class Extractor
             }
         }
 
-        // Вызов соответствующего обработчика в зависимости от результата извлечения.
-        if (! $success) {
-            return call_user_func($this->failureCallback, $filePath);
-        }
+        $callback = $success ? $this->successCallback : $this->failureCallback;
 
-        return call_user_func($this->successCallback, $filePath);
+        // Вызов соответствующего обработчика в зависимости от результата извлечения.
+        return call_user_func($callback, $filePath, $destination);
     }
 }

@@ -154,7 +154,7 @@ class Extractor
         $success = false;
 
         // Создаём директорию назначения, если она не существует
-        //$this->ensureDirectoryExists($destination);
+        // $this->ensureDirectoryExists($destination);
 
         // Попытка извлечения архива с использованием всех добавленных обработчиков.
         foreach ($this->archiveHandlers as $handler) {

@@ -1,0 +1,10 @@
+name: Psalm
+
+on:
+  push:
+
+jobs:
+  uneditable:
+    uses: esplora/.github/.github/workflows/psalm.yml@main
+    with:
+      php: '8.2'

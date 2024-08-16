@@ -1,0 +1,10 @@
+name: Tests
+
+on:
+  push:
+
+jobs:
+  uneditable:
+    uses: esplora/.github/.github/workflows/phpunit-for-laravel.yaml@main
+    with:
+      php: '[ "8.2", "8.1" ]'

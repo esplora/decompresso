@@ -65,7 +65,7 @@ class RarArchiveHandler implements ArchiveInterface
                     $rar->close();
 
                     return true;
-                } catch (RarException) {
+                } catch (Exception) {
                     // Пробуем следующий пароль
                     continue;
                 }

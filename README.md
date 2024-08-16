@@ -1,8 +1,8 @@
 # <img src=".github/logo.svg?sanitize=true" width="24" height="24" alt="Decompresso"> Decompresso
 
-Библиотека для извлечения содержимого архивов.
-
 [![Tests](https://github.com/esplora/decompresso/actions/workflows/phpunit.yml/badge.svg)](https://github.com/esplora/decompresso/actions/workflows/phpunit.yml)
+
+Библиотека для извлечения содержимого архивов.
 
 ## Возможности
 
@@ -39,19 +39,15 @@ $extractor
 $extractor->extract('/path/to/your/archive.zip', '/path/to/extract/to');
 ```
 
+Всё строиться с помощью Fluent API. В которым вы добавляете обработчики, в примере используется `ZipArchiveHandler` для
+ZIP-файлов, но
+можете создать собственный обработчик для поддержки других форматов или использовать доступные из пакета.
 
-### Как это работает
+Также вы можете добавить провайдер паролей, в примере используется `ArrayPasswordProvider`, который принимает массив
+паролей.
+Скорее всего вы захотите создать свой провайдер, реализуя `PasswordProviderInterface`,
+например, `DataBasePasswordProvider` для получения паролей из базы данных и добавления кеширования.
 
-#### Провайдеры паролей
+## License
 
-Библиотека поддерживает различные провайдеры паролей для работы с защищёнными архивами. 
-В примере используется `ArrayPasswordProvider`, который принимает массив паролей.
-Вы можете создать свой провайдер, реализуя `PasswordProviderInterface`, например,
-`DataBasePasswordProvider` для получения паролей из базы данных и добавления кеширования.
-
-#### Обработчики архивов
-
-Для работы с архивами библиотека использует обработчики. 
-В примере используется `ZipArchiveHandler` для ZIP-файлов. 
-Вы можете создать собственный обработчик для поддержки других форматов архивов.
-
+The MIT License (MIT). Please see [License File](LICENSE.md) for more information.

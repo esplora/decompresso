@@ -89,6 +89,21 @@ class Extractor
     }
 
     /**
+     * Добавляет несколько обработчиков архивов.
+     *
+     * @param ArchiveInterface[] $handlers Массив обработчиков архивов.
+     * @return $this Возвращает текущий экземпляр для цепочки вызовов.
+     */
+    public function withHandlers(array $handlers): self
+    {
+        foreach ($handlers as $handler) {
+            $this->withHandler($handler);
+        }
+
+        return $this;
+    }
+
+    /**
      * Устанавливает обработчик, который будет вызван в случае неудачного извлечения архива.
      *
      * @param callable $callback Обработчик для обработки неудачного извлечения архива.

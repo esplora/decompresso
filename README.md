@@ -32,11 +32,13 @@ use Esplora\Decompresso\Providers\ArrayPasswordProvider;
 $extractor = new Extractor();
 
 $extractor
-          ->withPasswords(new ArrayPasswordProvider(['123', 'xxx123']))
-          ->withHandler(new ZipArchiveHandler())
-          ->withHandler(new GzipArchiveHandler())
-          ->onSuccess(fn() => 'Файлы извлечены успешно')
-          ->onFailure(fn() => 'Не удалось распаковать');
+    ->withPasswords(new ArrayPasswordProvider(['123', 'xxx123']))
+    ->withHandlers([
+        new ZipArchiveHandler(),
+        new GzipArchiveHandler(),
+    ])
+    ->onSuccess(fn() => 'Файлы извлечены успешно')
+    ->onFailure(fn() => 'Не удалось распаковать');
 
 // Извлекаем архив и возвращает результат замыкания onSuccess или onFailure
 $extractor->extract('/path/to/your/archive.zip', '/path/to/extract/to');

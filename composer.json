@@ -1,0 +1,30 @@
+{
+    "name": "esplora/decompresso",
+    "autoload": {
+        "psr-4": {
+            "Esplora\\Decompresso\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Esplora\\Decompresso\\Tests\\": "tests/"
+        }
+    },
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Alexandr Chernyaev",
+            "email": "bliz48rus@gmail.com"
+        }
+    ],
+    "require-dev": {
+        "phpunit/phpunit": "^10.5",
+        "laravel/pint": "^1.2",
+        "vimeo/psalm": "^5.0"
+    },
+    "require": {
+        "illuminate/support": "^10.48",
+        "symfony/var-dumper": "^6.4"
+    }
+}

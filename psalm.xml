@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<psalm
+        phpVersion="8.1"
+        errorLevel="3"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="https://getpsalm.org/schema/config"
+        xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
+        useDocblockTypes="false"
+        useDocblockPropertyTypes="false"
+        findUnusedBaselineEntry="true"
+        findUnusedCode="false"
+>
+    <projectFiles>
+        <directory name="src"/>
+        <ignoreFiles>
+            <directory name="vendor"/>
+        </ignoreFiles>
+    </projectFiles>
+    <issueHandlers>
+        <MissingTemplateParam errorLevel="suppress" />
+        <UndefinedClass>
+            <errorLevel type="suppress">
+                <referencedClass name="Laravel\Octane\Events\RequestReceived" />
+            </errorLevel>
+        </UndefinedClass>
+    </issueHandlers>
+</psalm>

@@ -40,7 +40,7 @@ class ExtractorTest extends TestCase
         $this->extractor = new Extractor();
     }
 
-    public function testExtractionSuccess()
+    public function testExtractionSuccess():void
     {
         $passwordProvider = $this->createMock(PasswordProviderInterface::class);
         $passwordProvider->method('getPasswords')->willReturn(['123', 'xxx123']);
@@ -59,7 +59,7 @@ class ExtractorTest extends TestCase
         $this->assertEquals('/path/to/archive.zip extracted successfully.', $result);
     }
 
-    public function testExtractionFailure()
+    public function testExtractionFailure():void
     {
         $passwordProvider = $this->createMock(PasswordProviderInterface::class);
         $passwordProvider->method('getPasswords')->willReturn(['123', 'xxx123']);

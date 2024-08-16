@@ -15,16 +15,27 @@
     "authors": [
         {
             "name": "Alexandr Chernyaev",
-            "email": "bliz48rus@gmail.com"
+            "email": "bliz48rus@gmail.com",
+            "homepage": "https://tabuna.github.io",
+            "role": "Developer"
         }
     ],
     "require-dev": {
         "phpunit/phpunit": "^10.5",
         "laravel/pint": "^1.2",
-        "vimeo/psalm": "^5.0"
+        "vimeo/psalm": "^5.0",
+        "ext-zlib": "*"
     },
     "require": {
         "illuminate/support": "^10.48",
         "symfony/var-dumper": "^6.4"
+    },
+    "suggest": {
+        "ext-rar": "Required for RAR archives support.",
+        "ext-phar": "Required for TAR archives support.",
+        "ext-zlib": "Required for GZIP archives support."
+    },
+    "config": {
+        "sort-packages": true
     }
 }

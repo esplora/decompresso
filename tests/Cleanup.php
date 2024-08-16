@@ -12,9 +12,9 @@ trait Cleanup
      *
      * @return string
      */
-    protected function getFixturesDir(): string
+    protected function getFixturesDir(string $path): string
     {
-        return __DIR__ . '/../fixtures/zip/';
+        return __DIR__ . '/fixtures/'.$path;
     }
 
     /**
@@ -24,7 +24,17 @@ trait Cleanup
      */
     protected function getExtractionPath(): string
     {
-        return __DIR__ . '/../extracted/';
+        return __DIR__ . '/extracted/';
+    }
+
+    /**
+     * Возвращает список паролей для тестов.
+     *
+     * @return array
+     */
+    protected function getPasswords(): array
+    {
+        return ['12345'];
     }
 
     /**
@@ -60,5 +70,29 @@ trait Cleanup
     {
         $this->deleteDir($this->getExtractionPath());
         parent::tearDown();
+    }
+
+    /**
+     * Проверяет что каждый файл был извлечен
+     *
+     * @return void
+     */
+    protected function assertFilesExtracted():void
+    {
+        foreach ($this->getExpectedFiles() as $file) {
+            $this->assertFileExists($this->getExtractionPath() . $file);
+        }
+    }
+
+    /**
+     * Проверяет что каждый файл не был извлечен
+     *
+     * @return void
+     */
+    protected function assertFilesDoesExtracted():void
+    {
+        foreach ($this->getExpectedFiles() as $file) {
+            $this->assertFileDoesNotExist($this->getExtractionPath() . $file);
+        }
     }
 }

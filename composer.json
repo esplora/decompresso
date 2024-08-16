@@ -28,7 +28,7 @@
     },
     "require": {
         "illuminate/support": "^10.48",
-        "symfony/mime": "^7.1",
+        "symfony/mime": "^6.4|^7.1",
         "symfony/var-dumper": "^6.4"
     },
     "suggest": {

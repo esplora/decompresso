@@ -92,6 +92,7 @@ class Extractor
      * Добавляет несколько обработчиков архивов.
      *
      * @param ArchiveInterface[] $handlers Массив обработчиков архивов.
+     *
      * @return $this Возвращает текущий экземпляр для цепочки вызовов.
      */
     public function withHandlers(array $handlers): self

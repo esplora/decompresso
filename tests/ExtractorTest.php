@@ -97,7 +97,7 @@ class ExtractorTest extends TestCase
         // Устанавливаем обработчик, который выбрасывает исключение при неудаче
         $this->extractor->withPasswords($passwordProvider)
             ->withHandler($archiveHandler)
-            ->onFailure(fn ($e) => throw new \Exception("New: ".$e->getMessage()));
+            ->onFailure(fn ($e) => throw new \Exception('New: '.$e->getMessage()));
 
         // Ожидаем, что будет выброшено исключение
         $this->expectException(\Exception::class);
@@ -105,7 +105,6 @@ class ExtractorTest extends TestCase
 
         $this->extractor->extract('/path/to/archive.zip');
     }
-
 
     public function testExtractionWiouSuccess(): void
     {
@@ -118,7 +117,6 @@ class ExtractorTest extends TestCase
 
         $archiveHandler->method('extract')
             ->willReturn(true);
-
 
         $archiveHandlerOther = $this->createMock(ArchiveInterface::class);
         $archiveHandlerOther->method('canSupport')
@@ -133,7 +131,7 @@ class ExtractorTest extends TestCase
                 $archiveHandler,
                 $archiveHandlerOther,
             ])
-            ->onFailure(fn ($e) => throw new \Exception("New: ".$e->getMessage()));
+            ->onFailure(fn ($e) => throw new \Exception('New: '.$e->getMessage()));
 
         // Ожидаем, что будет исключение не будет выброшено, так как после первого обработчика будет возвращено true
 

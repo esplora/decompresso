@@ -204,7 +204,7 @@ class Extractor
         // Создаём директорию назначения, если она не существует
         // $this->ensureDirectoryExists($destination);
 
-        $supportHandlers = array_filter($this->archiveHandlers, fn(ArchiveInterface $archive) => $archive->canSupport($filePath));
+        $supportHandlers = array_filter($this->archiveHandlers, fn (ArchiveInterface $archive) => $archive->canSupport($filePath));
 
         // Попытка извлечения архива с использованием всех добавленных обработчиков.
         foreach ($supportHandlers as $handler) {

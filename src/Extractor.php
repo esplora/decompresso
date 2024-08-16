@@ -160,7 +160,7 @@ class Extractor
         foreach ($this->archiveHandlers as $handler) {
 
             // Пропускаем если обработчик не поддерживает файл
-            if (!$handler->canSupport($filePath)) {
+            if (! $handler->canSupport($filePath)) {
                 continue;
             }
 

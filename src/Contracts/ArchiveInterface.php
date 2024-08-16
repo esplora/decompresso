@@ -15,6 +15,7 @@ interface ArchiveInterface
      * Метод должен возвращать true, если формат архива поддерживается, и false в противном случае.
      *
      * @param string $filePath Путь к архиву, который нужно проверить.
+     *
      * @return bool Возвращает true, если формат архива поддерживается, и false в противном случае.
      */
     public function canSupport(string $filePath): bool;

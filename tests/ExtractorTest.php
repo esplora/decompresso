@@ -61,24 +61,84 @@ class ExtractorTest extends TestCase
         $this->assertEquals('/path/to/archive.zip extracted successfully.', $result);
     }
 
-    public function testExtractionFailure(): void
+    public function testExtractionPasswordFailure(): void
     {
         $passwordProvider = $this->createMock(PasswordProviderInterface::class);
         $passwordProvider->method('getPasswords')->willReturn(['123', 'xxx123']);
 
         $archiveHandler = $this->createMock(ArchiveInterface::class);
         $archiveHandler->method('extract')
-            ->willReturn(false); // Симулируем неудачное извлечение
+            ->willReturn(false); // Симулируем неудачное извлечение по паролю
 
         // Устанавливаем обработчик, который выбрасывает исключение при неудаче
         $this->extractor->withPasswords($passwordProvider)
             ->withHandler($archiveHandler)
-            ->onFailure(fn ($filePath) => throw new \Exception("Не удалось извлечь архив: {$filePath}"));
+            ->onPasswordFailure(fn ($filePath) => throw new \Exception("Не удалось извлечь архив: {$filePath}"));
 
         // Ожидаем, что будет выброшено исключение
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Не удалось извлечь архив: /path/to/archive.zip');
 
         $this->extractor->extract('/path/to/archive.zip');
+    }
+
+    public function testExtractionExceptionFailure(): void
+    {
+        $passwordProvider = $this->createMock(PasswordProviderInterface::class);
+        $passwordProvider->method('getPasswords')->willReturn(['123', 'xxx123']);
+
+        $archiveHandler = $this->createMock(ArchiveInterface::class);
+        $archiveHandler->method('canSupport')
+            ->willReturn(true);
+
+        $archiveHandler->method('extract')
+            ->willThrowException(new \RuntimeException('Failed to extract archive.'));
+
+        // Устанавливаем обработчик, который выбрасывает исключение при неудаче
+        $this->extractor->withPasswords($passwordProvider)
+            ->withHandler($archiveHandler)
+            ->onFailure(fn ($e) => throw new \Exception("New: ".$e->getMessage()));
+
+        // Ожидаем, что будет выброшено исключение
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('New: Failed to extract archive.');
+
+        $this->extractor->extract('/path/to/archive.zip');
+    }
+
+
+    public function testExtractionWiouSuccess(): void
+    {
+        $passwordProvider = $this->createMock(PasswordProviderInterface::class);
+        $passwordProvider->method('getPasswords')->willReturn(['123', 'xxx123']);
+
+        $archiveHandler = $this->createMock(ArchiveInterface::class);
+        $archiveHandler->method('canSupport')
+            ->willReturn(true);
+
+        $archiveHandler->method('extract')
+            ->willReturn(true);
+
+
+        $archiveHandlerOther = $this->createMock(ArchiveInterface::class);
+        $archiveHandlerOther->method('canSupport')
+            ->willReturn(true);
+
+        $archiveHandlerOther->method('extract')
+            ->willThrowException(new \RuntimeException('Duplicate!'));
+
+        // Устанавливаем 2 обработчика один вернет true. другой Exception
+        $this->extractor->withPasswords($passwordProvider)
+            ->withHandlers([
+                $archiveHandler,
+                $archiveHandlerOther,
+            ])
+            ->onFailure(fn ($e) => throw new \Exception("New: ".$e->getMessage()));
+
+        // Ожидаем, что будет исключение не будет выброшено, так как после первого обработчика будет возвращено true
+
+        $result = $this->extractor->extract('/path/to/archive.zip');
+
+        $this->assertTrue($result);
     }
 }

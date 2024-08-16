@@ -33,15 +33,12 @@ use Esplora\Decompresso\Handlers\GzipArchiveHandler;
 
 $extractor = new Extractor();
 
-$extractor
-    ->withHandlers([
-        new ZipArchiveHandler(),
-        new GzipArchiveHandler(),
-    ])
-    ->onSuccess(fn() => 'Файлы извлечены успешно')
-    ->onFailure(fn() => 'Не удалось распаковать');
+$extractor->withHandlers([
+  new ZipArchiveHandler(),
+  new GzipArchiveHandler(),
+])
 
-// Извлекаем архив и возвращает результат замыкания onSuccess или onFailure
+// Извлекаем архив и возвращает результат true/false
 $extractor->extract('/path/to/your/archive.zip', '/path/to/extract/to');
 ```
 
@@ -66,15 +63,41 @@ $extractor
         new ZipArchiveHandler(),
         new GzipArchiveHandler(),
     ])
-    ->onSuccess(fn() => 'Файлы извлечены успешно')
-    ->onFailure(fn() => 'Не удалось распаковать');
 
-// Извлекаем архив и возвращает результат замыкания onSuccess или onFailure
+// Извлекаем архив и возвращает результат true/false
 $extractor->extract('/path/to/your/archive.zip', '/path/to/extract/to');
 ```
 
 Скорее всего вы захотите создать свой провайдер, реализуя `PasswordProviderInterface`,
 например, `DataBasePasswordProvider` для получения паролей из базы данных и добавления кеширования.
+
+
+Когда вы захотите понять больше, о том почему извлечение не удалось, вы можете добавить обработчик событий:
+
+```php 
+use Esplora\Decompresso\Extractor;
+use Esplora\Decompresso\Handlers\ZipArchiveHandler;
+use Esplora\Decompresso\Handlers\GzipArchiveHandler;
+use Esplora\Decompresso\Providers\ArrayPasswordProvider;
+
+$extractor = new Extractor();
+
+$extractor
+    ->withPasswords(new ArrayPasswordProvider([
+        'qwerty',
+        'xxx123',
+    ]))
+    ->withHandlers([
+        new ZipArchiveHandler(),
+        new GzipArchiveHandler(),
+    ])
+    ->onSuccess(fn() => true) // 'Файлы извлечены успешно'
+    ->onPasswordFailure(fn() => false) // 'Не удалось распаковать так как не подошёл пароль'
+    ->onFailure(fn() => false) // 'Не удалось распаковать из-за внутренней ошибки';
+
+// Извлекаем архив и возвращает результат замыкания
+$extractor->extract('/path/to/your/archive.zip', '/path/to/extract/to');
+```
 
 
 ## TODO

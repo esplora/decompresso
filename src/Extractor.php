@@ -44,6 +44,13 @@ class Extractor
     protected $successCallback;
 
     /**
+     * Обработчик, вызываемый, если пароль не был подобран.
+     *
+     * @var callable
+     */
+    protected $passwordFailureCallback;
+
+    /**
      * Конструктор класса Extractor.
      *
      * Инициализирует обработчики по умолчанию для случаев успешного и неудачного извлечения архива.
@@ -53,11 +60,14 @@ class Extractor
         // По умолчанию использует провайдер паролей с пустым списком паролей.
         $this->passwordProvider = new ArrayPasswordProvider([]);
 
-        // По умолчанию выбрасывает исключение при неудачном извлечении архива.
-        $this->failureCallback = fn (string $filePath) => throw new \Exception("Не удалось извлечь архив: {$filePath}");
+        // По умолчанию возвращает false при не успешном извлечении архива по вине ПО.
+        $this->failureCallback = fn (\Throwable $exception) => false;
 
         // По умолчанию возвращает true при успешном извлечении архива.
         $this->successCallback = fn () => true;
+
+        // По умолчанию возвращает false при не успешном извлечении архива.
+        $this->passwordFailureCallback = fn () => false;
     }
 
     /**
@@ -119,6 +129,20 @@ class Extractor
     }
 
     /**
+     * Устанавливает обработчик, если пароль не был подобран.
+     *
+     * @param callable $callback Обработчик неудачи из-за неподобранного пароля.
+     *
+     * @return $this
+     */
+    public function onPasswordFailure(callable $callback): self
+    {
+        $this->passwordFailureCallback = $callback;
+
+        return $this;
+    }
+
+    /**
      * Устанавливает обработчик, который будет вызван в случае успешного извлечения архива.
      *
      * @param callable $callback Обработчик для обработки успешного извлечения архива.
@@ -135,10 +159,9 @@ class Extractor
     /**
      * Извлекает архив в указанное место.
      *
-     * Этот метод пробует извлечь архив, находящийся по указанному пути, в указанный каталог.
-     * Использует добавленные обработчики архива для извлечения.
-     * Если извлечение не удается, вызывается обработчик неудачного извлечения.
-     * В противном случае вызывается обработчик успешного извлечения.
+     * Этот метод вызывает основной процесс извлечения в блоке try/catch для обработки исключений.
+     * Если извлечение не удается из-за неподобранного пароля, вызывается соответствующий обработчик.
+     * Если выбрасывается исключение, вызывается обработчик ошибок.
      *
      * @param string      $filePath    Путь к архиву, который нужно извлечь.
      * @param string|null $destination Каталог, в который будет извлечен архив. Если не указан, используется каталог
@@ -150,30 +173,47 @@ class Extractor
      */
     public function extract(string $filePath, ?string $destination = null): mixed
     {
+        try {
+            $success = $this->performExtraction($filePath, $destination);
+        } catch (\Throwable $throwable) {
+            return call_user_func($this->failureCallback, $throwable, $filePath, $destination);
+        }
+
+        $callback = $success ? $this->successCallback : $this->passwordFailureCallback;
+
+        // Вызов соответствующего обработчика в зависимости от результата извлечения.
+        return $callback($filePath, $destination);
+    }
+
+    /**
+     * Выполняет извлечение архива.
+     *
+     * Этот метод использует все добавленные обработчики для извлечения архива и вызывает соответствующий обработчик
+     * в зависимости от результата.
+     *
+     * @param string      $filePath    Путь к архиву, который нужно извлечь.
+     * @param string|null $destination Каталог, в который будет извлечен архив. Если не указан, используется каталог
+     *                                 с тем же именем, что и архив.
+     *
+     * @return bool Результат вызова обработчика успешного извлечения или обработчика неудачи.
+     */
+    private function performExtraction(string $filePath, ?string $destination = null): bool
+    {
         $destination = $destination ?: dirname($filePath);
-        $success = false;
 
         // Создаём директорию назначения, если она не существует
         // $this->ensureDirectoryExists($destination);
 
+        $supportHandlers = array_filter($this->archiveHandlers, fn(ArchiveInterface $archive) => $archive->canSupport($filePath));
+
         // Попытка извлечения архива с использованием всех добавленных обработчиков.
-        foreach ($this->archiveHandlers as $handler) {
-
-            // Пропускаем если обработчик не поддерживает файл
-            if (! $handler->canSupport($filePath)) {
-                continue;
-            }
-
+        foreach ($supportHandlers as $handler) {
             if ($handler->extract($filePath, $destination, $this->passwordProvider->getPasswords())) {
-                $success = true;
-                break;
+                return true;
             }
         }
 
-        $callback = $success ? $this->successCallback : $this->failureCallback;
-
-        // Вызов соответствующего обработчика в зависимости от результата извлечения.
-        return $callback($filePath, $destination);
+        return false;
     }
 
     /**

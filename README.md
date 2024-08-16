@@ -2,6 +2,8 @@
 
 Библиотека для извлечения содержимого архивов.
 
+[![Tests](https://github.com/esplora/decompresso/actions/workflows/phpunit.yml/badge.svg)](https://github.com/esplora/decompresso/actions/workflows/phpunit.yml)
+
 ## Возможности
 
 - **Поддержка паролей**: Работайте с архивами, защищёнными паролем, используя различные способы предоставления паролей.

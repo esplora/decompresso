@@ -47,8 +47,7 @@ $extractor->extract('/path/to/your/archive.zip', '/path/to/extract/to');
 
 Для работы с архивами, защищенными паролем, добавьте провайдер паролей. 
 В примере используется `ArrayPasswordProvider`, который принимает массив
-паролей. Скорее всего вы захотите создать свой провайдер, реализуя `PasswordProviderInterface`,
-например, `DataBasePasswordProvider` для получения паролей из базы данных и добавления кеширования.
+паролей. 
 
 ```php
 use Esplora\Decompresso\Extractor;
@@ -73,6 +72,9 @@ $extractor
 // Извлекаем архив и возвращает результат замыкания onSuccess или onFailure
 $extractor->extract('/path/to/your/archive.zip', '/path/to/extract/to');
 ```
+
+Скорее всего вы захотите создать свой провайдер, реализуя `PasswordProviderInterface`,
+например, `DataBasePasswordProvider` для получения паролей из базы данных и добавления кеширования.
 
 
 ## TODO

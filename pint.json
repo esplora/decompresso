@@ -1,11 +1,17 @@
 {
   "preset": "laravel",
   "rules": {
+    "blank_line_after_opening_tag": true,
+    "assign_null_coalescing_to_coalesce_equal": true,
+    "single_line_comment_spacing": true,
     "array_syntax": {
       "syntax": "short"
     },
     "ordered_imports": {
       "sort_algorithm": "alpha"
+    },
+    "no_useless_concat_operator": {
+      "juggle_simple_strings": true
     },
     "no_unused_imports": true,
     "no_whitespace_before_comma_in_array": true,
@@ -36,7 +42,6 @@
     "phpdoc_order": true,
     "phpdoc_single_line_var_spacing": true,
     "phpdoc_var_without_name": true,
-    "no_superfluous_phpdoc_tags": false,
     "class_attributes_separation": {
       "elements": {
         "method": "one"
@@ -45,8 +50,8 @@
     "method_argument_space": {
       "on_multiline": "ignore"
     },
+    "no_superfluous_phpdoc_tags": false,
     "trim_array_spaces": true,
-    "single_trait_insert_per_statement": false,
-    "new_with_parentheses": false
+    "single_trait_insert_per_statement": false
   }
 }

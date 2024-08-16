@@ -26,9 +26,9 @@ class GzipArchiveHandlerTest extends TestCase
         ];
     }
 
-    public function testExtractionSuccess():void
+    public function testExtractionSuccess(): void
     {
-        $handler = new GzipArchiveHandler();
+        $handler = new GzipArchiveHandler;
 
         $result = $handler->extract(
             $this->getFixturesDir('gzip/simple.txt.gz'),
@@ -54,4 +54,3 @@ class GzipArchiveHandlerTest extends TestCase
     }
     */
 }
-

@@ -26,9 +26,9 @@ class ZipArchiveHandlerTest extends TestCase
         ];
     }
 
-    public function testExtractionSuccess():void
+    public function testExtractionSuccess(): void
     {
-        $handler = new ZipArchiveHandler();
+        $handler = new ZipArchiveHandler;
 
         $result = $handler->extract(
             $this->getFixturesDir('zip/simple.zip'),
@@ -39,11 +39,11 @@ class ZipArchiveHandlerTest extends TestCase
         $this->assertFilesExtracted();
     }
 
-    public function testExtractionSuccessWithPassword():void
+    public function testExtractionSuccessWithPassword(): void
     {
         $archivePath = $this->getFixturesDir('zip/protected.zip');
 
-        $handler = new ZipArchiveHandler();
+        $handler = new ZipArchiveHandler;
 
         $result = $handler->extract($archivePath, $this->getExtractionPath(), $this->getPasswords());
 
@@ -51,11 +51,11 @@ class ZipArchiveHandlerTest extends TestCase
         $this->assertFilesExtracted();
     }
 
-    public function testExtractionFailureOnPassword():void
+    public function testExtractionFailureOnPassword(): void
     {
         $archivePath = $this->getFixturesDir('zip/protected.zip');
 
-        $handler = new ZipArchiveHandler();
+        $handler = new ZipArchiveHandler;
 
         $result = $handler->extract($archivePath, $this->getExtractionPath(), [
             'wrongpassword',

@@ -14,7 +14,7 @@ trait Cleanup
      */
     protected function getFixturesDir(string $path): string
     {
-        return __DIR__ . '/fixtures/'.$path;
+        return __DIR__.'/fixtures/'.$path;
     }
 
     /**
@@ -24,7 +24,7 @@ trait Cleanup
      */
     protected function getExtractionPath(): string
     {
-        return __DIR__ . '/extracted/';
+        return __DIR__.'/extracted/';
     }
 
     /**
@@ -44,13 +44,13 @@ trait Cleanup
      */
     private function deleteDir(string $dir): void
     {
-        if (!is_dir($dir)) {
+        if (! is_dir($dir)) {
             return;
         }
 
         $items = array_diff(scandir($dir), ['.', '..']);
         foreach ($items as $item) {
-            $path = $dir . DIRECTORY_SEPARATOR . $item;
+            $path = $dir.DIRECTORY_SEPARATOR.$item;
             if (is_dir($path)) {
                 $this->deleteDir($path);
             } else {
@@ -77,10 +77,10 @@ trait Cleanup
      *
      * @return void
      */
-    protected function assertFilesExtracted():void
+    protected function assertFilesExtracted(): void
     {
         foreach ($this->getExpectedFiles() as $file) {
-            $this->assertFileExists($this->getExtractionPath() . $file);
+            $this->assertFileExists($this->getExtractionPath().$file);
         }
     }
 
@@ -89,10 +89,10 @@ trait Cleanup
      *
      * @return void
      */
-    protected function assertFilesDoesExtracted():void
+    protected function assertFilesDoesExtracted(): void
     {
         foreach ($this->getExpectedFiles() as $file) {
-            $this->assertFileDoesNotExist($this->getExtractionPath() . $file);
+            $this->assertFileDoesNotExist($this->getExtractionPath().$file);
         }
     }
 }

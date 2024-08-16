@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Esplora\Decompresso\Tests;
 
-use PHPUnit\Framework\TestCase;
 use Esplora\Decompresso\Contracts\ArchiveInterface;
 use Esplora\Decompresso\Contracts\PasswordProviderInterface;
 use Esplora\Decompresso\Extractor;
+use PHPUnit\Framework\TestCase;
 
 class ExtractorTest extends TestCase
 {
@@ -28,7 +28,6 @@ class ExtractorTest extends TestCase
     }
     */
 
-
     /**
      * @var Extractor
      */
@@ -37,10 +36,10 @@ class ExtractorTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->extractor = new Extractor();
+        $this->extractor = new Extractor;
     }
 
-    public function testExtractionSuccess():void
+    public function testExtractionSuccess(): void
     {
         $passwordProvider = $this->createMock(PasswordProviderInterface::class);
         $passwordProvider->method('getPasswords')->willReturn(['123', 'xxx123']);
@@ -51,15 +50,15 @@ class ExtractorTest extends TestCase
 
         $this->extractor->withPasswords($passwordProvider)
             ->withHandler($archiveHandler)
-            ->onSuccess(fn($filePath) => $filePath . ' extracted successfully.')
-            ->onFailure(fn($filePath) => 'Failed to extract ' . $filePath);
+            ->onSuccess(fn ($filePath) => $filePath.' extracted successfully.')
+            ->onFailure(fn ($filePath) => 'Failed to extract '.$filePath);
 
         $result = $this->extractor->extract('/path/to/archive.zip');
 
         $this->assertEquals('/path/to/archive.zip extracted successfully.', $result);
     }
 
-    public function testExtractionFailure():void
+    public function testExtractionFailure(): void
     {
         $passwordProvider = $this->createMock(PasswordProviderInterface::class);
         $passwordProvider->method('getPasswords')->willReturn(['123', 'xxx123']);
@@ -71,7 +70,7 @@ class ExtractorTest extends TestCase
         // Устанавливаем обработчик, который выбрасывает исключение при неудаче
         $this->extractor->withPasswords($passwordProvider)
             ->withHandler($archiveHandler)
-            ->onFailure(fn($filePath) => throw new \Exception("Не удалось извлечь архив: {$filePath}"));
+            ->onFailure(fn ($filePath) => throw new \Exception("Не удалось извлечь архив: {$filePath}"));
 
         // Ожидаем, что будет выброшено исключение
         $this->expectException(\Exception::class);

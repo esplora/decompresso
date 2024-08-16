@@ -32,14 +32,14 @@ class Extractor
      *
      * @var callable
      */
-    protected  $failureCallback;
+    protected $failureCallback;
 
     /**
      * Обработчик для случая успешного извлечения архива.
      *
      * @var callable
      */
-    protected  $successCallback;
+    protected $successCallback;
 
     /**
      * Конструктор класса Extractor.
@@ -49,21 +49,23 @@ class Extractor
     public function __construct()
     {
         // По умолчанию выбрасывает исключение при неудачном извлечении архива.
-        $this->failureCallback = fn(string $filePath) => throw new \Exception("Не удалось извлечь архив: {$filePath}");
+        $this->failureCallback = fn (string $filePath) => throw new \Exception("Не удалось извлечь архив: {$filePath}");
 
         // По умолчанию возвращает true при успешном извлечении архива.
-        $this->successCallback = fn() => true;
+        $this->successCallback = fn () => true;
     }
 
     /**
      * Устанавливает провайдер паролей для использования при извлечении защищенных архивов.
      *
      * @param PasswordProviderInterface $provider Провайдер паролей, который будет предоставлять пароли.
+     *
      * @return $this Возвращает текущий экземпляр для цепочки вызовов.
      */
     public function withPasswords(PasswordProviderInterface $provider): self
     {
         $this->passwordProvider = $provider;
+
         return $this;
     }
 
@@ -71,11 +73,13 @@ class Extractor
      * Добавляет обработчик архива для поддержки различных форматов архивов.
      *
      * @param ArchiveInterface $handler Обработчик архива, который может извлекать архивы.
+     *
      * @return $this Возвращает текущий экземпляр для цепочки вызовов.
      */
     public function withHandler(ArchiveInterface $handler): self
     {
         $this->archiveHandlers[] = $handler;
+
         return $this;
     }
 
@@ -83,11 +87,13 @@ class Extractor
      * Устанавливает обработчик, который будет вызван в случае неудачного извлечения архива.
      *
      * @param callable $callback Обработчик для обработки неудачного извлечения архива.
+     *
      * @return $this Возвращает текущий экземпляр для цепочки вызовов.
      */
     public function onFailure(callable $callback): self
     {
         $this->failureCallback = $callback;
+
         return $this;
     }
 
@@ -95,11 +101,13 @@ class Extractor
      * Устанавливает обработчик, который будет вызван в случае успешного извлечения архива.
      *
      * @param callable $callback Обработчик для обработки успешного извлечения архива.
+     *
      * @return $this Возвращает текущий экземпляр для цепочки вызовов.
      */
     public function onSuccess(callable $callback): self
     {
         $this->successCallback = $callback;
+
         return $this;
     }
 
@@ -111,11 +119,13 @@ class Extractor
      * не удается, вызывается обработчик неудачного извлечения. В противном случае вызывается обработчик успешного
      * извлечения.
      *
-     * @param string $filePath Путь к архиву, который нужно извлечь.
+     * @param string      $filePath    Путь к архиву, который нужно извлечь.
      * @param string|null $destination Каталог, в который будет извлечен архив. Если не указан, используется каталог
-     *                                  с тем же именем, что и архив.
-     * @return mixed Возвращает результат выполнения обработчика на случай успешного извлечения архива.
+     *                                 с тем же именем, что и архив.
+     *
      * @throws \Exception Если провайдер паролей не установлен, будет выброшено исключение.
+     *
+     * @return mixed Возвращает результат выполнения обработчика на случай успешного извлечения архива.
      */
     public function extract(string $filePath, ?string $destination = null)
     {
@@ -136,7 +146,7 @@ class Extractor
         }
 
         // Вызов соответствующего обработчика в зависимости от результата извлечения.
-        if (!$success) {
+        if (! $success) {
             return call_user_func($this->failureCallback, $filePath);
         }
 

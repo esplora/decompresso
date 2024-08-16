@@ -19,9 +19,10 @@ class ZipArchiveHandler implements ArchiveInterface
      * Метод открывает ZIP-архив, пытается извлечь его содержимое в указанный каталог. Если архив защищен паролем,
      * метод будет пробовать каждый из предоставленных паролей, пока не найдет подходящий.
      *
-     * @param string $filePath Путь к ZIP-архиву, который нужно извлечь.
-     * @param string $destination Каталог, в который будет извлечен архив. Если каталог не существует, он должен быть создан.
-     * @param iterable $passwords Список паролей для попытки извлечения защищенного паролем архива. Может быть массивом или другим iterable объектом.
+     * @param string   $filePath    Путь к ZIP-архиву, который нужно извлечь.
+     * @param string   $destination Каталог, в который будет извлечен архив. Если каталог не существует, он должен быть создан.
+     * @param iterable $passwords   Список паролей для попытки извлечения защищенного паролем архива. Может быть массивом или другим iterable объектом.
+     *
      * @return bool Возвращает true, если извлечение прошло успешно, и false в противном случае.
      */
     public function extract(string $filePath, string $destination, iterable $passwords = []): bool
@@ -32,6 +33,7 @@ class ZipArchiveHandler implements ArchiveInterface
         if ($res === true) {
             if ($this->tryExtracting($zip, $destination, $passwords)) {
                 $zip->close();
+
                 return true;
             }
             $zip->close();
@@ -46,9 +48,10 @@ class ZipArchiveHandler implements ArchiveInterface
      * Метод пробует извлечь архив сначала без пароля, а затем с каждым из предоставленных паролей. Если ни один из
      * паролей не подходит, извлечение завершится неудачей.
      *
-     * @param \ZipArchive $zip Экземпляр ZipArchive, который нужно извлечь.
-     * @param string $destination Каталог, в который нужно извлечь содержимое архива.
-     * @param iterable $passwords Список паролей для попытки извлечения защищенного паролем архива.
+     * @param \ZipArchive $zip         Экземпляр ZipArchive, который нужно извлечь.
+     * @param string      $destination Каталог, в который нужно извлечь содержимое архива.
+     * @param iterable    $passwords   Список паролей для попытки извлечения защищенного паролем архива.
+     *
      * @return bool Возвращает true, если извлечение прошло успешно, и false в противном случае.
      */
     protected function tryExtracting(ZipArchive $zip, string $destination, iterable $passwords): bool

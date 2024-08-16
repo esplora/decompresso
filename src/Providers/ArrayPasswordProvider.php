@@ -18,9 +18,7 @@ class ArrayPasswordProvider implements PasswordProviderInterface
      *
      * @param array $passwords Массив паролей, которые будут использоваться для извлечения защищенных архивов.
      */
-    public function __construct(protected array $passwords)
-    {
-    }
+    public function __construct(protected array $passwords) {}
 
     /**
      * Возвращает список паролей.

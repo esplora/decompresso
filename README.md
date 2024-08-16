@@ -1,4 +1,4 @@
-# Decompresso
+# <img src=".github/logo.svg?sanitize=true" width="24" height="24" alt="Decompresso"> Decompresso
 
 Библиотека для извлечения содержимого архивов.
 

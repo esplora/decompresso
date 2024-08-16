@@ -1,6 +1,6 @@
 <?php
 
-namespace Tabuna\Archive\Tests;
+namespace Esplora\Decompresso\Tests;
 
 /**
  * Трейт для выполнения операций с директориями в тестах.

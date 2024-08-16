@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Tabuna\Archive\Tests;
+namespace Esplora\Decompresso\Tests;
 
-use Tabuna\Archive\Handlers\ZipArchiveHandler;
+use Esplora\Decompresso\Handlers\ZipArchiveHandler;
 use PHPUnit\Framework\TestCase;
 
 /**

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Tabuna\Archive\Tests;
+namespace Esplora\Decompresso\Tests;
 
 use PHPUnit\Framework\TestCase;
-use Tabuna\Archive\Contracts\ArchiveInterface;
-use Tabuna\Archive\Contracts\PasswordProviderInterface;
-use Tabuna\Archive\Extractor;
+use Esplora\Decompresso\Contracts\ArchiveInterface;
+use Esplora\Decompresso\Contracts\PasswordProviderInterface;
+use Esplora\Decompresso\Extractor;
 
 class ExtractorTest extends TestCase
 {

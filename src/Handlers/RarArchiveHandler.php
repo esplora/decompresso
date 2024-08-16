@@ -6,7 +6,6 @@ use Esplora\Decompresso\Concerns\SupportsMimeTypes;
 use Esplora\Decompresso\Contracts\ArchiveInterface;
 use Exception;
 use RarArchive;
-use RarException;
 
 /**
  * Обработчик для работы с архивами формата RAR.

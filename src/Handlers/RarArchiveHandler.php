@@ -2,6 +2,7 @@
 
 namespace Esplora\Decompresso\Handlers;
 
+use Esplora\Decompresso\Concerns\SupportsMimeTypes;
 use Esplora\Decompresso\Contracts\ArchiveInterface;
 use Exception;
 use RarArchive;
@@ -15,6 +16,21 @@ use RarException;
  */
 class RarArchiveHandler implements ArchiveInterface
 {
+    use SupportsMimeTypes;
+
+    /**
+     * Возвращает список поддерживаемых MIME-типов.
+     *
+     * @return array<string> Массив MIME-типов, которые поддерживает обработчик.
+     */
+    protected function supportedMimeTypes(): array
+    {
+        return [
+            'application/vnd.rar',
+            'application/x-rar-compressed',
+        ];
+    }
+
     /**
      * Извлекает содержимое RAR-архива в указанное место.
      *

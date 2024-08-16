@@ -48,6 +48,9 @@ class ExtractorTest extends TestCase
         $archiveHandler->method('extract')
             ->willReturn(true);
 
+        $archiveHandler->method('canSupport')
+            ->willReturn(true);
+
         $this->extractor->withPasswords($passwordProvider)
             ->withHandler($archiveHandler)
             ->onSuccess(fn ($filePath) => $filePath.' extracted successfully.')

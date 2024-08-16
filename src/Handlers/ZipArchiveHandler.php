@@ -2,6 +2,7 @@
 
 namespace Esplora\Decompresso\Handlers;
 
+use Esplora\Decompresso\Concerns\SupportsMimeTypes;
 use Esplora\Decompresso\Contracts\ArchiveInterface;
 use ZipArchive;
 
@@ -13,6 +14,20 @@ use ZipArchive;
  */
 class ZipArchiveHandler implements ArchiveInterface
 {
+    use SupportsMimeTypes;
+
+    /**
+     * Возвращает список поддерживаемых MIME-типов.
+     *
+     * @return array<string> Массив MIME-типов, которые поддерживает обработчик.
+     */
+    protected function supportedMimeTypes(): array
+    {
+        return [
+            'application/zip',
+        ];
+    }
+
     /**
      * Извлекает содержимое ZIP-архива в указанное место.
      *

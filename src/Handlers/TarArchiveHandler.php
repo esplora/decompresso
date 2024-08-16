@@ -2,6 +2,7 @@
 
 namespace Esplora\Decompresso\Handlers;
 
+use Esplora\Decompresso\Concerns\SupportsMimeTypes;
 use Esplora\Decompresso\Contracts\ArchiveInterface;
 use Exception;
 use PharData;
@@ -13,6 +14,20 @@ use PharData;
  */
 class TarArchiveHandler implements ArchiveInterface
 {
+    use SupportsMimeTypes;
+
+    /**
+     * Возвращает список поддерживаемых MIME-типов.
+     *
+     * @return array<string> Массив MIME-типов, которые поддерживает обработчик.
+     */
+    protected function supportedMimeTypes(): array
+    {
+        return [
+            'application/x-tar',
+        ];
+    }
+
     /**
      * Извлекает содержимое TAR-архива в указанное место.
      *

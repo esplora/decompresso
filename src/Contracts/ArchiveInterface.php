@@ -10,6 +10,16 @@ namespace Esplora\Decompresso\Contracts;
 interface ArchiveInterface
 {
     /**
+     * Проверяет, может ли обработчик поддерживать данный формат архива.
+     *
+     * Метод должен возвращать true, если формат архива поддерживается, и false в противном случае.
+     *
+     * @param string $filePath Путь к архиву, который нужно проверить.
+     * @return bool Возвращает true, если формат архива поддерживается, и false в противном случае.
+     */
+    public function canSupport(string $filePath): bool;
+
+    /**
      * Извлекает содержимое архива в указанное место.
      *
      * Метод должен распаковывать архив, находящийся по пути $filePath, в указанный каталог $destination.

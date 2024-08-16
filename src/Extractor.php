@@ -158,6 +158,12 @@ class Extractor
 
         // Попытка извлечения архива с использованием всех добавленных обработчиков.
         foreach ($this->archiveHandlers as $handler) {
+
+            // Пропускаем если обработчик не поддерживает файл
+            if (!$handler->canSupport($filePath)) {
+                continue;
+            }
+
             if ($handler->extract($filePath, $destination, $this->passwordProvider->getPasswords())) {
                 $success = true;
                 break;

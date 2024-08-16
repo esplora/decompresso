@@ -2,6 +2,7 @@
 
 namespace Esplora\Decompresso\Handlers;
 
+use Esplora\Decompresso\Concerns\SupportsMimeTypes;
 use Esplora\Decompresso\Contracts\ArchiveInterface;
 
 /**
@@ -12,6 +13,20 @@ use Esplora\Decompresso\Contracts\ArchiveInterface;
  */
 class SevenZipArchiveHandler implements ArchiveInterface
 {
+    use SupportsMimeTypes;
+
+    /**
+     * Возвращает список поддерживаемых MIME-типов.
+     *
+     * @return array<string> Массив MIME-типов, которые поддерживает обработчик.
+     */
+    protected function supportedMimeTypes(): array
+    {
+        return [
+            'application/x-7z-compressed',
+        ];
+    }
+
     /**
      * Извлекает содержимое архива 7-Zip в указанную директорию.
      *

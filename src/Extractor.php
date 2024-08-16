@@ -5,6 +5,7 @@ namespace Esplora\Decompresso;
 use Esplora\Decompresso\Contracts\ArchiveInterface;
 use Esplora\Decompresso\Contracts\PasswordProviderInterface;
 use Esplora\Decompresso\Providers\ArrayPasswordProvider;
+use RuntimeException;
 
 /**
  * Класс для извлечения архивов с поддержкой паролей и обработчиков архива.
@@ -136,6 +137,9 @@ class Extractor
         $destination = $destination ?: dirname($filePath);
         $success = false;
 
+        // Создаём директорию назначения, если она не существует
+        $this->ensureDirectoryExists($destination);
+
         // Попытка извлечения архива с использованием всех добавленных обработчиков.
         foreach ($this->archiveHandlers as $handler) {
             if ($handler->extract($filePath, $destination, $this->passwordProvider->getPasswords())) {
@@ -147,6 +151,20 @@ class Extractor
         $callback = $success ? $this->successCallback : $this->failureCallback;
 
         // Вызов соответствующего обработчика в зависимости от результата извлечения.
-        return call_user_func($callback, $filePath, $destination);
+        return $callback($filePath, $destination);
+    }
+
+    /**
+     * Убедитесь, что директория существует. Если нет, создайте её.
+     *
+     * @param string $directory Путь к директории.
+     *
+     * @throws RuntimeException Если директорию не удалось создать.
+     */
+    protected function ensureDirectoryExists(string $directory): void
+    {
+        if (! is_dir($directory) && ! mkdir($directory, 0777, true) && ! is_dir($directory)) {
+            throw new RuntimeException("Не удалось создать директорию: {$directory}");
+        }
     }
 }

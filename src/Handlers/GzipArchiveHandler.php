@@ -26,6 +26,11 @@ class GzipArchiveHandler implements ArchiveInterface
     {
         $outputFile = $destination.basename($filePath, '.gz');
 
+        // Убедиться, что каталог назначения существует, или создать его
+        if (! is_dir($destination) && ! mkdir($destination, 0777, true) && ! is_dir($destination)) {
+            return false;
+        }
+
         try {
             $filePointer = gzopen($filePath, 'rb');
 

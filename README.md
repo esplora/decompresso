@@ -8,7 +8,8 @@
 
 - **Поддержка паролей**: Работайте с архивами, защищёнными паролем, используя различные способы предоставления паролей.
 - **Гибкость обработчиков**: Подключайте и настраивайте обработчики для различных форматов архивов.
-- **Интуитивный интерфейс**: Используйте Fluent API для простого конфигурирования и обработки событий успешного или неудачного извлечения файлов.
+- **Интуитивный интерфейс**: Используйте Fluent API для простого конфигурирования и обработки событий успешного или
+  неудачного извлечения файлов.
 
 ## Установка
 
@@ -25,6 +26,7 @@ composer require esplora/decompresso
 ```php
 use Esplora\Decompresso\Extractor;
 use Esplora\Decompresso\Handlers\ZipArchiveHandler;
+use Esplora\Decompresso\Handlers\GzipArchiveHandler;
 use Esplora\Decompresso\Providers\ArrayPasswordProvider;
 
 $extractor = new Extractor();
@@ -32,22 +34,20 @@ $extractor = new Extractor();
 $extractor
           ->withPasswords(new ArrayPasswordProvider(['123', 'xxx123']))
           ->withHandler(new ZipArchiveHandler())
+          ->withHandler(new GzipArchiveHandler())
           ->onSuccess(fn() => 'Файлы извлечены успешно')
-          ->onFailure(fn() => 'Не удалось распоковать');
+          ->onFailure(fn() => 'Не удалось распаковать');
 
-// Извлекаем архив
+// Извлекаем архив и возвращает результат замыкания onSuccess или onFailure
 $extractor->extract('/path/to/your/archive.zip', '/path/to/extract/to');
 ```
 
-Всё строиться с помощью Fluent API. В которым вы добавляете обработчики, в примере используется `ZipArchiveHandler` для
-ZIP-файлов, но
-можете создать собственный обработчик для поддержки других форматов или использовать доступные из пакета.
+Всё строиться с помощью объекта в который вы добавляете обработчики, в примере используется `ZipArchiveHandler` для
+ZIP-файлов, но можете создать собственный обработчик для поддержки других форматов или использовать доступные из пакета.
 
 Также вы можете добавить провайдер паролей, в примере используется `ArrayPasswordProvider`, который принимает массив
-паролей.
-Скорее всего вы захотите создать свой провайдер, реализуя `PasswordProviderInterface`,
+паролей. Скорее всего вы захотите создать свой провайдер, реализуя `PasswordProviderInterface`,
 например, `DataBasePasswordProvider` для получения паролей из базы данных и добавления кеширования.
-
 
 ## TODO
 

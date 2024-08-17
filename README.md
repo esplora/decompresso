@@ -31,14 +31,16 @@ use Esplora\Decompresso\Extractor;
 use Esplora\Decompresso\Handlers\ZipArchiveHandler;
 use Esplora\Decompresso\Handlers\GzipArchiveHandler;
 
+// Создаем новый экземпляр класса Extractor для управления процессом извлечения
 $extractor = new Extractor();
 
+// Указываем, какие обработчики архивов будут использоваться
 $extractor->withHandlers([
-  new ZipArchiveHandler(),
-  new GzipArchiveHandler(),
+    new ZipArchiveHandler(),
+    new GzipArchiveHandler(),
 ])
 
-// Извлекаем архив и возвращает результат true/false
+// Возвращает булево в зависимости от исхода процесса извлечения
 $extractor->extract('/path/to/your/archive.zip', '/path/to/extract/to');
 ```
 
@@ -65,7 +67,7 @@ $extractor
         new GzipArchiveHandler(),
     ])
 
-// Извлекаем архив и возвращает результат true/false
+// Возвращает булево в зависимости от исхода процесса извлечения
 $extractor->extract('/path/to/your/archive.zip', '/path/to/extract/to');
 ```
 
@@ -95,9 +97,15 @@ $extractor
         new ZipArchiveHandler(),
         new GzipArchiveHandler(),
     ])
-    ->onSuccess(fn() => true) // 'Файлы извлечены успешно'
-    ->onPasswordFailure(fn() => false) // 'Не удалось распаковать так как не подошёл пароль'
-    ->onFailure(fn() => false) // 'Не удалось распаковать из-за внутренней ошибки';
+    
+    // Здесь вы можете определить логику, которая выполнится в случае успешного извлечения
+    ->onSuccess(fn() => true)
+    
+    // Обрабатываем случай, если не удалось распаковать архив из-за неподходящего пароля
+    ->onPasswordFailure(fn() => false)
+    
+    // Обрабатываем любую другую ошибку, возникшую при извлечении
+    ->onFailure(fn() => false)
 
 // Извлекаем архив и возвращает результат замыкания
 $extractor->extract('/path/to/your/archive.zip', '/path/to/extract/to');

@@ -79,7 +79,6 @@ $extractor->extract('/path/to/your/archive.zip', '/path/to/extract/to');
 использовать https://github.com/danielmiessler/SecLists/tree/master/Passwords в качестве источника
 где собраны некоторые популярные пароли которые можно использовать для подбора.
 
-```php
 ### Обработка событий
 
 Для более глубокого контроля над процессом извлечения можно добавлять обработчики событий. 

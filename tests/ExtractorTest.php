@@ -11,23 +11,6 @@ use PHPUnit\Framework\TestCase;
 
 class ExtractorTest extends TestCase
 {
-    /*
-    public function testExtractorWithOutPassword()
-    {
-        $extractor = (new Extractor())
-            ->withPasswords(new SimplePasswordProvider(['123', 'xxx123']))
-            ->withHandler(new ZipArchiveHandler())
-            ->onFailure(function ($filePath) {
-                echo "Не удалось извлечь архив: $filePath";
-            })
-            ->onSuccess(function ($filePath) {
-                echo "Архив успешно извлечён: $filePath";
-            });
-
-        $extractor->extract('/path/to/your/archive.zip');
-    }
-    */
-
     /**
      * @var Extractor
      */
@@ -106,7 +89,7 @@ class ExtractorTest extends TestCase
         $this->extractor->extract('/path/to/archive.zip');
     }
 
-    public function testExtractionWiouSuccess(): void
+    public function testExtractionWithOutContinueOnSuccess(): void
     {
         $passwordProvider = $this->createMock(PasswordProviderInterface::class);
         $passwordProvider->method('getPasswords')->willReturn(['123', 'xxx123']);
@@ -133,8 +116,7 @@ class ExtractorTest extends TestCase
             ])
             ->onFailure(fn ($e) => throw new \Exception('New: '.$e->getMessage()));
 
-        // Ожидаем, что будет исключение не будет выброшено, так как после первого обработчика будет возвращено true
-
+        // Ожидаем, что исключение не будет выброшено, так как после первого обработчика будет возвращено true
         $result = $this->extractor->extract('/path/to/archive.zip');
 
         $this->assertTrue($result);

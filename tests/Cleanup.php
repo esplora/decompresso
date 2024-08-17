@@ -53,7 +53,7 @@ trait Cleanup
     protected function getPasswords(): ArrayPasswordProvider
     {
         return new ArrayPasswordProvider([
-            '12345'
+            '12345',
         ]);
     }
 

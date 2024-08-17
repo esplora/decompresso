@@ -31,8 +31,8 @@ class SevenZipArchiveHandler implements ArchiveInterface
     /**
      * Извлекает содержимое архива 7-Zip в указанную директорию.
      *
-     * @param string   $filePath    Путь к архиву 7-Zip.
-     * @param string   $destination Директория для извлечения архива. Директория будет создана, если её не существует.
+     * @param string                    $filePath    Путь к архиву 7-Zip.
+     * @param string                    $destination Директория для извлечения архива. Директория будет создана, если её не существует.
      * @param PasswordProviderInterface $passwords   Список паролей для защищённых архивов.
      *
      * @return bool Возвращает true, если извлечение прошло успешно, и false в противном случае.

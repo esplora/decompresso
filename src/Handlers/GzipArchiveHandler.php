@@ -5,7 +5,6 @@ namespace Esplora\Decompresso\Handlers;
 use Esplora\Decompresso\Concerns\SupportsMimeTypes;
 use Esplora\Decompresso\Contracts\ArchiveInterface;
 use Esplora\Decompresso\Contracts\PasswordProviderInterface;
-use Exception;
 
 /**
  * Обработчик для работы с архивами формата GZIP.
@@ -33,36 +32,36 @@ class GzipArchiveHandler implements ArchiveInterface
     /**
      * Извлекает содержимое GZIP-архива в указанное место.
      *
-     * @param string   $filePath    Путь к GZIP-архиву, который нужно извлечь.
-     * @param string   $destination Каталог, в который будет извлечен архив. Если каталог не существует, он должен быть создан.
+     * @param string                    $filePath    Путь к GZIP-архиву, который нужно извлечь.
+     * @param string                    $destination Каталог, в который будет извлечен архив. Если каталог не существует, он должен быть создан.
      * @param PasswordProviderInterface $passwords   Список паролей, не используется для GZIP-архивов.
      *
      * @return bool Возвращает true, если извлечение прошло успешно, и false в противном случае.
      */
     public function extract(string $filePath, string $destination, PasswordProviderInterface $passwords): bool
     {
-        $outputFile = $destination . basename($filePath, '.gz');
+        $outputFile = $destination.basename($filePath, '.gz');
 
         // Убедиться, что каталог назначения существует, или создать его
-        if (!is_dir($destination) && !mkdir($destination, 0777, true) && !is_dir($destination)) {
+        if (! is_dir($destination) && ! mkdir($destination, 0777, true) && ! is_dir($destination)) {
             return false;
         }
 
         $filePointer = gzopen($filePath, 'rb');
 
-        if (!$filePointer) {
+        if (! $filePointer) {
             return false;
         }
 
         $outputPointer = fopen($outputFile, 'wb');
 
-        if (!$outputPointer) {
+        if (! $outputPointer) {
             gzclose($filePointer);
 
             return false;
         }
 
-        while (!gzeof($filePointer)) {
+        while (! gzeof($filePointer)) {
             fwrite($outputPointer, gzread($filePointer, 4096));
         }
 

@@ -5,7 +5,6 @@ namespace Esplora\Decompresso\Handlers;
 use Esplora\Decompresso\Concerns\SupportsMimeTypes;
 use Esplora\Decompresso\Contracts\ArchiveInterface;
 use Esplora\Decompresso\Contracts\PasswordProviderInterface;
-use Exception;
 use PharData;
 
 /**
@@ -32,8 +31,8 @@ class TarArchiveHandler implements ArchiveInterface
     /**
      * Извлекает содержимое TAR-архива в указанное место.
      *
-     * @param string   $filePath    Путь к TAR-архиву, который нужно извлечь.
-     * @param string   $destination Каталог, в который будет извлечен архив. Если каталог не существует, он должен быть создан.
+     * @param string                    $filePath    Путь к TAR-архиву, который нужно извлечь.
+     * @param string                    $destination Каталог, в который будет извлечен архив. Если каталог не существует, он должен быть создан.
      * @param PasswordProviderInterface $passwords   Список паролей, не используется для TAR-архивов.
      *
      * @return bool Возвращает true, если извлечение прошло успешно, и false в противном случае.

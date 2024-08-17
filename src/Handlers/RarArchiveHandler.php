@@ -34,8 +34,8 @@ class RarArchiveHandler implements ArchiveInterface
     /**
      * Извлекает содержимое RAR-архива в указанное место.
      *
-     * @param string   $filePath    Путь к RAR-архиву, который нужно извлечь.
-     * @param string   $destination Каталог, в который будет извлечен архив. Если каталог не существует, он должен быть создан.
+     * @param string                    $filePath    Путь к RAR-архиву, который нужно извлечь.
+     * @param string                    $destination Каталог, в который будет извлечен архив. Если каталог не существует, он должен быть создан.
      * @param PasswordProviderInterface $passwords   Список паролей для попытки извлечения защищенного паролем архива. Может быть массивом или другим iterable объектом.
      *
      * @return bool Возвращает true, если извлечение прошло успешно, и false в противном случае.

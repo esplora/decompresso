@@ -4,6 +4,7 @@ namespace Esplora\Decompresso\Handlers;
 
 use Esplora\Decompresso\Concerns\SupportsMimeTypes;
 use Esplora\Decompresso\Contracts\ArchiveInterface;
+use Esplora\Decompresso\Contracts\PasswordProviderInterface;
 
 /**
  * Обработчик для архивов формата 7-Zip.
@@ -32,18 +33,18 @@ class SevenZipArchiveHandler implements ArchiveInterface
      *
      * @param string   $filePath    Путь к архиву 7-Zip.
      * @param string   $destination Директория для извлечения архива. Директория будет создана, если её не существует.
-     * @param iterable $passwords   Список паролей для защищённых архивов.
+     * @param PasswordProviderInterface $passwords   Список паролей для защищённых архивов.
      *
      * @return bool Возвращает true, если извлечение прошло успешно, и false в противном случае.
      */
-    public function extract(string $filePath, string $destination, iterable $passwords = []): bool
+    public function extract(string $filePath, string $destination, PasswordProviderInterface $passwords): bool
     {
         if ($this->tryExtract($filePath, $destination)) {
             return true; // Успешно извлечено без пароля
         }
 
         // Попытка извлечь архив с каждым паролем из списка
-        foreach ($passwords as $password) {
+        foreach ($passwords->getPasswords() as $password) {
             if ($this->tryExtract($filePath, $destination, $password)) {
                 return true;
             }

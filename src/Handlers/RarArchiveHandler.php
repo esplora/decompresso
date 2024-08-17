@@ -4,6 +4,7 @@ namespace Esplora\Decompresso\Handlers;
 
 use Esplora\Decompresso\Concerns\SupportsMimeTypes;
 use Esplora\Decompresso\Contracts\ArchiveInterface;
+use Esplora\Decompresso\Contracts\PasswordProviderInterface;
 use Exception;
 use RarArchive;
 
@@ -35,11 +36,11 @@ class RarArchiveHandler implements ArchiveInterface
      *
      * @param string   $filePath    Путь к RAR-архиву, который нужно извлечь.
      * @param string   $destination Каталог, в который будет извлечен архив. Если каталог не существует, он должен быть создан.
-     * @param iterable $passwords   Список паролей для попытки извлечения защищенного паролем архива. Может быть массивом или другим iterable объектом.
+     * @param PasswordProviderInterface $passwords   Список паролей для попытки извлечения защищенного паролем архива. Может быть массивом или другим iterable объектом.
      *
      * @return bool Возвращает true, если извлечение прошло успешно, и false в противном случае.
      */
-    public function extract(string $filePath, string $destination, iterable $passwords = []): bool
+    public function extract(string $filePath, string $destination, PasswordProviderInterface $passwords): bool
     {
         $rar = RarArchive::open($filePath);
 
@@ -64,7 +65,7 @@ class RarArchiveHandler implements ArchiveInterface
         }
 
         // Пробуем извлечь архив с каждым паролем
-        foreach ($passwords as $password) {
+        foreach ($passwords->getPasswords() as $password) {
             try {
                 $rar->setPassword($password);
 

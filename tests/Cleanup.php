@@ -2,6 +2,8 @@
 
 namespace Esplora\Decompresso\Tests;
 
+use Esplora\Decompresso\Providers\ArrayPasswordProvider;
+
 /**
  * Трейт для выполнения операций с директориями в тестах.
  */
@@ -46,11 +48,13 @@ trait Cleanup
     /**
      * Возвращает список паролей для тестов.
      *
-     * @return array
+     * @return ArrayPasswordProvider
      */
-    protected function getPasswords(): array
+    protected function getPasswords(): ArrayPasswordProvider
     {
-        return ['12345'];
+        return new ArrayPasswordProvider([
+            '12345'
+        ]);
     }
 
     /**

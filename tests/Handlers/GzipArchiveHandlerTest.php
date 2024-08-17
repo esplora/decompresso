@@ -32,7 +32,8 @@ class GzipArchiveHandlerTest extends TestCase
 
         $result = $handler->extract(
             $this->getFixturesDir('gzip/simple.txt.gz'),
-            $this->getExtractionPath()
+            $this->getExtractionPath(),
+            $this->getPasswords()
         );
 
         $this->assertTrue($result);

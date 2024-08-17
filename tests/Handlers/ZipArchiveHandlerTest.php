@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Esplora\Decompresso\Tests;
 
 use Esplora\Decompresso\Handlers\ZipArchiveHandler;
+use Esplora\Decompresso\Providers\ArrayPasswordProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -32,7 +33,8 @@ class ZipArchiveHandlerTest extends TestCase
 
         $result = $handler->extract(
             $this->getFixturesDir('zip/simple.zip'),
-            $this->getExtractionPath()
+            $this->getExtractionPath(),
+            $this->getPasswords()
         );
 
         $this->assertTrue($result);
@@ -57,9 +59,9 @@ class ZipArchiveHandlerTest extends TestCase
 
         $handler = new ZipArchiveHandler;
 
-        $result = $handler->extract($archivePath, $this->getExtractionPath(), [
+        $result = $handler->extract($archivePath, $this->getExtractionPath(), new ArrayPasswordProvider([
             'wrongpassword',
-        ]);
+        ]));
 
         $this->assertFalse($result);
         $this->assertFilesDoesExtracted();

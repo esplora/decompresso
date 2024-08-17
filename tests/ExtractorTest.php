@@ -139,4 +139,27 @@ class ExtractorTest extends TestCase
 
         $this->assertTrue($result);
     }
+
+    public function testExtractionNotCallPasswords(): void
+    {
+        $passwordProvider = $this->createMock(PasswordProviderInterface::class);
+        $passwordProvider->method('getPasswords')
+            ->willThrowException(new \RuntimeException('Мы не должны запрашивать пароль когда это не нужно'));
+
+        $archiveHandler = $this->createMock(ArchiveInterface::class);
+        $archiveHandler->method('extract')
+            ->willReturn(true);
+
+        $archiveHandler->method('canSupport')
+            ->willReturn(true);
+
+        $this->extractor->withPasswords($passwordProvider)
+            ->withHandler($archiveHandler)
+            ->onSuccess(fn ($filePath) => $filePath.' extracted successfully.')
+            ->onFailure(fn ($filePath) => 'Failed to extract '.$filePath);
+
+        $result = $this->extractor->extract('/path/to/archive.zip');
+
+        $this->assertEquals('/path/to/archive.zip extracted successfully.', $result);
+    }
 }

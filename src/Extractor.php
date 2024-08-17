@@ -208,7 +208,7 @@ class Extractor
 
         // Попытка извлечения архива с использованием всех добавленных обработчиков.
         foreach ($supportHandlers as $handler) {
-            if ($handler->extract($filePath, $destination, $this->passwordProvider->getPasswords())) {
+            if ($handler->extract($filePath, $destination, $this->passwordProvider)) {
                 return true;
             }
         }

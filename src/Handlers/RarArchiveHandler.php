@@ -41,38 +41,43 @@ class RarArchiveHandler implements ArchiveInterface
      */
     public function extract(string $filePath, string $destination, iterable $passwords = []): bool
     {
-        try {
-            $rar = RarArchive::open($filePath);
-            if (! $rar) {
-                return false;
-            }
+        $rar = RarArchive::open($filePath);
 
-            $entries = $rar->getEntries();
-            if (! $entries) {
+        if (!$rar) {
+            // Точно ли нужно? Сомниваюсь, что это правильно TODO: <--- Проверить
+            return false;
+        }
+
+        $entries = $rar->getEntries();
+
+        if ($entries === false) {
+            $rar->close();
+        }
+
+        if ($entries !== false) {
+            foreach ($entries as $entry) {
+                $entry->extract($destination);
+            }
+            $rar->close();
+            return true;
+        }
+
+        // Пробуем извлечь архив с каждым паролем
+        foreach ($passwords as $password) {
+            try {
+                $rar->setPassword($password);
+
+                foreach ($entries as $entry) {
+                    $entry->extract($destination);
+                }
+
                 $rar->close();
 
-                return false;
+                return true;
+            } catch (Exception) {
+                // Пробуем следующий пароль
+                continue;
             }
-
-            // Пробуем извлечь архив с каждым паролем
-            foreach ($passwords as $password) {
-                try {
-                    $rar->setPassword($password);
-                    foreach ($entries as $entry) {
-                        $entry->extract($destination);
-                    }
-                    $rar->close();
-
-                    return true;
-                } catch (Exception) {
-                    // Пробуем следующий пароль
-                    continue;
-                }
-            }
-
-            $rar->close();
-        } catch (Exception) {
-            return false;
         }
 
         return false;

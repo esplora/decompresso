@@ -40,38 +40,34 @@ class GzipArchiveHandler implements ArchiveInterface
      */
     public function extract(string $filePath, string $destination, iterable $passwords = []): bool
     {
-        $outputFile = $destination.basename($filePath, '.gz');
+        $outputFile = $destination . basename($filePath, '.gz');
 
         // Убедиться, что каталог назначения существует, или создать его
-        if (! is_dir($destination) && ! mkdir($destination, 0777, true) && ! is_dir($destination)) {
+        if (!is_dir($destination) && !mkdir($destination, 0777, true) && !is_dir($destination)) {
             return false;
         }
 
-        try {
-            $filePointer = gzopen($filePath, 'rb');
+        $filePointer = gzopen($filePath, 'rb');
 
-            if (! $filePointer) {
-                return false;
-            }
+        if (!$filePointer) {
+            return false;
+        }
 
-            $outputPointer = fopen($outputFile, 'wb');
+        $outputPointer = fopen($outputFile, 'wb');
 
-            if (! $outputPointer) {
-                gzclose($filePointer);
-
-                return false;
-            }
-
-            while (! gzeof($filePointer)) {
-                fwrite($outputPointer, gzread($filePointer, 4096));
-            }
-
+        if (!$outputPointer) {
             gzclose($filePointer);
-            fclose($outputPointer);
 
-            return true;
-        } catch (Exception $e) {
             return false;
         }
+
+        while (!gzeof($filePointer)) {
+            fwrite($outputPointer, gzread($filePointer, 4096));
+        }
+
+        gzclose($filePointer);
+        fclose($outputPointer);
+
+        return true;
     }
 }

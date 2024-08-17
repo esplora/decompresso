@@ -39,13 +39,9 @@ class TarArchiveHandler implements ArchiveInterface
      */
     public function extract(string $filePath, string $destination, iterable $passwords = []): bool
     {
-        try {
-            $tar = new PharData($filePath);
-            $tar->extractTo($destination);
+        $tar = new PharData($filePath);
+        $tar->extractTo($destination);
 
-            return true;
-        } catch (Exception $e) {
-            return false;
-        }
+        return true;
     }
 }

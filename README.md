@@ -23,21 +23,21 @@ composer require esplora/decompresso
 ## Использование
 
 Для начала работы создайте экземпляр класса `Extractor` и добавьте необходимые обработчики для форматов архивов.
-В следующем примере показано, как использовать `ZipArchiveHandler` для работы с ZIP-файлами, но вы можете добавить
+В следующем примере показано, как использовать `ZipArchiveAdapters` для работы с ZIP-файлами, но вы можете добавить
 собственные обработчики или использовать встроенные.
 
 ```php
 use Esplora\Decompresso\Extractor;
-use Esplora\Decompresso\Handlers\ZipArchiveHandler;
-use Esplora\Decompresso\Handlers\GzipArchiveHandler;
+use Esplora\Decompresso\Adapters\ZipArchiveAdapter;
+use Esplora\Decompresso\Adapters\GzipArchiveAdapter;
 
 // Создаем новый экземпляр класса Extractor для управления процессом извлечения
 $extractor = new Extractor();
 
 // Указываем, какие обработчики архивов будут использоваться
-$extractor->withHandlers([
-    new ZipArchiveHandler(),
-    new GzipArchiveHandler(),
+$extractor->withAdapters([
+    new ZipArchiveAdapter(),
+    new GzipArchiveAdapter(),
 ])
 
 // Возвращает булево в зависимости от исхода процесса извлечения
@@ -51,8 +51,8 @@ $extractor->extract('/path/to/your/archive.zip', '/path/to/extract/to');
 
 ```php
 use Esplora\Decompresso\Extractor;
-use Esplora\Decompresso\Handlers\ZipArchiveHandler;
-use Esplora\Decompresso\Handlers\GzipArchiveHandler;
+use Esplora\Decompresso\Adapters\ZipArchiveAdapter;
+use Esplora\Decompresso\Adapters\GzipArchiveAdapter;
 use Esplora\Decompresso\Providers\ArrayPasswordProvider;
 
 $extractor = new Extractor();
@@ -62,9 +62,9 @@ $extractor
         'qwerty',
         'xxx123',
     ]))
-    ->withHandlers([
-        new ZipArchiveHandler(),
-        new GzipArchiveHandler(),
+    ->withAdapters([
+        new ZipArchiveAdapter(),
+        new GzipArchiveAdapter(),
     ])
 
 // Возвращает булево в зависимости от исхода процесса извлечения
@@ -93,9 +93,9 @@ $extractor
         'qwerty',
         'xxx123',
     ]))
-    ->withHandlers([
-        new ZipArchiveHandler(),
-        new GzipArchiveHandler(),
+    ->withAdapters([
+        new ZipArchiveAddapter(),
+        new GzipArchiveAddapter(),
     ])
     
     // Здесь вы можете определить логику, которая выполнится в случае успешного извлечения

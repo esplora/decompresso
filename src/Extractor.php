@@ -27,7 +27,7 @@ class Extractor
      *
      * @var ArchiveInterface[]
      */
-    protected array $archiveHandlers = [];
+    protected array $adapters = [];
 
     /**
      * Обработчик для случая неудачного извлечения архива.
@@ -91,9 +91,9 @@ class Extractor
      *
      * @return $this Возвращает текущий экземпляр для цепочки вызовов.
      */
-    public function withHandler(ArchiveInterface $handler): self
+    public function withAdapter(ArchiveInterface $handler): self
     {
-        $this->archiveHandlers[] = $handler;
+        $this->adapters[] = $handler;
 
         return $this;
     }
@@ -105,10 +105,10 @@ class Extractor
      *
      * @return $this Возвращает текущий экземпляр для цепочки вызовов.
      */
-    public function withHandlers(array $handlers): self
+    public function withAdapters(array $handlers): self
     {
         foreach ($handlers as $handler) {
-            $this->withHandler($handler);
+            $this->withAdapter($handler);
         }
 
         return $this;
@@ -204,7 +204,7 @@ class Extractor
         // Создаём директорию назначения, если она не существует
         // $this->ensureDirectoryExists($destination);
 
-        $supportHandlers = array_filter($this->archiveHandlers, fn (ArchiveInterface $archive) => $archive->canSupport($filePath));
+        $supportHandlers = array_filter($this->adapters, fn (ArchiveInterface $archive) => $archive->canSupport($filePath));
 
         // Попытка извлечения архива с использованием всех добавленных обработчиков.
         foreach ($supportHandlers as $handler) {

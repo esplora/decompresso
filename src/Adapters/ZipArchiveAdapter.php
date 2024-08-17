@@ -1,6 +1,6 @@
 <?php
 
-namespace Esplora\Decompresso\Handlers;
+namespace Esplora\Decompresso\Adapters;
 
 use Esplora\Decompresso\Concerns\SupportsMimeTypes;
 use Esplora\Decompresso\Contracts\ArchiveInterface;
@@ -13,7 +13,7 @@ use ZipArchive;
  * Этот класс реализует интерфейс ArchiveInterface и предоставляет функциональность для извлечения ZIP-архивов,
  * включая поддержку паролей для защищенных архивов.
  */
-class ZipArchiveHandler implements ArchiveInterface
+class ZipArchiveAdapter implements ArchiveInterface
 {
     use SupportsMimeTypes;
 

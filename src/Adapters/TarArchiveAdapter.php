@@ -1,6 +1,6 @@
 <?php
 
-namespace Esplora\Decompresso\Handlers;
+namespace Esplora\Decompresso\Adapters;
 
 use Esplora\Decompresso\Concerns\SupportsMimeTypes;
 use Esplora\Decompresso\Contracts\ArchiveInterface;
@@ -12,7 +12,7 @@ use PharData;
  *
  * Этот класс реализует интерфейс ArchiveInterface и предоставляет функциональность для извлечения TAR-архивов.
  */
-class TarArchiveHandler implements ArchiveInterface
+class TarArchiveAdapter implements ArchiveInterface
 {
     use SupportsMimeTypes;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Esplora\Decompresso\Handlers;
+namespace Esplora\Decompresso\Adapters;
 
 use Esplora\Decompresso\Concerns\SupportsMimeTypes;
 use Esplora\Decompresso\Contracts\ArchiveInterface;
@@ -12,7 +12,7 @@ use Esplora\Decompresso\Contracts\PasswordProviderInterface;
  * Этот класс реализует интерфейс ArchiveInterface и предоставляет функциональность для извлечения GZIP-архивов.
  * GZIP-файлы обычно содержат один файл, поэтому извлечение просто распаковывает его.
  */
-class GzipArchiveHandler implements ArchiveInterface
+class GzipArchiveAdapter implements ArchiveInterface
 {
     use SupportsMimeTypes;
 

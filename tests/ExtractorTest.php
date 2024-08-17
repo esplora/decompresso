@@ -35,7 +35,7 @@ class ExtractorTest extends TestCase
             ->willReturn(true);
 
         $this->extractor->withPasswords($passwordProvider)
-            ->withHandler($archiveHandler)
+            ->withAdapter($archiveHandler)
             ->onSuccess(fn ($filePath) => $filePath.' extracted successfully.')
             ->onFailure(fn ($filePath) => 'Failed to extract '.$filePath);
 
@@ -55,7 +55,7 @@ class ExtractorTest extends TestCase
 
         // Устанавливаем обработчик, который выбрасывает исключение при неудаче
         $this->extractor->withPasswords($passwordProvider)
-            ->withHandler($archiveHandler)
+            ->withAdapter($archiveHandler)
             ->onPasswordFailure(fn ($filePath) => throw new \Exception("Не удалось извлечь архив: {$filePath}"));
 
         // Ожидаем, что будет выброшено исключение
@@ -79,7 +79,7 @@ class ExtractorTest extends TestCase
 
         // Устанавливаем обработчик, который выбрасывает исключение при неудаче
         $this->extractor->withPasswords($passwordProvider)
-            ->withHandler($archiveHandler)
+            ->withAdapter($archiveHandler)
             ->onFailure(fn ($e) => throw new \Exception('New: '.$e->getMessage()));
 
         // Ожидаем, что будет выброшено исключение
@@ -110,7 +110,7 @@ class ExtractorTest extends TestCase
 
         // Устанавливаем 2 обработчика один вернет true. другой Exception
         $this->extractor->withPasswords($passwordProvider)
-            ->withHandlers([
+            ->withAdapters([
                 $archiveHandler,
                 $archiveHandlerOther,
             ])
@@ -136,7 +136,7 @@ class ExtractorTest extends TestCase
             ->willReturn(true);
 
         $this->extractor->withPasswords($passwordProvider)
-            ->withHandler($archiveHandler)
+            ->withAdapter($archiveHandler)
             ->onSuccess(fn ($filePath) => $filePath.' extracted successfully.')
             ->onFailure(fn ($filePath) => 'Failed to extract '.$filePath);
 

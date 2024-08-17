@@ -1,6 +1,6 @@
 <?php
 
-namespace Esplora\Decompresso\Handlers;
+namespace Esplora\Decompresso\Adapters;
 
 use Esplora\Decompresso\Concerns\SupportsMimeTypes;
 use Esplora\Decompresso\Contracts\ArchiveInterface;
@@ -14,7 +14,7 @@ use RarArchive;
  * Этот класс реализует интерфейс ArchiveInterface и предоставляет функциональность для извлечения RAR-архивов,
  * включая поддержку паролей для защищенных архивов.
  */
-class RarArchiveHandler implements ArchiveInterface
+class RarArchiveAdapter implements ArchiveInterface
 {
     use SupportsMimeTypes;
 

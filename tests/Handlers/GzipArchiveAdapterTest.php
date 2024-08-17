@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Esplora\Decompresso\Tests;
 
-use Esplora\Decompresso\Handlers\GzipArchiveHandler;
+use Esplora\Decompresso\Adapters\GzipArchiveAdapter;
 use PHPUnit\Framework\TestCase;
 
 /**
  * Тесты для обработчика GZIP-архивов.
  */
-class GzipArchiveHandlerTest extends TestCase
+class GzipArchiveAdapterTest extends TestCase
 {
     use Cleanup;
 
@@ -28,7 +28,7 @@ class GzipArchiveHandlerTest extends TestCase
 
     public function testExtractionSuccess(): void
     {
-        $handler = new GzipArchiveHandler;
+        $handler = new GzipArchiveAdapter;
 
         $result = $handler->extract(
             $this->getFixturesDir('gzip/simple.txt.gz'),

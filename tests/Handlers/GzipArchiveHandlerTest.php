@@ -40,6 +40,7 @@ class GzipArchiveHandlerTest extends TestCase
     }
 
     /*
+     * TODO: Gzip распакует файл даже с абсурдными данными, то есть у него нет проверки на валидность.
     public function testExtractionFailure():void
     {
         $handler = new GzipArchiveHandler();

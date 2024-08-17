@@ -10,6 +10,8 @@ trait Cleanup
     /**
      * Возвращает полный путь к директории фиктивных файлов.
      *
+     * @param string $path
+     *
      * @return string
      */
     protected function getFixturesDir(string $path): string
@@ -18,13 +20,27 @@ trait Cleanup
     }
 
     /**
-     * Возвращает полный путь к директории извлечения.
+     * Возвращает полный путь к директории эталонов.
+     *
+     * @param string $path
      *
      * @return string
      */
-    protected function getExtractionPath(): string
+    protected function getReferenceDir(string $path): string
     {
-        return __DIR__.'/extracted/';
+        return __DIR__.'/fixtures/reference/'.$path;
+    }
+
+    /**
+     * Возвращает полный путь к директории извлечения.
+     *
+     * @param string $path
+     *
+     * @return string
+     */
+    protected function getExtractionPath(string $path = ''): string
+    {
+        return __DIR__.'/extracted/'.$path;
     }
 
     /**
@@ -80,7 +96,16 @@ trait Cleanup
     protected function assertFilesExtracted(): void
     {
         foreach ($this->getExpectedFiles() as $file) {
-            $this->assertFileExists($this->getExtractionPath().$file);
+            $filePath = $this->getExtractionPath($file);
+            $fileReferencePath = $this->getReferenceDir($file);
+
+            $this->assertFileExists($filePath);
+
+            $this->assertEquals(
+                hash_file('sha256', $fileReferencePath),
+                hash_file('sha256', $filePath),
+                "Файл $file поврежден или изменен"
+            );
         }
     }
 
@@ -92,7 +117,7 @@ trait Cleanup
     protected function assertFilesDoesExtracted(): void
     {
         foreach ($this->getExpectedFiles() as $file) {
-            $this->assertFileDoesNotExist($this->getExtractionPath().$file);
+            $this->assertFileDoesNotExist($this->getExtractionPath($file));
         }
     }
 }

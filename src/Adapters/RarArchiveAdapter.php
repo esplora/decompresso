@@ -69,7 +69,7 @@ class RarArchiveAdapter implements ArchiveInterface
             try {
                 $rar->setPassword($password);
 
-                foreach ($entries as $entry) {
+                foreach ($rar->getEntries() as $entry) {
                     $entry->extract($destination);
                 }
 

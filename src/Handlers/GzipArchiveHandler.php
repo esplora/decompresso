@@ -4,7 +4,6 @@ namespace Esplora\Decompresso\Handlers;
 
 use Esplora\Decompresso\Concerns\SupportsMimeTypes;
 use Esplora\Decompresso\Contracts\ArchiveInterface;
-use Exception;
 
 /**
  * Обработчик для работы с архивами формата GZIP.
@@ -40,28 +39,28 @@ class GzipArchiveHandler implements ArchiveInterface
      */
     public function extract(string $filePath, string $destination, iterable $passwords = []): bool
     {
-        $outputFile = $destination . basename($filePath, '.gz');
+        $outputFile = $destination.basename($filePath, '.gz');
 
         // Убедиться, что каталог назначения существует, или создать его
-        if (!is_dir($destination) && !mkdir($destination, 0777, true) && !is_dir($destination)) {
+        if (! is_dir($destination) && ! mkdir($destination, 0777, true) && ! is_dir($destination)) {
             return false;
         }
 
         $filePointer = gzopen($filePath, 'rb');
 
-        if (!$filePointer) {
+        if (! $filePointer) {
             return false;
         }
 
         $outputPointer = fopen($outputFile, 'wb');
 
-        if (!$outputPointer) {
+        if (! $outputPointer) {
             gzclose($filePointer);
 
             return false;
         }
 
-        while (!gzeof($filePointer)) {
+        while (! gzeof($filePointer)) {
             fwrite($outputPointer, gzread($filePointer, 4096));
         }
 

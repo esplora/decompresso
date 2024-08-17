@@ -43,7 +43,7 @@ class RarArchiveHandler implements ArchiveInterface
     {
         $rar = RarArchive::open($filePath);
 
-        if (!$rar) {
+        if (! $rar) {
             // Точно ли нужно? Сомниваюсь, что это правильно TODO: <--- Проверить
             return false;
         }
@@ -59,6 +59,7 @@ class RarArchiveHandler implements ArchiveInterface
                 $entry->extract($destination);
             }
             $rar->close();
+
             return true;
         }
 

@@ -4,7 +4,6 @@ namespace Esplora\Decompresso\Handlers;
 
 use Esplora\Decompresso\Concerns\SupportsMimeTypes;
 use Esplora\Decompresso\Contracts\ArchiveInterface;
-use Exception;
 use PharData;
 
 /**

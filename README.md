@@ -1,4 +1,4 @@
-# <img src=".github/logo.svg?sanitize=true" width="24" height="24" alt="Decompresso"> Decompresso
+# <img src=".github/logo.svg?sanitize=true" width="32" height="32" alt="Decompresso"> Decompresso
 
 [![Tests](https://github.com/esplora/decompresso/actions/workflows/phpunit.yml/badge.svg)](https://github.com/esplora/decompresso/actions/workflows/phpunit.yml)
 

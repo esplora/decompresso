@@ -11,6 +11,7 @@ use PHPUnit\Framework\TestCase;
 class SupportsFileSizeTest extends TestCase
 {
     use Cleanup;
+
     public function testFileSizeBelowLimit(): void
     {
         $instance = new class

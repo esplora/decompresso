@@ -11,6 +11,7 @@ use PHPUnit\Framework\TestCase;
 class SupportsFileExtensionsTest extends TestCase
 {
     use Cleanup;
+
     public function testIsFileExtensionAllowed(): void
     {
         $instance = new class

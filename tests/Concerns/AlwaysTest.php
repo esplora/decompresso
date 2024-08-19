@@ -11,7 +11,8 @@ class AlwaysTest extends TestCase
 {
     public function testAlwaysReturnsTrue(): void
     {
-        $class = new class {
+        $class = new class
+        {
             use Always;
         };
 

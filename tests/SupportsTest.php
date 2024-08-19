@@ -14,7 +14,8 @@ class SupportsTest extends TestCase
 
     public function testCanSupportWithSupportedMimeType(): void
     {
-        $instance = new class {
+        $instance = new class
+        {
             use SupportsMimeTypes;
 
             protected function supportedMimeTypes(): array
@@ -29,7 +30,8 @@ class SupportsTest extends TestCase
 
     public function testCanSupportWithUnsupportedMimeType(): void
     {
-        $instance = new class {
+        $instance = new class
+        {
             use SupportsMimeTypes;
 
             protected function supportedMimeTypes(): array
@@ -43,7 +45,8 @@ class SupportsTest extends TestCase
 
     public function testCanSupportWithEmptySupportedMimeTypes(): void
     {
-        $instance = new class {
+        $instance = new class
+        {
             use SupportsMimeTypes;
 
             protected function supportedMimeTypes(): array
@@ -57,7 +60,8 @@ class SupportsTest extends TestCase
 
     public function testAlwaysReturnsTrue(): void
     {
-        $class = new class {
+        $class = new class
+        {
             use Always;
         };
 

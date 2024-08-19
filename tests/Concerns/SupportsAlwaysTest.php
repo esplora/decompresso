@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace Esplora\Decompresso\Tests\Concerns;
 
-use Esplora\Decompresso\Concerns\Always;
+use Esplora\Decompresso\Concerns\SupportsAlways;
 use PHPUnit\Framework\TestCase;
 
-class AlwaysTest extends TestCase
+class SupportsAlwaysTest extends TestCase
 {
     public function testAlwaysReturnsTrue(): void
     {
         $class = new class
         {
-            use Always;
+            use SupportsAlways;
         };
 
         $this->assertTrue($class->canSupport('/path/to/file.zip'));

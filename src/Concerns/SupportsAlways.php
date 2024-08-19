@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Esplora\Decompresso\Concerns;
 
-trait Always
+trait SupportsAlways
 {
     /**
      * Always returns true, regardless of the file path provided.

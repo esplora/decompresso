@@ -1,6 +1,8 @@
 # <img src=".github/logo.svg?sanitize=true" width="32" height="32" alt="Decompresso"> Decompresso
 
 [![Tests](https://github.com/esplora/decompresso/actions/workflows/phpunit.yml/badge.svg)](https://github.com/esplora/decompresso/actions/workflows/phpunit.yml)
+[![Psalm](https://github.com/esplora/decompresso/actions/workflows/psalm.yml/badge.svg)](https://github.com/esplora/decompresso/actions/workflows/psalm.yml)
+
 
 Это библиотека для извлечения содержимого архивов различных форматов, обеспечивающая гибкость и удобство в работе с
 архивами, включая те, что защищены паролем.

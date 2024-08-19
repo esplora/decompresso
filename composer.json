@@ -1,16 +1,8 @@
 {
     "name": "esplora/decompresso",
-    "autoload": {
-        "psr-4": {
-            "Esplora\\Decompresso\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Esplora\\Decompresso\\Tests\\": "tests/"
-        }
-    },
+    "description": "PHP library for extracting contents from various archive formats with ease.",
     "type": "library",
+    "keywords": ["decompression", "archives", "extracting"],
     "license": "MIT",
     "authors": [
         {
@@ -20,20 +12,30 @@
             "role": "Developer"
         }
     ],
+    "require": {
+        "symfony/mime": "^6.4|^7.1",
+        "symfony/var-dumper": "^6.4|^7.1"
+    },
     "require-dev": {
         "ext-zlib": "*",
         "laravel/pint": "^1.17",
         "phpunit/phpunit": "^10.5",
         "vimeo/psalm": "^5.0"
     },
-    "require": {
-        "symfony/mime": "^6.4|^7.1",
-        "symfony/var-dumper": "^6.4|^7.1"
-    },
     "suggest": {
         "ext-rar": "Required for RAR archives support.",
         "ext-phar": "Required for TAR archives support.",
         "ext-zlib": "Required for GZIP archives support."
+    },
+    "autoload": {
+        "psr-4": {
+            "Esplora\\Decompresso\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Esplora\\Decompresso\\Tests\\": "tests/"
+        }
     },
     "config": {
         "sort-packages": true

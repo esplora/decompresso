@@ -2,13 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Esplora\Decompresso\Tests;
+namespace Esplora\Decompresso\Tests\Concerns;
 
 use Esplora\Decompresso\Concerns\Always;
 use Esplora\Decompresso\Concerns\SupportsMimeTypes;
+use Esplora\Decompresso\Tests\Cleanup;
 use PHPUnit\Framework\TestCase;
 
-class SupportsTest extends TestCase
+class SupportsMimeTypesTest extends TestCase
 {
     use Cleanup;
 
@@ -56,17 +57,5 @@ class SupportsTest extends TestCase
         };
 
         $this->assertFalse($instance->canSupport($this->getFixturesDir('/zip/protected.zip')));
-    }
-
-    public function testAlwaysReturnsTrue(): void
-    {
-        $class = new class
-        {
-            use Always;
-        };
-
-        $this->assertTrue($class->canSupport('/path/to/file.zip'));
-        $this->assertTrue($class->canSupport('/path/to/anotherfile.rar'));
-        $this->assertTrue($class->canSupport('/any/random/path.txt'));
     }
 }

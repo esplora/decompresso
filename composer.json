@@ -27,9 +27,8 @@
         "vimeo/psalm": "^5.0"
     },
     "require": {
-        "illuminate/support": "^10.48",
         "symfony/mime": "^6.4|^7.1",
-        "symfony/var-dumper": "^6.4"
+        "symfony/var-dumper": "^6.4|^7.1"
     },
     "suggest": {
         "ext-rar": "Required for RAR archives support.",

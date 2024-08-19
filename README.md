@@ -3,58 +3,57 @@
 [![Tests](https://github.com/esplora/decompresso/actions/workflows/phpunit.yml/badge.svg)](https://github.com/esplora/decompresso/actions/workflows/phpunit.yml)
 [![Psalm](https://github.com/esplora/decompresso/actions/workflows/psalm.yml/badge.svg)](https://github.com/esplora/decompresso/actions/workflows/psalm.yml)
 
+Decompresso is a library designed for extracting contents from various archive formats, providing flexibility and ease
+of use, including support for password-protected archives.
 
-Это библиотека для извлечения содержимого архивов различных форматов, обеспечивающая гибкость и удобство в работе с
-архивами, включая те, что защищены паролем.
+## Features
 
-## Возможности
+- **Password-Protected Archives**: Handle encrypted archives with various methods for supplying passwords.
+- **Flexible Handler System**: Easily add and configure handlers for different archive formats.
+- **Intuitive Interface**: Utilize a fluent API for convenient configuration and handling of successful or failed
+  extraction events.
 
-- **Поддержка архивов с паролем**: Обрабатывайте зашифрованные архивы, используя разные подходы для предоставления паролей.
-- **Гибкая система обработчиков**: Легко добавляйте и настраивайте обработчики для различных форматов архивов.
-- **Интуитивно понятный интерфейс**: Используйте Fluent API для удобной настройки и обработки событий, связанных с успешным или неудачным извлечением файлов.
+## Installation
 
-## Установка
-
-Установите библиотеку с помощью Composer:
+Install the library using Composer:
 
 ```bash
 composer require esplora/decompresso
 ```
 
+## Usage
 
-## Использование
-
-Для начала работы создайте экземпляр класса `Extractor` и добавьте необходимые обработчики для форматов архивов.
-В следующем примере показано, как использовать `ZipArchiveAdapters` для работы с ZIP-файлами, но вы можете добавить
-собственные обработчики или использовать встроенные.
+To get started, create an instance of the `Extractor` class and add the necessary handlers for archive formats. The
+example below demonstrates using `ZipArchiveAdapter` for ZIP files, but you can add your own handlers or use built-in
+ones.
 
 ```php
 use Esplora\Decompresso\Extractor;
-use Esplora\Decompresso\Adapters\ZipArchiveAdapter;
-use Esplora\Decompresso\Adapters\GzipArchiveAdapter;
+use Esplora\Decompresso\Adapters\ZipArchiveAdapterAdapter;
+use Esplora\Decompresso\Adapters\GzipArchiveAdapterAdapter;
 
-// Создаем новый экземпляр класса Extractor для управления процессом извлечения
+// Create a new Extractor instance to manage the extraction process
 $extractor = new Extractor();
 
-// Указываем, какие обработчики архивов будут использоваться
+// Specify which archive handlers will be used
 $extractor->withAdapters([
-    new ZipArchiveAdapter(),
-    new GzipArchiveAdapter(),
-])
+    new ZipArchiveAdapterAdapter(),
+    new GzipArchiveAdapterAdapter(),
+]);
 
-// Возвращает булево в зависимости от исхода процесса извлечения
+// Returns a boolean depending on the outcome of the extraction process
 $extractor->extract('/path/to/your/archive.zip', '/path/to/extract/to');
 ```
 
-### Работа с архивами, защищенными паролем
+### Handling Password-Protected Archives
 
-Для работы с архивами, защищенными паролем, добавьте провайдер паролей. 
-В следующем примере используется `ArrayPasswordProvider`, который принимает массив паролей.
+To work with password-protected archives, add a password provider. The example below uses `ArrayPasswordProvider`, which
+accepts an array of passwords.
 
 ```php
 use Esplora\Decompresso\Extractor;
-use Esplora\Decompresso\Adapters\ZipArchiveAdapter;
-use Esplora\Decompresso\Adapters\GzipArchiveAdapter;
+use Esplora\Decompresso\Adapters\ZipArchiveAdapterAdapter;
+use Esplora\Decompresso\Adapters\GzipArchiveAdapterAdapter;
 use Esplora\Decompresso\Providers\ArrayPasswordProvider;
 
 $extractor = new Extractor();
@@ -65,28 +64,27 @@ $extractor
         'xxx123',
     ]))
     ->withAdapters([
-        new ZipArchiveAdapter(),
-        new GzipArchiveAdapter(),
+        new ZipArchiveAdapterAdapter(),
+        new GzipArchiveAdapterAdapter(),
     ])
 
-// Возвращает булево в зависимости от исхода процесса извлечения
+// Returns a boolean depending on the outcome of the extraction process
 $extractor->extract('/path/to/your/archive.zip', '/path/to/extract/to');
 ```
 
-При необходимости, вы можете создать собственный провайдер паролей, реализовав `PasswordProviderInterface`.
-Например, для получения паролей из базы данных с кешированием, можно создать
-например, `DataBasePasswordProvider`.
+If needed, you can create your own password provider by implementing the `PasswordProviderInterface`. For example,
+a `DataBasePasswordProvider` could be created for fetching passwords from a database with caching.
 
-Если у вас нет базы паролей, но хотите попробовать все возможные комбинации паролей, вы можете
-использовать https://github.com/danielmiessler/SecLists/tree/master/Passwords в качестве источника
-где собраны некоторые популярные пароли которые можно использовать для подбора.
+If you don’t have a password database but want to try all possible combinations, you can
+use [SecLists](https://github.com/danielmiessler/SecLists/tree/master/Passwords) as a source of popular passwords for
+brute-forcing.
 
-### Обработка событий
+### Event Handling
 
-Для более глубокого контроля над процессом извлечения можно добавлять обработчики событий. 
-Это позволит вам получать информацию о причинах неудачного извлечения или реагировать на успешное завершение.
+For more control over the extraction process, you can add event handlers. This allows you to receive information about
+the reasons for extraction failures or respond to successful completions.
 
-```php 
+```php
 use Esplora\Decompresso\Extractor;
 use Esplora\Decompresso\Handlers\ZipArchiveHandler;
 use Esplora\Decompresso\Handlers\GzipArchiveHandler;
@@ -100,33 +98,35 @@ $extractor
         'xxx123',
     ]))
     ->withAdapters([
-        new ZipArchiveAddapter(),
-        new GzipArchiveAddapter(),
+        new ZipArchiveAdapter(),
+        new GzipArchiveAdapter(),
     ])
     
-    // Здесь вы можете определить логику, которая выполнится в случае успешного извлечения
+    // Define logic to execute on successful extraction
     ->onSuccess(fn() => true)
     
-    // Обрабатываем случай, если не удалось распаковать архив из-за неподходящего пароля
+    // Handle cases where extraction fails due to an incorrect password
     ->onPasswordFailure(fn() => false)
     
-    // Обрабатываем любую другую ошибку, возникшую при извлечении
+    // Handle any other errors encountered during extraction
     ->onFailure(fn() => false)
 
-// Извлекаем архив и возвращает результат замыкания
+// Extracts the archive and returns the result of the closure
 $extractor->extract('/path/to/your/archive.zip', '/path/to/extract/to');
 ```
 
-
 ## TODO
-- [x] Добавить файл ответа, который бы разделял "не смогли распоковать" из-за ошибки и "не смогли распоковать так как не подошёл пароль"
+
+- [x] Добавить файл ответа, который бы разделял "не смогли распоковать" из-за ошибки и "не смогли распоковать так как не
+  подошёл пароль"
 - [ ] Добавить обработчик для RAR-архивов
 - [ ] Добавить обработчик для 7z-архивов
 - [x] Добавить проверку целостности в тестах
 - [x] Ввести проверку на расширение файла для обработчика, что бы он пропускал файлы не поддерживаемых форматов
-- [ ] Подумать над тем, чо бы передавать сразу MIME-type в обработчик, а не создавать его каждый раз. - Нет. Будет нарушение ответственности.
+- [ ] Подумать над тем, чо бы передавать сразу MIME-type в обработчик, а не создавать его каждый раз. - Нет. Будет
+  нарушение ответственности.
 - [x] Не обращаться к провайдеру паролей, если он не нужен.
-- [ ] Нужно обновить комментарии! Про пароль
+- [ ] Нужно обновить комментарии! Про пароль тоже!
 
 ## License
 

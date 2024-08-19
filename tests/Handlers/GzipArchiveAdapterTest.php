@@ -4,18 +4,15 @@ declare(strict_types=1);
 
 namespace Esplora\Decompresso\Tests;
 
-use Esplora\Decompresso\Adapters\GzipArchiveAdapter;
+use Esplora\Decompresso\Adapters\GzipArchiveAdapterAdapter;
 use PHPUnit\Framework\TestCase;
 
-/**
- * Тесты для обработчика GZIP-архивов.
- */
 class GzipArchiveAdapterTest extends TestCase
 {
     use Cleanup;
 
     /**
-     * Возвращает ожидаемое список файла после извлечения.
+     * Returns the expected list of files after extraction.
      *
      * @return array<string>
      */
@@ -28,7 +25,7 @@ class GzipArchiveAdapterTest extends TestCase
 
     public function testExtractionSuccess(): void
     {
-        $handler = new GzipArchiveAdapter;
+        $handler = new GzipArchiveAdapterAdapter;
 
         $result = $handler->extract(
             $this->getFixturesDir('gzip/simple.txt.gz'),
@@ -44,7 +41,7 @@ class GzipArchiveAdapterTest extends TestCase
      * TODO: Gzip распакует файл даже с абсурдными данными, то есть у него нет проверки на валидность.
     public function testExtractionFailure():void
     {
-        $handler = new GzipArchiveHandler();
+        $handler = new GzipArchiveAdapter();
 
         $result = $handler->extract(
             $this->getFixturesDir('gzip/invalid.gz'),
@@ -52,7 +49,7 @@ class GzipArchiveAdapterTest extends TestCase
         );
 
         $this->assertFalse($result);
-        $this->assertFilesDoesExtracted();
+        $this->assertFilesNotExtracted();
     }
     */
 }

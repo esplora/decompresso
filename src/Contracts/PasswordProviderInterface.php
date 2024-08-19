@@ -3,21 +3,20 @@
 namespace Esplora\Decompresso\Contracts;
 
 /**
- * Интерфейс для предоставления паролей.
+ * Interface for providing passwords.
  *
- * Этот интерфейс должен быть реализован классами, которые предоставляют список паролей для попытки извлечения
- * защищенных паролем архивов.
+ * Classes implementing this interface should provide a list of passwords to attempt extracting password-protected archives.
  */
 interface PasswordProviderInterface
 {
     /**
-     * Возвращает список паролей для извлечения архива.
+     * Returns a list of passwords for archive extraction.
      *
-     * Метод должен возвращать iterable объект, содержащий строки паролей. Эти пароли будут использованы для попытки
-     * извлечения защищенных паролем архивов. Если архив требует пароль для доступа, метод должен предоставить список
-     * возможных паролей, которые будут использованы по очереди.
+     * This method should return an iterable object containing password strings. These passwords will be used to attempt
+     * extraction of password-protected archives. If an archive requires a password, this method should provide a list
+     * of possible passwords to be tried sequentially.
      *
-     * @return iterable Возвращает iterable объект (например, массив или генератор), содержащий строки паролей.
+     * @return iterable Returns an iterable object (e.g., array or generator) containing password strings.
      */
     public function getPasswords(): iterable;
 }

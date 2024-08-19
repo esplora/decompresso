@@ -2,80 +2,80 @@
 
 namespace Esplora\Decompresso;
 
-use Esplora\Decompresso\Contracts\ArchiveInterface;
+use Esplora\Decompresso\Contracts\ArchiveAdapterInterface;
 use Esplora\Decompresso\Contracts\PasswordProviderInterface;
 use Esplora\Decompresso\Providers\ArrayPasswordProvider;
 use RuntimeException;
 
 /**
- * Класс для извлечения архивов с поддержкой паролей и обработчиков архива.
+ * Class for extracting archives with support for passwords and archive handlers.
  *
- * Этот класс управляет процессом извлечения архивов, поддерживая работу с разными типами архивов через
- * обработчики, а также использование различных паролей через провайдер паролей.
+ * This class manages the extraction process, supporting various archive types through handlers and
+ * using different passwords via a password provider.
  */
 class Extractor
 {
     /**
-     * Провайдер паролей, используемый для попытки извлечения защищенных архива.
+     * Password provider for handling protected archives.
      *
      * @var PasswordProviderInterface
      */
     protected PasswordProviderInterface $passwordProvider;
 
     /**
-     * Массив обработчиков архивов, которые могут извлекать архивы.
+     * Array of archive handlers for extracting archives.
      *
-     * @var ArchiveInterface[]
+     * @var ArchiveAdapterInterface[]
      */
     protected array $adapters = [];
 
     /**
-     * Обработчик для случая неудачного извлечения архива.
+     * Callback for handling failed extractions.
      *
      * @var callable
      */
     protected $failureCallback;
 
     /**
-     * Обработчик для случая успешного извлечения архива.
+     * Callback for handling successful extractions.
      *
      * @var callable
      */
     protected $successCallback;
 
     /**
-     * Обработчик, вызываемый, если пароль не был подобран.
+     * Callback for handling failed password attempts.
      *
      * @var callable
      */
     protected $passwordFailureCallback;
 
     /**
-     * Конструктор класса Extractor.
+     * Constructor for the Extractor class.
      *
-     * Инициализирует обработчики по умолчанию для случаев успешного и неудачного извлечения архива.
+     * Initializes default handlers for successful and failed extractions.
      */
     public function __construct()
     {
-        // По умолчанию использует провайдер паролей с пустым списком паролей.
+        // Default password provider with an empty password list.
         $this->passwordProvider = new ArrayPasswordProvider([]);
 
-        // По умолчанию возвращает false при не успешном извлечении архива по вине ПО.
+        // Default callback for failed extraction.
         $this->failureCallback = fn (\Throwable $exception) => false;
 
-        // По умолчанию возвращает true при успешном извлечении архива.
+        // Default callback for successful extraction.
         $this->successCallback = fn () => true;
 
-        // По умолчанию возвращает false при не успешном извлечении архива.
+        // Default callback for password failure.
         $this->passwordFailureCallback = fn () => false;
     }
 
     /**
-     * Устанавливает провайдер паролей для использования при извлечении защищенных архивов.
+     * Sets the password provider for handling protected archives.
      *
-     * @param PasswordProviderInterface $provider Провайдер паролей, который будет предоставлять пароли.
+     * @param PasswordProviderInterface $provider The password provider to use.
      *
-     * @return $this Возвращает текущий экземпляр для цепочки вызовов.
+     * @return $this For method chaining.
      */
     public function withPasswords(PasswordProviderInterface $provider): self
     {
@@ -85,13 +85,13 @@ class Extractor
     }
 
     /**
-     * Добавляет обработчик архива для поддержки различных форматов архивов.
+     * Adds an archive handler to support different archive formats.
      *
-     * @param ArchiveInterface $handler Обработчик архива, который может извлекать архивы.
+     * @param ArchiveAdapterInterface $handler The archive handler.
      *
-     * @return $this Возвращает текущий экземпляр для цепочки вызовов.
+     * @return $this For method chaining.
      */
-    public function withAdapter(ArchiveInterface $handler): self
+    public function withAdapter(ArchiveAdapterInterface $handler): self
     {
         $this->adapters[] = $handler;
 
@@ -99,11 +99,11 @@ class Extractor
     }
 
     /**
-     * Добавляет несколько обработчиков архивов.
+     * Adds multiple archive handlers.
      *
-     * @param ArchiveInterface[] $handlers Массив обработчиков архивов.
+     * @param ArchiveAdapterInterface[] $handlers Array of archive handlers.
      *
-     * @return $this Возвращает текущий экземпляр для цепочки вызовов.
+     * @return $this For method chaining.
      */
     public function withAdapters(array $handlers): self
     {
@@ -115,11 +115,11 @@ class Extractor
     }
 
     /**
-     * Устанавливает обработчик, который будет вызван в случае неудачного извлечения архива.
+     * Sets the callback for handling failed extractions.
      *
-     * @param callable $callback Обработчик для обработки неудачного извлечения архива.
+     * @param callable $callback Callback for handling extraction failures.
      *
-     * @return $this Возвращает текущий экземпляр для цепочки вызовов.
+     * @return $this For method chaining.
      */
     public function onFailure(callable $callback): self
     {
@@ -129,9 +129,9 @@ class Extractor
     }
 
     /**
-     * Устанавливает обработчик, если пароль не был подобран.
+     * Sets the callback for handling password failures.
      *
-     * @param callable $callback Обработчик неудачи из-за неподобранного пароля.
+     * @param callable $callback Callback for handling password failures.
      *
      * @return $this
      */
@@ -143,11 +143,11 @@ class Extractor
     }
 
     /**
-     * Устанавливает обработчик, который будет вызван в случае успешного извлечения архива.
+     * Sets the callback for handling successful extractions.
      *
-     * @param callable $callback Обработчик для обработки успешного извлечения архива.
+     * @param callable $callback Callback for handling successful extractions.
      *
-     * @return $this Возвращает текущий экземпляр для цепочки вызовов.
+     * @return $this For method chaining.
      */
     public function onSuccess(callable $callback): self
     {
@@ -157,19 +157,16 @@ class Extractor
     }
 
     /**
-     * Извлекает архив в указанное место.
+     * Extracts the archive to the specified location.
      *
-     * Этот метод вызывает основной процесс извлечения в блоке try/catch для обработки исключений.
-     * Если извлечение не удается из-за неподобранного пароля, вызывается соответствующий обработчик.
-     * Если выбрасывается исключение, вызывается обработчик ошибок.
+     * This method performs the extraction and handles exceptions and callbacks for failure or success.
      *
-     * @param string      $filePath    Путь к архиву, который нужно извлечь.
-     * @param string|null $destination Каталог, в который будет извлечен архив. Если не указан, используется каталог
-     *                                 с тем же именем, что и архив.
+     * @param string      $filePath    Path to the archive.
+     * @param string|null $destination Directory to extract to. If not specified, uses the same directory as the archive.
      *
-     * @throws \Exception Если провайдер паролей не установлен, будет выброшено исключение.
+     * @throws \Exception If the password provider is not set.
      *
-     * @return mixed Возвращает результат выполнения обработчика на случай успешного извлечения архива.
+     * @return mixed Result of the success callback or password failure callback.
      */
     public function extract(string $filePath, ?string $destination = null): mixed
     {
@@ -181,32 +178,28 @@ class Extractor
 
         $callback = $success ? $this->successCallback : $this->passwordFailureCallback;
 
-        // Вызов соответствующего обработчика в зависимости от результата извлечения.
+        // Call the appropriate callback based on extraction result.
         return $callback($filePath, $destination);
     }
 
     /**
-     * Выполняет извлечение архива.
+     * Performs the extraction using all added handlers.
      *
-     * Этот метод использует все добавленные обработчики для извлечения архива и вызывает соответствующий обработчик
-     * в зависимости от результата.
+     * @param string      $filePath    Path to the archive.
+     * @param string|null $destination Directory to extract to. If not specified, uses the same directory as the archive.
      *
-     * @param string      $filePath    Путь к архиву, который нужно извлечь.
-     * @param string|null $destination Каталог, в который будет извлечен архив. Если не указан, используется каталог
-     *                                 с тем же именем, что и архив.
-     *
-     * @return bool Результат вызова обработчика успешного извлечения или обработчика неудачи.
+     * @return bool Result of the extraction.
      */
     private function performExtraction(string $filePath, ?string $destination = null): bool
     {
         $destination = $destination ?: dirname($filePath);
 
-        // Создаём директорию назначения, если она не существует
+        // Create destination directory if it does not exist
         // $this->ensureDirectoryExists($destination);
 
-        $supportHandlers = array_filter($this->adapters, fn (ArchiveInterface $archive) => $archive->canSupport($filePath));
+        $supportHandlers = array_filter($this->adapters, fn (ArchiveAdapterInterface $archive) => $archive->canSupport($filePath));
 
-        // Попытка извлечения архива с использованием всех добавленных обработчиков.
+        // Attempt extraction with all added handlers.
         foreach ($supportHandlers as $handler) {
             if ($handler->extract($filePath, $destination, $this->passwordProvider)) {
                 return true;
@@ -217,16 +210,16 @@ class Extractor
     }
 
     /**
-     * Убедитесь, что директория существует. Если нет, создайте её.
+     * Ensures that the directory exists. Creates it if it does not.
      *
-     * @param string $directory Путь к директории.
+     * @param string $directory Path to the directory.
      *
-     * @throws RuntimeException Если директорию не удалось создать.
+     * @throws RuntimeException If the directory could not be created.
      */
     protected function ensureDirectoryExists(string $directory): void
     {
         if (! is_dir($directory) && ! mkdir($directory, 0777, true) && ! is_dir($directory)) {
-            throw new RuntimeException("Не удалось создать директорию: {$directory}");
+            throw new RuntimeException("Failed to create directory: {$directory}");
         }
     }
 }

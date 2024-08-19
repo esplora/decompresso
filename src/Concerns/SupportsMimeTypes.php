@@ -9,11 +9,11 @@ use Symfony\Component\Mime\MimeTypes;
 trait SupportsMimeTypes
 {
     /**
-     * Проверяет, поддерживает ли обработчик данный формат архива, используя Symfony Mime.
+     * Checks if the handler supports the archive format using Symfony Mime.
      *
-     * @param string $filePath Путь к архиву, который нужно проверить.
+     * @param string $filePath Path to the archive to check.
      *
-     * @return bool Возвращает true, если формат архива поддерживается, и false в противном случае.
+     * @return bool Returns true if the archive format is supported, false otherwise.
      */
     public function canSupport(string $filePath): bool
     {
@@ -23,9 +23,9 @@ trait SupportsMimeTypes
     }
 
     /**
-     * Возвращает список поддерживаемых MIME-типов.
+     * Returns the list of supported MIME types.
      *
-     * @return array<string> Массив MIME-типов, которые поддерживает обработчик.
+     * @return array<string> Array of MIME types supported by this handler.
      */
     abstract protected function supportedMimeTypes(): array;
 }

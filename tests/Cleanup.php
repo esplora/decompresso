@@ -5,12 +5,12 @@ namespace Esplora\Decompresso\Tests;
 use Esplora\Decompresso\Providers\ArrayPasswordProvider;
 
 /**
- * Трейт для выполнения операций с директориями в тестах.
+ * Trait for directory operations in tests.
  */
 trait Cleanup
 {
     /**
-     * Возвращает полный путь к директории фиктивных файлов.
+     * Returns the full path to the fixtures directory.
      *
      * @param string $path
      *
@@ -22,7 +22,7 @@ trait Cleanup
     }
 
     /**
-     * Возвращает полный путь к директории эталонов.
+     * Returns the full path to the reference directory.
      *
      * @param string $path
      *
@@ -34,7 +34,7 @@ trait Cleanup
     }
 
     /**
-     * Возвращает полный путь к директории извлечения.
+     * Returns the full path to the extraction directory.
      *
      * @param string $path
      *
@@ -46,7 +46,7 @@ trait Cleanup
     }
 
     /**
-     * Возвращает список паролей для тестов.
+     * Returns a list of passwords for testing.
      *
      * @return ArrayPasswordProvider
      */
@@ -58,9 +58,9 @@ trait Cleanup
     }
 
     /**
-     * Удаляет каталог и все его содержимое рекурсивно.
+     * Recursively deletes a directory and its contents.
      *
-     * @param string $dir Каталог для удаления.
+     * @param string $dir Directory to delete.
      */
     private function deleteDir(string $dir): void
     {
@@ -93,7 +93,7 @@ trait Cleanup
     }
 
     /**
-     * Проверяет что каждый файл был извлечен
+     * Asserts that each file has been extracted.
      *
      * @return void
      */
@@ -108,13 +108,13 @@ trait Cleanup
             $this->assertEquals(
                 hash_file('sha256', $fileReferencePath),
                 hash_file('sha256', $filePath),
-                "Файл $file поврежден или изменен"
+                "File $file is corrupted or has been modified"
             );
         }
     }
 
     /**
-     * Проверяет что каждый файл не был извлечен
+     * Asserts that each file has not been extracted.
      *
      * @return void
      */

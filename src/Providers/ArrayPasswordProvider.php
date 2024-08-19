@@ -5,28 +5,28 @@ namespace Esplora\Decompresso\Providers;
 use Esplora\Decompresso\Contracts\PasswordProviderInterface;
 
 /**
- * Провайдер паролей, который возвращает пароли из массива.
+ * Password provider that returns passwords from an array.
  *
- * Этот класс реализует интерфейс PasswordProviderInterface и предоставляет пароли для извлечения защищенных архива
- * из массива, переданного в конструкторе. Он подходит для простых случаев, когда список паролей известен заранее
- * и не меняется динамически.
+ * This class implements the PasswordProviderInterface and provides passwords for extracting protected archives
+ * from an array passed to the constructor. It is suitable for simple cases where the list of passwords is known
+ * beforehand and does not change dynamically.
  */
 class ArrayPasswordProvider implements PasswordProviderInterface
 {
     /**
-     * Конструктор класса ArrayPasswordProvider.
+     * Constructor for the ArrayPasswordProvider class.
      *
-     * @param array $passwords Массив паролей, которые будут использоваться для извлечения защищенных архивов.
+     * @param array $passwords Array of passwords to be used for extracting protected archives.
      */
     public function __construct(protected array $passwords) {}
 
     /**
-     * Возвращает список паролей.
+     * Returns the list of passwords.
      *
-     * Метод возвращает массив паролей, переданных в конструкторе. Эти пароли могут использоваться для попытки
-     * извлечения защищенных паролем архивов.
+     * This method returns the array of passwords provided in the constructor, which can be used for attempting
+     * to extract password-protected archives.
      *
-     * @return array Возвращает array, содержащий строки паролей.
+     * @return array Returns an array containing password strings.
      */
     public function getPasswords(): array
     {

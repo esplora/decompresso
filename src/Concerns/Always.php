@@ -7,11 +7,11 @@ namespace Esplora\Decompresso\Concerns;
 trait Always
 {
     /**
-     * Всегда возвращает true, независимо от переданного пути к файлу.
+     * Always returns true, regardless of the file path provided.
      *
-     * @param string $filePath Путь к файлу, который нужно проверить.
+     * @param string $filePath The file path to check.
      *
-     * @return bool Всегда возвращает true.
+     * @return bool Always returns true.
      */
     public function canSupport(string $filePath): bool
     {

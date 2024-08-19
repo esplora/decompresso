@@ -66,7 +66,7 @@ $extractor
     ->withAdapters([
         new ZipArchiveAdapterAdapter(),
         new GzipArchiveAdapterAdapter(),
-    ])
+    ]);
 
 // Returns a boolean depending on the outcome of the extraction process
 $extractor->extract('/path/to/your/archive.zip', '/path/to/extract/to');

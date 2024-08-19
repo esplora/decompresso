@@ -20,7 +20,6 @@
         <MissingTemplateParam errorLevel="suppress" />
         <UndefinedClass>
             <errorLevel type="suppress">
-                <referencedClass name="Laravel\Octane\Events\RequestReceived" />
                 <referencedClass name="RarArchive" />
             </errorLevel>
         </UndefinedClass>

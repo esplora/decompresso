@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Esplora\Decompresso\Concerns;
 
 use Symfony\Component\Mime\MimeTypes;
@@ -25,10 +27,5 @@ trait SupportsMimeTypes
      *
      * @return array<string> Массив MIME-типов, которые поддерживает обработчик.
      */
-    protected function supportedMimeTypes(): array
-    {
-        return [
-            // Заглушка, которая должна быть переопределена в конкретных обработчиках.
-        ];
-    }
+    abstract protected function supportedMimeTypes(): array;
 }

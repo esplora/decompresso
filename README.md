@@ -29,16 +29,16 @@ ones.
 
 ```php
 use Esplora\Decompresso\Extractor;
-use Esplora\Decompresso\Adapters\ZipArchiveAdapterAdapter;
-use Esplora\Decompresso\Adapters\GzipArchiveAdapterAdapter;
+use Esplora\Decompresso\Adapters\ZipArchiveAdapter;
+use Esplora\Decompresso\Adapters\GzipArchiveAdapter;
 
 // Create a new Extractor instance to manage the extraction process
 $extractor = new Extractor();
 
 // Specify which archive handlers will be used
 $extractor->withAdapters([
-    new ZipArchiveAdapterAdapter(),
-    new GzipArchiveAdapterAdapter(),
+    new ZipArchiveAdapter(),
+    new GzipArchiveAdapter(),
 ]);
 
 // Returns a boolean depending on the outcome of the extraction process
@@ -52,8 +52,8 @@ accepts an array of passwords.
 
 ```php
 use Esplora\Decompresso\Extractor;
-use Esplora\Decompresso\Adapters\ZipArchiveAdapterAdapter;
-use Esplora\Decompresso\Adapters\GzipArchiveAdapterAdapter;
+use Esplora\Decompresso\Adapters\ZipArchiveAdapter;
+use Esplora\Decompresso\Adapters\GzipArchiveAdapter;
 use Esplora\Decompresso\Providers\ArrayPasswordProvider;
 
 $extractor = new Extractor();
@@ -64,8 +64,8 @@ $extractor
         'xxx123',
     ]))
     ->withAdapters([
-        new ZipArchiveAdapterAdapter(),
-        new GzipArchiveAdapterAdapter(),
+        new ZipArchiveAdapter(),
+        new GzipArchiveAdapter(),
     ]);
 
 // Returns a boolean depending on the outcome of the extraction process

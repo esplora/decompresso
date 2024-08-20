@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Esplora\Decompresso\Tests;
 
-use Esplora\Decompresso\Adapters\GzipArchiveAdapterAdapter;
+use Esplora\Decompresso\Adapters\GzipArchiveAdapter;
 use PHPUnit\Framework\TestCase;
 
 class GzipArchiveAdapterTest extends TestCase
@@ -25,7 +25,7 @@ class GzipArchiveAdapterTest extends TestCase
 
     public function testExtractionSuccess(): void
     {
-        $handler = new GzipArchiveAdapterAdapter;
+        $handler = new GzipArchiveAdapter;
 
         $result = $handler->extract(
             $this->getFixturesDir('gzip/simple.txt.gz'),

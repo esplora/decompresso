@@ -14,7 +14,7 @@ use RarArchive;
  * This class implements the ArchiveInterface and provides functionality for extracting RAR archives,
  * including support for password-protected archives.
  */
-class RarArchiveAdapterAdapter implements ArchiveAdapterInterface
+class RarArchiveAdapter implements ArchiveAdapterInterface
 {
     use SupportsMimeTypes;
 

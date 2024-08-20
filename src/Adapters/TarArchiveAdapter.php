@@ -12,7 +12,7 @@ use PharData;
  *
  * This class implements the ArchiveInterface and provides functionality for extracting TAR archives.
  */
-class TarArchiveAdapterAdapter implements ArchiveAdapterInterface
+class TarArchiveAdapter implements ArchiveAdapterInterface
 {
     use SupportsMimeTypes;
 

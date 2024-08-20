@@ -12,7 +12,7 @@ use Esplora\Decompresso\Contracts\PasswordProviderInterface;
  * This class implements the ArchiveInterface and provides functionality for extracting GZIP archives.
  * GZIP files typically contain a single file, so extraction involves simply unpacking it.
  */
-class GzipArchiveAdapterAdapter implements ArchiveAdapterInterface
+class GzipArchiveAdapter implements ArchiveAdapterInterface
 {
     use SupportsMimeTypes;
 

@@ -12,7 +12,7 @@ use Esplora\Decompresso\Contracts\PasswordProviderInterface;
  * This class implements the ArchiveInterface and provides functionality for extracting .7z archives,
  * including support for passwords for protected archives.
  */
-class SevenZipArchiveAdapterAdapter implements ArchiveAdapterInterface
+class SevenZipArchiveAdapter implements ArchiveAdapterInterface
 {
     use SupportsMimeTypes;
 

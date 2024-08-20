@@ -13,7 +13,7 @@ use ZipArchive;
  * This class implements the ArchiveInterface and provides functionality for extracting ZIP archives,
  * including support for password-protected archives.
  */
-class ZipArchiveAdapterAdapter implements ArchiveAdapterInterface
+class ZipArchiveAdapter implements ArchiveAdapterInterface
 {
     use SupportsMimeTypes;
 

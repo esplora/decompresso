@@ -7,4 +7,4 @@ jobs:
   uneditable:
     uses: esplora/.github/.github/workflows/psalm.yml@main
     with:
-      php: '8.2'
+      php: '8.3'

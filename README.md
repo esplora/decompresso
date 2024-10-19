@@ -75,7 +75,8 @@ $extractor->extract('/path/to/your/archive.zip', '/path/to/extract/to');
 If needed, you can create your own password provider by implementing the `PasswordProviderInterface`. For example,
 a `DataBasePasswordProvider` could be created for fetching passwords from a database with caching.
 
-If you don’t have a password database but want to try all possible combinations, you can
+> [!TIP]
+>  If you don’t have a password database but want to try all possible combinations, you can
 use [SecLists](https://github.com/danielmiessler/SecLists/tree/master/Passwords) as a source of popular passwords for
 brute-forcing.
 

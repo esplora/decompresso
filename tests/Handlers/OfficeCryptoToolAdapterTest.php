@@ -17,7 +17,7 @@ class OfficeCryptoToolAdapterTest extends TestCase
     {
         $archivePath = $this->getFixturesDir('office-crypto/protected.pptx');
 
-        $handler = new OfficeCryptoToolAdapter();
+        $handler = new OfficeCryptoToolAdapter;
 
         $result = $handler->extract($archivePath, $this->getExtractionPath(), $this->getPasswords());
 

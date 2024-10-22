@@ -1,0 +1,2 @@
+This file is located inside the "inner" folder.
+It confirms that extraction has progressed to the second level of nesting.

@@ -40,6 +40,7 @@ class TarArchiveAdapter implements ArchiveAdapterInterface
     public function extract(string $filePath, string $destination, PasswordProviderInterface $passwords): bool
     {
         $tar = new PharData($filePath);
+
         $tar->extractTo($destination);
 
         return true;

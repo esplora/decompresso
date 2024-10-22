@@ -88,26 +88,30 @@ trait Cleanup
 
     protected function tearDown(): void
     {
-        $this->deleteDir($this->getExtractionPath());
+        //  $this->deleteDir($this->getExtractionPath());
         parent::tearDown();
     }
 
     /**
      * Asserts that each file has been extracted.
      *
+     * @param iterable $files
+     *
      * @return void
      */
-    protected function assertFilesExtracted(): void
+    protected function assertFilesExtracted(iterable $files = []): void
     {
-        foreach ($this->getExpectedFiles() as $file) {
+        $files = empty($files) ? $this->getExpectedFiles() : $files;
+
+        foreach ($files as $file) {
             $filePath = $this->getExtractionPath($file);
             $fileReferencePath = $this->getReferenceDir($file);
 
             $this->assertFileExists($filePath);
 
             $this->assertEquals(
-                hash_file('sha256', $fileReferencePath),
-                hash_file('sha256', $filePath),
+                hash_file('sha1', $fileReferencePath),
+                hash_file('sha1', $filePath),
                 "File $file is corrupted or has been modified"
             );
         }

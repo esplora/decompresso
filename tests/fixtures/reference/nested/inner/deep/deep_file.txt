@@ -1,0 +1,2 @@
+You've reached the deepest level inside the "deep" folder.
+This file should only be extracted if recursive extraction is working correctly.

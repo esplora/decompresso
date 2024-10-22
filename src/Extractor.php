@@ -51,6 +51,13 @@ class Extractor
     protected $passwordFailureCallback;
 
     /**
+     * Максимальный уровень вложенности для рекурсивной распаковки.
+     *
+     * @var int
+     */
+    protected int $maxRecursionLevel = 0;
+
+    /**
      * Constructor for the Extractor class.
      *
      * Initializes default handlers for successful and failed extractions.
@@ -105,7 +112,7 @@ class Extractor
      *
      * @return $this For method chaining.
      */
-    public function withAdapters(array $handlers): self
+    public function withAdapters(iterable $handlers): self
     {
         foreach ($handlers as $handler) {
             $this->withAdapter($handler);
@@ -157,6 +164,19 @@ class Extractor
     }
 
     /**
+     * Устанавливает максимальный уровень рекурсии для вложенных архивов.
+     *
+     * @param int $levels Максимальное количество уровней вложенности.
+     * @return $this
+     */
+    public function recursive(int $levels): self
+    {
+        $this->maxRecursionLevel = $levels;
+
+        return $this;
+    }
+
+    /**
      * Extracts the archive to the specified location.
      *
      * This method performs the extraction and handles exceptions and callbacks for failure or success.
@@ -168,10 +188,14 @@ class Extractor
      *
      * @return mixed Result of the success callback or password failure callback.
      */
-    public function extract(string $filePath, ?string $destination = null): mixed
+    public function extract(string $filePath, ?string $destination = null, int $currentLevel = 0): mixed
     {
+        if ($currentLevel > $this->maxRecursionLevel) {
+            throw new RuntimeException("Достигнут максимальный уровень вложенности: {$this->maxRecursionLevel}");
+        }
+
         try {
-            $success = $this->performExtraction($filePath, $destination);
+            $success = $this->performExtraction($filePath, $destination, $currentLevel);
         } catch (\Throwable $throwable) {
             return call_user_func($this->failureCallback, $throwable, $filePath, $destination);
         }
@@ -190,7 +214,7 @@ class Extractor
      *
      * @return bool Result of the extraction.
      */
-    private function performExtraction(string $filePath, ?string $destination = null): bool
+    private function performExtraction(string $filePath, ?string $destination = null, int $currentLevel = 0): bool
     {
         $destination = $destination ?: dirname($filePath);
 
@@ -199,9 +223,23 @@ class Extractor
 
         $supportHandlers = array_filter($this->adapters, fn (ArchiveAdapterInterface $archive) => $archive->canSupport($filePath));
 
+
         // Attempt extraction with all added handlers.
         foreach ($supportHandlers as $handler) {
             if ($handler->extract($filePath, $destination, $this->passwordProvider)) {
+
+                // Проверяем наличие вложенных архивов и рекурсивно распаковываем их, если нужно
+                $extractedFiles = scandir($destination);
+
+                foreach ($extractedFiles as $extractedFile) {
+                    $fullPath = $destination . DIRECTORY_SEPARATOR . $extractedFile;
+
+                    if (is_file($fullPath)) {
+                        // Рекурсивный вызов метода extract для вложенного архива
+                        $this->performExtraction($fullPath, $destination, $currentLevel + 1);
+                    }
+                }
+
                 return true;
             }
         }

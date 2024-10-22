@@ -26,7 +26,7 @@ class TarArchiveAdapterTest extends TestCase
 
     public function testExtractionSuccess(): void
     {
-        $handler = new TarArchiveAdapter();
+        $handler = new TarArchiveAdapter;
 
         $result = $handler->extract(
             $this->getFixturesDir('tar/simple.txt.tar'),
@@ -41,9 +41,9 @@ class TarArchiveAdapterTest extends TestCase
     /*
      * Gzip распакует файл даже с абсурдными данными, то есть у него нет проверки на валидность.
      **/
-    public function testExtractionFailure():void
+    public function testExtractionFailure(): void
     {
-        $handler = new GzipArchiveAdapter();
+        $handler = new GzipArchiveAdapter;
 
         $result = $handler->extract(
             $this->getFixturesDir('gzip/invalid.gz'),

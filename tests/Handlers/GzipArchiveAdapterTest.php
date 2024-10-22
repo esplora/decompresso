@@ -33,7 +33,6 @@ class GzipArchiveAdapterTest extends TestCase
             $this->getPasswords()
         );
 
-
         $this->assertTrue($result);
         $this->assertFilesExtracted();
     }

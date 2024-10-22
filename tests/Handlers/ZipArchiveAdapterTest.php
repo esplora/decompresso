@@ -71,7 +71,7 @@ class ZipArchiveAdapterTest extends TestCase
     public function testRecursiveExtractionSuccess(): void
     {
         // Инициализация экстрактора с адаптером и уровнем рекурсии
-        $extractor = (new Extractor())
+        $extractor = (new Extractor)
             ->withAdapter(new ZipArchiveAdapter)
             ->recursive(30);  // Устанавливаем уровень рекурсии до 30
 

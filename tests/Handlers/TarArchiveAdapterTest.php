@@ -26,7 +26,7 @@ class TarArchiveAdapterTest extends TestCase
 
     public function testExtractionSuccess(): void
     {
-        $handler = new TarArchiveAdapter();
+        $handler = new TarArchiveAdapter;
 
         $result = $handler->extract(
             $this->getFixturesDir('tar/simple.txt.tar'),

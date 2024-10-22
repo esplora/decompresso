@@ -167,6 +167,7 @@ class Extractor
      * Устанавливает максимальный уровень рекурсии для вложенных архивов.
      *
      * @param int $levels Максимальное количество уровней вложенности.
+     *
      * @return $this
      */
     public function recursive(int $levels): self
@@ -223,7 +224,6 @@ class Extractor
 
         $supportHandlers = array_filter($this->adapters, fn (ArchiveAdapterInterface $archive) => $archive->canSupport($filePath));
 
-
         // Attempt extraction with all added handlers.
         foreach ($supportHandlers as $handler) {
             if ($handler->extract($filePath, $destination, $this->passwordProvider)) {
@@ -232,7 +232,7 @@ class Extractor
                 $extractedFiles = scandir($destination);
 
                 foreach ($extractedFiles as $extractedFile) {
-                    $fullPath = $destination . DIRECTORY_SEPARATOR . $extractedFile;
+                    $fullPath = $destination.DIRECTORY_SEPARATOR.$extractedFile;
 
                     if (is_file($fullPath)) {
                         // Рекурсивный вызов метода extract для вложенного архива

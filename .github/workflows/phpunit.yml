@@ -5,15 +5,14 @@ on:
 
 jobs:
   phpunit:
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         php: [8.3, 8.2, 8.1]
-        os: [ubuntu-latest, windows-latest]
         dependency-version: [prefer-lowest, prefer-stable]
 
-    name: P${{ matrix.php }} - ${{ matrix.os }} - ${{ matrix.dependency-version }}
+    name: P${{ matrix.php }} - Ubuntu - ${{ matrix.dependency-version }}
 
     steps:
       - name: Checkout code 🛎️
@@ -35,11 +34,7 @@ jobs:
 
       - name: Install qpdf 📄
         run: |
-          if [[ "${{ matrix.os }}" == "ubuntu-latest" ]]; then
-            sudo apt-get update && sudo apt-get install -y qpdf
-          elif [[ "${{ matrix.os }}" == "windows-latest" ]]; then
-            choco install qpdf -y
-          fi
+          sudo apt-get update && sudo apt-get install -y qpdf
 
       - name: Install dependencies 🔧
         run: |

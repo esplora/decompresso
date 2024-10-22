@@ -66,16 +66,16 @@ class LibreOfficeAdapter implements ArchiveAdapterInterface
     /**
      * Runs the LibreOffice command to convert the document.
      *
-     * @param string $filePath    Path to the office file.
-     * @param string $destination Path where the unlocked file will be saved.
-     * @param string|null $password Optional password to attempt for unlocking the office file.
+     * @param string      $filePath    Path to the office file.
+     * @param string      $destination Path where the unlocked file will be saved.
+     * @param string|null $password    Optional password to attempt for unlocking the office file.
      *
      * @return bool Returns true if the command was successful, false otherwise.
      */
     protected function tryDecrypting(string $filePath, string $destination, ?string $password = null): bool
     {
         // Ensure the destination directory exists or create it
-        if (!is_dir(dirname($destination)) && !mkdir(dirname($destination), 0777, true) && !is_dir(dirname($destination))) {
+        if (! is_dir(dirname($destination)) && ! mkdir(dirname($destination), 0777, true) && ! is_dir(dirname($destination))) {
             return false;
         }
 
@@ -89,7 +89,7 @@ class LibreOfficeAdapter implements ArchiveAdapterInterface
 
         // Add password option if provided
         if ($password !== null) {
-            $command[] = '--password=' . $password;
+            $command[] = '--password='.$password;
         }
 
         $process = new Process($command);

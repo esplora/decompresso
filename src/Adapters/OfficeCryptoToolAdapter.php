@@ -3,8 +3,8 @@
 namespace Esplora\Decompresso\Adapters;
 
 use Esplora\Decompresso\Concerns\SupportsMimeTypes;
-use Symfony\Component\Process\Process;
 use Esplora\Decompresso\Contracts\PasswordProviderInterface;
+use Symfony\Component\Process\Process;
 
 class OfficeCryptoToolAdapter
 {
@@ -23,7 +23,7 @@ class OfficeCryptoToolAdapter
             'application/vnd.openxmlformats-officedocument.presentationml.presentation', // PPTX
             'application/msword', // DOC
             'application/vnd.ms-excel', // XLS
-            'application/vnd.ms-powerpoint' // PPT
+            'application/vnd.ms-powerpoint', // PPT
         ];
     }
 
@@ -72,7 +72,7 @@ class OfficeCryptoToolAdapter
 
         // Add password option if provided
         if ($password !== null) {
-            $command[] = '--password=' . $password;
+            $command[] = '--password='.$password;
         }
 
         // Add file paths

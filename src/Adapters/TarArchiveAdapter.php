@@ -39,6 +39,11 @@ class TarArchiveAdapter implements ArchiveAdapterInterface
      */
     public function extract(string $filePath, string $destination, PasswordProviderInterface $passwords): bool
     {
+        // Ensure the destination directory exists or create it
+        if (! is_dir($destination) && ! mkdir($destination, 0777, true) && ! is_dir($destination)) {
+            return false;
+        }
+
         $tar = new PharData($filePath);
 
         $tar->extractTo($destination);

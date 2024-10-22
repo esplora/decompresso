@@ -12,18 +12,6 @@ class TarArchiveAdapterTest extends TestCase
 {
     use Cleanup;
 
-    /**
-     * Returns the expected list of files after extraction.
-     *
-     * @return array<string>
-     */
-    protected function getExpectedFiles(): array
-    {
-        return [
-            'simple.txt',
-        ];
-    }
-
     public function testExtractionSuccess(): void
     {
         $handler = new TarArchiveAdapter;
@@ -35,7 +23,9 @@ class TarArchiveAdapterTest extends TestCase
         );
 
         $this->assertTrue($result);
-        $this->assertFilesExtracted();
+        $this->assertFilesExtracted([
+            'simple.txt',
+        ]);
     }
 
     /*

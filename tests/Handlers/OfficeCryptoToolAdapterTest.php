@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace Esplora\Decompresso\Tests;
 
-use Esplora\Decompresso\Adapters\LibreOfficeAdapter;
+use Esplora\Decompresso\Adapters\OfficeCryptoToolAdapter;
 use Esplora\Decompresso\Adapters\ZipArchiveAdapter;
 use Esplora\Decompresso\Providers\ArrayPasswordProvider;
 use PHPUnit\Framework\TestCase;
 
-class LibreOfficeAdapterTest extends TestCase
+class OfficeCryptoToolAdapterTest extends TestCase
 {
     use Cleanup;
 
     public function testExtractionSuccessWithPasswordPPTX(): void
     {
-        $archivePath = $this->getFixturesDir('libre-office/protected.pptx');
+        $archivePath = $this->getFixturesDir('office-crypto/protected.pptx');
 
-        $handler = new LibreOfficeAdapter;
+        $handler = new OfficeCryptoToolAdapter();
 
         $result = $handler->extract($archivePath, $this->getExtractionPath(), $this->getPasswords());
 

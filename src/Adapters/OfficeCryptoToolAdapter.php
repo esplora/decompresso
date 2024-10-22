@@ -3,10 +3,11 @@
 namespace Esplora\Decompresso\Adapters;
 
 use Esplora\Decompresso\Concerns\SupportsMimeTypes;
+use Esplora\Decompresso\Contracts\ArchiveAdapterInterface;
 use Esplora\Decompresso\Contracts\PasswordProviderInterface;
 use Symfony\Component\Process\Process;
 
-class OfficeCryptoToolAdapter
+class OfficeCryptoToolAdapter implements ArchiveAdapterInterface
 {
     use SupportsMimeTypes;
 
@@ -36,7 +37,7 @@ class OfficeCryptoToolAdapter
      *
      * @return bool Returns true if decryption was successful, false otherwise.
      */
-    public function decrypt(string $filePath, string $destination, PasswordProviderInterface $passwords): bool
+    public function extract(string $filePath, string $destination, PasswordProviderInterface $passwords): bool
     {
         // First, try to open the file without a password
         if ($this->tryDecrypting($filePath, $destination)) {

@@ -105,7 +105,7 @@ class Extractor
      *
      * @return $this For method chaining.
      */
-    public function withAdapters(array $handlers): self
+    public function withAdapters(iterable $handlers): self
     {
         foreach ($handlers as $handler) {
             $this->withAdapter($handler);

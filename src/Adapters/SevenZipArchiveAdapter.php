@@ -5,6 +5,7 @@ namespace Esplora\Decompresso\Adapters;
 use Esplora\Decompresso\Concerns\SupportsMimeTypes;
 use Esplora\Decompresso\Contracts\ArchiveAdapterInterface;
 use Esplora\Decompresso\Contracts\PasswordProviderInterface;
+use Symfony\Component\Process\Process;
 
 /**
  * Handler for 7-Zip archive files.
@@ -64,18 +65,15 @@ class SevenZipArchiveAdapter implements ArchiveAdapterInterface
      */
     protected function tryExtract(string $filePath, string $destination, ?string $password = null): bool
     {
-        // Form the extraction command
-        $command = sprintf(
-            '7z x %s -o%s %s -y',
-            escapeshellarg($filePath),
-            escapeshellarg($destination),
-            $password ? '-p'.escapeshellarg($password) : ''
-        );
+        $command = ['7z', 'x', $filePath, '-o'.$destination, '-y'];
 
-        // Execute the command
-        exec($command, $output, $returnVar);
+        if ($password) {
+            $command[] = '-p'.$password;
+        }
 
-        // Check if the command was successful
-        return $returnVar === 0;
+        $process = new Process($command);
+        $process->run();
+
+        return $process->isSuccessful();
     }
 }

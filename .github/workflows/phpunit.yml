@@ -8,3 +8,4 @@ jobs:
     uses: esplora/.github/.github/workflows/phpunit-for-laravel.yaml@main
     with:
       php: '[ "8.3", "8.2", "8.1" ]'
+      install-tools: '["qpdf"]'

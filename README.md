@@ -1,131 +1,116 @@
-# <img src=".github/logo.svg?sanitize=true" width="32" height="32" alt="Decompresso"> Decompresso
+# <img src=".github/logo.svg?sanitize=true" width="32" height="32" alt="Lumos"> Lumos
 
 [![Tests](https://github.com/esplora/decompresso/actions/workflows/phpunit.yml/badge.svg)](https://github.com/esplora/decompresso/actions/workflows/phpunit.yml)
 [![Psalm](https://github.com/esplora/decompresso/actions/workflows/psalm.yml/badge.svg)](https://github.com/esplora/decompresso/actions/workflows/psalm.yml)
 
-Decompresso is a library designed for extracting contents from various archive formats, providing flexibility and ease
-of use, including support for password-protected archives.
+Lumos is a universal library designed to provide a unified interface for processing various file types. Whether you need to unlock passwords from office documents or extract contents from compressed archives, Lumos simplifies these tasks with ease and efficiency.
 
 ## Features
 
-- **Password-Protected Archives**: Handle encrypted archives with various methods for supplying passwords.
-- **Flexible Handler System**: Easily add and configure handlers for different archive formats.
-- **Intuitive Interface**: Utilize a fluent API for convenient configuration and handling of successful or failed
-  extraction events.
+- **Unlock Password-Protected Files**: Remove passwords from encrypted office documents (PDF, DOC, etc.) effortlessly.
+- **Extract Archives**: Unpack various archive formats (ZIP, RAR, etc.), including those secured with passwords.
+- **Flexible Handler System**: Easily add and configure handlers for different file formats and operations.
+- **Intuitive Interface**: Utilize a fluent API for convenient configuration and handling of successful or failed operations.
 
 ## Installation
 
 Install the library using Composer:
 
 ```bash
-composer require esplora/decompresso
+composer require esplora/lumos
 ```
 
 ## Usage
 
-To get started, create an instance of the `Extractor` class and add the necessary handlers for archive formats. The
-example below demonstrates using `ZipArchiveAdapter` for ZIP files, but you can add your own handlers or use built-in
-ones.
+To get started, create an instance of the `FileProcessor` class and add the necessary handlers for file formats. The example below demonstrates using `ZipArchiveAdapter` for ZIP files, but you can add your own handlers or use built-in ones.
 
 ```php
-use Esplora\Decompresso\Extractor;
-use Esplora\Decompresso\Adapters\ZipArchiveAdapter;
-use Esplora\Decompresso\Adapters\GzipArchiveAdapter;
+use Esplora\Lumos\FileProcessor;
+use Esplora\Lumos\Adapters\ZipArchiveAdapter;
+use Esplora\Lumos\Adapters\GzipArchiveAdapter;
 
-// Create a new Extractor instance to manage the extraction process
-$extractor = new Extractor();
+// Create a new FileProcessor instance to manage file processing
+$fileProcessor = new FileProcessor();
 
-// Specify which archive handlers will be used
-$extractor->withAdapters([
+// Specify which file handlers will be used
+$fileProcessor->withAdapters([
     new ZipArchiveAdapter(),
     new GzipArchiveAdapter(),
 ]);
 
-// Returns a boolean depending on the outcome of the extraction process
-$extractor->extract('/path/to/your/archive.zip', '/path/to/extract/to');
+// Process a file (returns a boolean depending on the outcome)
+$fileProcessor->process('/path/to/your/archive.zip', '/path/to/extract/to');
 ```
 
-### Handling Password-Protected Archives
+### Handling Password-Protected Files
 
-To work with password-protected archives, add a password provider. The example below uses `ArrayPasswordProvider`, which
-accepts an array of passwords.
+To work with password-protected documents, add a password provider. The example below uses `ArrayPasswordProvider`, which accepts an array of passwords.
 
 ```php
-use Esplora\Decompresso\Extractor;
-use Esplora\Decompresso\Adapters\ZipArchiveAdapter;
-use Esplora\Decompresso\Adapters\GzipArchiveAdapter;
-use Esplora\Decompresso\Providers\ArrayPasswordProvider;
+use Esplora\Lumos\FileProcessor;
+use Esplora\Lumos\Adapters\ZipArchiveAdapter;
+use Esplora\Lumos\Providers\ArrayPasswordProvider;
 
-$extractor = new Extractor();
+$fileProcessor = new FileProcessor();
 
-$extractor
+$fileProcessor
     ->withPasswords(new ArrayPasswordProvider([
         'qwerty',
         'xxx123',
     ]))
     ->withAdapters([
         new ZipArchiveAdapter(),
-        new GzipArchiveAdapter(),
+        // Add more adapters as needed
     ]);
 
-// Returns a boolean depending on the outcome of the extraction process
-$extractor->extract('/path/to/your/archive.zip', '/path/to/extract/to');
+// Process the file and returns a boolean depending on the outcome
+$fileProcessor->process('/path/to/your/document.docx', '/path/to/save/to');
 ```
 
-If needed, you can create your own password provider by implementing the `PasswordProviderInterface`. For example,
-a `DataBasePasswordProvider` could be created for fetching passwords from a database with caching.
-
-> [!TIP]
->  If you don’t have a password database but want to try all possible combinations, you can
-use [SecLists](https://github.com/danielmiessler/SecLists/tree/master/Passwords) as a source of popular passwords for
-brute-forcing.
+If needed, you can create your own password provider by implementing the `PasswordProviderInterface`.
 
 ### Event Handling
 
-For more control over the extraction process, you can add event handlers. This allows you to receive information about
-the reasons for extraction failures or respond to successful completions.
+For more control over the file processing, you can add event handlers. This allows you to receive information about the reasons for failures or respond to successful completions.
 
 ```php
-use Esplora\Decompresso\Extractor;
-use Esplora\Decompresso\Handlers\ZipArchiveHandler;
-use Esplora\Decompresso\Handlers\GzipArchiveHandler;
-use Esplora\Decompresso\Providers\ArrayPasswordProvider;
+use Esplora\Lumos\FileProcessor;
+use Esplora\Lumos\Handlers\ZipArchiveHandler;
+use Esplora\Lumos\Providers\ArrayPasswordProvider;
 
-$extractor = new Extractor();
+$fileProcessor = new FileProcessor();
 
-$extractor
+$fileProcessor
     ->withPasswords(new ArrayPasswordProvider([
         'qwerty',
         'xxx123',
     ]))
     ->withAdapters([
         new ZipArchiveAdapter(),
-        new GzipArchiveAdapter(),
+        // Add more adapters as needed
     ])
     
-    // Define logic to execute on successful extraction
+    // Define logic to execute on successful processing
     ->onSuccess(fn() => true)
     
-    // Handle cases where extraction fails due to an incorrect password
+    // Handle cases where processing fails due to an incorrect password
     ->onPasswordFailure(fn() => false)
     
-    // Handle any other errors encountered during extraction
+    // Handle any other errors encountered during processing
     ->onFailure(fn() => false)
 
-// Extracts the archive and returns the result of the closure
-$extractor->extract('/path/to/your/archive.zip', '/path/to/extract/to');
+// Processes the file and returns the result of the closure
+$fileProcessor->process('/path/to/your/archive.zip', '/path/to/extract/to');
 ```
 
 ## TODO
 
-- [x] Добавить файл ответа, который бы разделял "не смогли распоковать" из-за ошибки и "не смогли распоковать так как не
-  подошёл пароль"
-- [ ] Добавить обработчик для RAR-архивов
-- [ ] Добавить обработчик для 7z-архивов
-- [x] Добавить проверку целостности в тестах
-- [x] Ввести проверку на расширение файла для обработчика, что бы он пропускал файлы не поддерживаемых форматов
-- [ ] Подумать над тем, чо бы передавать сразу MIME-type в обработчик, а не создавать его каждый раз. - Нет. Будет
-  нарушение ответственности.
+- [x] Добавить файл ответа, который бы разделял "не смогли обработать" из-за ошибки и "не смогли обработать так как не подошёл пароль".
+- [ ] Добавить обработчик для RAR-архивов.
+- [ ] Добавить обработчик для 7z-архивов.
+- [x] Добавить проверку целостности в тестах.
+- [x] Ввести проверку на расширение файла для обработчика, чтобы он пропускал файлы неподдерживаемых форматов.
+- [ ] Подумать над тем, чтобы передавать сразу MIME-type в обработчик, а не создавать его каждый раз. - Нет. Будет нарушение ответственности.
 - [x] Не обращаться к провайдеру паролей, если он не нужен.
 - [ ] Нужно обновить комментарии! Про пароль тоже!
 

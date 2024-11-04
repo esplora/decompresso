@@ -12,6 +12,18 @@ Lumos is a universal library designed to provide a unified interface for process
 - **Flexible Handler System**: Easily add and configure handlers for different file formats and operations.
 - **Intuitive Interface**: Utilize a fluent API for convenient configuration and handling of successful or failed operations.
 
+
+## External Dependencies
+
+Lumos relies on the following third-party tools for specific operations:
+
+| **File Type**         | **Tool**                     | **Description**                              |
+|-----------------------|------------------------------|----------------------------------------------|
+| PDF                   | [qpdf](https://github.com/qpdf/qpdf) | Handles processing and unlocking of PDF files. |
+| Office Formats (DOCX) | [msoffcrypto-tool](https://github.com/msoffice/msoffcrypto-tool) | Manages decryption of Microsoft Office files. |
+| Archive Formats       | Built-in PHP classes         | Uses PHP's ZipArchive and custom adapters for various archive formats. |
+
+
 ## Installation
 
 Install the library using Composer:

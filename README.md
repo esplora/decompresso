@@ -20,8 +20,8 @@ Lumos relies on the following third-party tools for specific operations:
 | **File Type**         | **Tool**                     | **Description**                              |
 |-----------------------|------------------------------|----------------------------------------------|
 | PDF                   | [qpdf](https://github.com/qpdf/qpdf) | Handles processing and unlocking of PDF files. |
-| Office Formats (DOCX) | [msoffcrypto-tool](https://github.com/msoffice/msoffcrypto-tool) | Manages decryption of Microsoft Office files. |
-| Archive Formats       | Built-in PHP classes         | Uses PHP's ZipArchive and custom adapters for various archive formats. |
+| Office Formats        | [msoffcrypto-tool](https://github.com/msoffice/msoffcrypto-tool) | Manages decryption of Microsoft Office files. |
+| Zip Archive           | Built-in PHP classes         | Uses PHP's ZipArchive. |
 
 
 ## Installation

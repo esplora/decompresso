@@ -14,8 +14,6 @@ abstract class AdapterTests extends TestCase
 
     /**
      * Returns a list of passwords for testing.
-     *
-     * @return ArrayPasswordProvider
      */
     protected function getPasswords(): ArrayPasswordProvider
     {
@@ -30,7 +28,7 @@ abstract class AdapterTests extends TestCase
     protected function setUp(): void
     {
         $dotenv = \Dotenv\Dotenv::createImmutable(__DIR__.'/../');
-        $dotenv->load();
+        $dotenv->safeLoad();
 
         parent::setUp();
 
@@ -47,10 +45,6 @@ abstract class AdapterTests extends TestCase
 
     /**
      * Asserts that each file has been extracted.
-     *
-     * @param iterable $files
-     *
-     * @return void
      */
     protected function assertFilesExtracted(iterable $files = []): void
     {
@@ -80,8 +74,6 @@ abstract class AdapterTests extends TestCase
 
     /**
      * Asserts that each file has not been extracted.
-     *
-     * @return void
      */
     protected function assertFilesDoesExtracted(): void
     {

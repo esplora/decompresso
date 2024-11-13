@@ -20,11 +20,11 @@ with ease and efficiency.
 
 Lumos relies on the following third-party tools for specific operations:
 
-| **File Type**     | **Tool**                                                         | **Purpose**                                                |
-|-------------------|------------------------------------------------------------------|------------------------------------------------------------|
-| PDF               | [qpdf](https://github.com/qpdf/qpdf)                             | Unlocks and processes encrypted or protected PDF files.    |
-| Microsoft Office  | [msoffcrypto-tool](https://github.com/msoffice/msoffcrypto-tool) | Decrypts password-protected Microsoft Office documents.    |
-| Archive (ZIP, 7z) | [7-zip](https://www.7-zip.org/)                                  | Extracts and decrypts compressed archives (ZIP, 7z, etc.). |
+| **File Type**     | **Tool**                                                         | **Purpose**                                             | **Adapter Class**                                |
+|-------------------|------------------------------------------------------------------|---------------------------------------------------------|--------------------------------------------------|
+| PDF               | [qpdf](https://github.com/qpdf/qpdf)                             | Unlocks and processes encrypted or protected PDF files. | Esplora\Lumos\Adapters\QpdfAdapter               |
+| Microsoft Office  | [msoffcrypto-tool](https://github.com/msoffice/msoffcrypto-tool) | Decrypts password-protected Microsoft Office documents. | Esplora\Lumos\Adapters\MSOfficeCryptoToolAdapter |
+| Archive (ZIP, 7z) | [7-zip](https://www.7-zip.org/)                                  | Extracts and decrypts compressed archives               | Esplora\Lumos\Adapters\SevenZipAdapter           |
 
 ## Installation
 

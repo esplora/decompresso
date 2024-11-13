@@ -77,7 +77,7 @@ class MSOfficeCryptoToolAdapter implements AdapterInterface
         }
 
         // Need save the file with the same name
-        $destination = $destination . basename($filePath);
+        $destination = $destination.basename($filePath);
 
         $command = [
             $this->bin,

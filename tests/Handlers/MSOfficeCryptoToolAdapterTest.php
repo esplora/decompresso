@@ -15,7 +15,7 @@ class MSOfficeCryptoToolAdapterTest extends AdapterTests
      */
     protected function adepter(): AdapterInterface
     {
-        return new MSOfficeCryptoToolAdapter();
+        return new MSOfficeCryptoToolAdapter;
     }
 
     public function testExtractionSuccessWithPasswordPPT(): void

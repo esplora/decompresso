@@ -16,7 +16,7 @@ class SevenZipAdapterTest extends AdapterTests
     protected function adepter(): AdapterInterface
     {
         return new SevenZipAdapter(
-            $_SERVER['SEVEN_ZIP_BIN_PATH']  ?? '7z'
+            $_SERVER['SEVEN_ZIP_BIN_PATH'] ?? '7z'
         );
     }
 

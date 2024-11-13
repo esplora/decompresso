@@ -16,7 +16,7 @@ class QpdfAdapterTest extends AdapterTests
     protected function adepter(): AdapterInterface
     {
         return new QpdfAdapter(
-            $_SERVER['QPDF_BIN_PATH']  ?? 'qpdf'
+            $_SERVER['QPDF_BIN_PATH'] ?? 'qpdf'
         );
     }
 

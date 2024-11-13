@@ -2,16 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Esplora\Decompresso\Tests\Concerns;
+namespace Esplora\Lumos\Tests\Concerns;
 
-use Esplora\Decompresso\Concerns\SupportsFileSize;
-use Esplora\Decompresso\Tests\Cleanup;
+use Esplora\Lumos\Concerns\SupportsFileSize;
+use Esplora\Lumos\Tests\Cleanup;
 use PHPUnit\Framework\TestCase;
 
 class SupportsFileSizeTest extends TestCase
 {
-    use Cleanup;
-
     public function testFileSizeBelowLimit(): void
     {
         $instance = new class
@@ -24,7 +22,7 @@ class SupportsFileSizeTest extends TestCase
             }
         };
 
-        $this->assertFalse($instance->canSupport($this->getFixturesDir('/zip/protected.zip')));
+        $this->assertFalse($instance->canSupport(__DIR__ . '/../fixtures//zip/protected.zip'));
     }
 
     public function testFileSizeWithinLimit(): void
@@ -39,6 +37,6 @@ class SupportsFileSizeTest extends TestCase
             }
         };
 
-        $this->assertTrue($instance->canSupport($this->getFixturesDir('/zip/protected.zip')));
+        $this->assertTrue($instance->canSupport(__DIR__ . '/../fixtures/zip/protected.zip'));
     }
 }

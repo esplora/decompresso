@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Esplora\Decompresso\Tests;
+namespace Esplora\Lumos\Tests;
 
-use Esplora\Decompresso\Contracts\ArchiveAdapterInterface;
-use Esplora\Decompresso\Contracts\PasswordProviderInterface;
-use Esplora\Decompresso\Extractor;
+use Esplora\Lumos\Contracts\AdapterInterface;
+use Esplora\Lumos\Contracts\PasswordProviderInterface;
+use Esplora\Lumos\Extractor;
 use PHPUnit\Framework\TestCase;
 
 class ExtractorTest extends TestCase
@@ -27,7 +27,7 @@ class ExtractorTest extends TestCase
         $passwordProvider = $this->createMock(PasswordProviderInterface::class);
         $passwordProvider->method('getPasswords')->willReturn(['123', 'xxx123']);
 
-        $archiveHandler = $this->createMock(ArchiveAdapterInterface::class);
+        $archiveHandler = $this->createMock(AdapterInterface::class);
         $archiveHandler->method('extract')
             ->willReturn(true);
 
@@ -49,7 +49,7 @@ class ExtractorTest extends TestCase
         $passwordProvider = $this->createMock(PasswordProviderInterface::class);
         $passwordProvider->method('getPasswords')->willReturn(['123', 'xxx123']);
 
-        $archiveHandler = $this->createMock(ArchiveAdapterInterface::class);
+        $archiveHandler = $this->createMock(AdapterInterface::class);
         $archiveHandler->method('extract')
             ->willReturn(false); // Simulate extraction failure due to incorrect password
 
@@ -70,7 +70,7 @@ class ExtractorTest extends TestCase
         $passwordProvider = $this->createMock(PasswordProviderInterface::class);
         $passwordProvider->method('getPasswords')->willReturn(['123', 'xxx123']);
 
-        $archiveHandler = $this->createMock(ArchiveAdapterInterface::class);
+        $archiveHandler = $this->createMock(AdapterInterface::class);
         $archiveHandler->method('canSupport')
             ->willReturn(true);
 
@@ -94,14 +94,14 @@ class ExtractorTest extends TestCase
         $passwordProvider = $this->createMock(PasswordProviderInterface::class);
         $passwordProvider->method('getPasswords')->willReturn(['123', 'xxx123']);
 
-        $archiveHandler = $this->createMock(ArchiveAdapterInterface::class);
+        $archiveHandler = $this->createMock(AdapterInterface::class);
         $archiveHandler->method('canSupport')
             ->willReturn(true);
 
         $archiveHandler->method('extract')
             ->willReturn(true);
 
-        $archiveHandlerOther = $this->createMock(ArchiveAdapterInterface::class);
+        $archiveHandlerOther = $this->createMock(AdapterInterface::class);
         $archiveHandlerOther->method('canSupport')
             ->willReturn(true);
 
@@ -128,7 +128,7 @@ class ExtractorTest extends TestCase
         $passwordProvider->method('getPasswords')
             ->willThrowException(new \RuntimeException('Passwords should not be requested when not needed'));
 
-        $archiveHandler = $this->createMock(ArchiveAdapterInterface::class);
+        $archiveHandler = $this->createMock(AdapterInterface::class);
         $archiveHandler->method('extract')
             ->willReturn(true);
 

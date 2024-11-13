@@ -1,8 +1,8 @@
 <?php
 
-namespace Esplora\Decompresso\Providers;
+namespace Esplora\Lumos\Providers;
 
-use Esplora\Decompresso\Contracts\PasswordProviderInterface;
+use Esplora\Lumos\Contracts\PasswordProviderInterface;
 
 /**
  * Password provider that returns passwords from an array.

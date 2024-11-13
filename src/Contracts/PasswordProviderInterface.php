@@ -1,6 +1,6 @@
 <?php
 
-namespace Esplora\Decompresso\Contracts;
+namespace Esplora\Lumos\Contracts;
 
 /**
  * Interface for providing passwords.

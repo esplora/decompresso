@@ -1,15 +1,22 @@
 <?php
 
-namespace Esplora\Decompresso\Adapters;
+namespace Esplora\Lumos\Adapters;
 
-use Esplora\Decompresso\Concerns\SupportsMimeTypes;
-use Esplora\Decompresso\Contracts\ArchiveAdapterInterface;
-use Esplora\Decompresso\Contracts\PasswordProviderInterface;
+use Esplora\Lumos\Concerns\SupportsMimeTypes;
+use Esplora\Lumos\Contracts\AdapterInterface;
+use Esplora\Lumos\Contracts\PasswordProviderInterface;
 use Symfony\Component\Process\Process;
 
-class OfficeCryptoToolAdapter implements ArchiveAdapterInterface
+class MSOfficeCryptoToolAdapter implements AdapterInterface
 {
     use SupportsMimeTypes;
+
+    /**
+     * @param string $bin
+     */
+    public function __construct(protected string $bin = 'msoffcrypto-tool')
+    {
+    }
 
     /**
      * Returns the list of supported MIME types.
@@ -67,7 +74,7 @@ class OfficeCryptoToolAdapter implements ArchiveAdapterInterface
     protected function tryDecrypting(string $filePath, string $destination, ?string $password = null): bool
     {
         $command = [
-            'msoffcrypto-tool',
+            $this->bin,
             '--decrypt',
         ];
 
@@ -79,6 +86,21 @@ class OfficeCryptoToolAdapter implements ArchiveAdapterInterface
         // Add file paths
         $command[] = $filePath;
         $command[] = $destination;
+
+        $process = new Process($command);
+        $process->run();
+
+        return $process->isSuccessful();
+    }
+
+    /**
+     * Checks if the required tools or libraries are installed for this adapter.
+     *
+     * @return bool Returns true if the environment is properly configured, false otherwise.
+     */
+    public function isSupportedEnvironment(): bool
+    {
+        $command = [$this->bin, '-v'];
 
         $process = new Process($command);
         $process->run();

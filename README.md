@@ -38,16 +38,16 @@ To get started, create an instance of the `FileProcessor` class and add the nece
 
 ```php
 use Esplora\Lumos\FileProcessor;
-use Esplora\Lumos\Adapters\ZipArchiveAdapter;
-use Esplora\Lumos\Adapters\GzipArchiveAdapter;
+use Esplora\Lumos\Adapters\ZipAdapter;
+use Esplora\Lumos\Adapters\GzipAdapter;
 
 // Create a new FileProcessor instance to manage file processing
 $fileProcessor = new FileProcessor();
 
 // Specify which file handlers will be used
 $fileProcessor->withAdapters([
-    new ZipArchiveAdapter(),
-    new GzipArchiveAdapter(),
+    new ZipAdapter(),
+    new GzipAdapter(),
 ]);
 
 // Process a file (returns a boolean depending on the outcome)
@@ -60,7 +60,7 @@ To work with password-protected documents, add a password provider. The example 
 
 ```php
 use Esplora\Lumos\FileProcessor;
-use Esplora\Lumos\Adapters\ZipArchiveAdapter;
+use Esplora\Lumos\Adapters\ZipAdapter;
 use Esplora\Lumos\Providers\ArrayPasswordProvider;
 
 $fileProcessor = new FileProcessor();
@@ -71,7 +71,7 @@ $fileProcessor
         'xxx123',
     ]))
     ->withAdapters([
-        new ZipArchiveAdapter(),
+        new ZipAdapter(),
         // Add more adapters as needed
     ]);
 

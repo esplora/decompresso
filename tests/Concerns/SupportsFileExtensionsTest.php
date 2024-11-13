@@ -2,16 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Esplora\Decompresso\Tests\Concerns;
+namespace Esplora\Lumos\Tests\Concerns;
 
-use Esplora\Decompresso\Concerns\SupportsFileExtensions;
-use Esplora\Decompresso\Tests\Cleanup;
+use Esplora\Lumos\Concerns\SupportsFileExtensions;
+use Esplora\Lumos\Tests\Cleanup;
 use PHPUnit\Framework\TestCase;
 
 class SupportsFileExtensionsTest extends TestCase
 {
-    use Cleanup;
-
     public function testIsFileExtensionAllowed(): void
     {
         $instance = new class

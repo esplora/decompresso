@@ -1,13 +1,13 @@
 <?php
 
-namespace Esplora\Decompresso\Contracts;
+namespace Esplora\Lumos\Contracts;
 
 /**
  * Interface for handling archive files.
  *
  * This interface must be implemented by classes that can extract archives of various formats.
  */
-interface ArchiveAdapterInterface
+interface AdapterInterface
 {
     /**
      * Checks if the handler can support the given archive format.
@@ -19,6 +19,13 @@ interface ArchiveAdapterInterface
      * @return bool Returns true if the archive format is supported, false otherwise.
      */
     public function canSupport(string $filePath): bool;
+
+    /**
+     * Checks if the required tools or libraries are installed for this adapter.
+     *
+     * @return bool Returns true if the environment is properly configured, false otherwise.
+     */
+    public function isSupportedEnvironment(): bool;
 
     /**
      * Extracts the contents of the archive to the specified location.

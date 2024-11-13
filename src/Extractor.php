@@ -1,10 +1,10 @@
 <?php
 
-namespace Esplora\Decompresso;
+namespace Esplora\Lumos;
 
-use Esplora\Decompresso\Contracts\ArchiveAdapterInterface;
-use Esplora\Decompresso\Contracts\PasswordProviderInterface;
-use Esplora\Decompresso\Providers\ArrayPasswordProvider;
+use Esplora\Lumos\Contracts\AdapterInterface;
+use Esplora\Lumos\Contracts\PasswordProviderInterface;
+use Esplora\Lumos\Providers\ArrayPasswordProvider;
 use RuntimeException;
 
 /**
@@ -25,7 +25,7 @@ class Extractor
     /**
      * Array of archive handlers for extracting archives.
      *
-     * @var ArchiveAdapterInterface[]
+     * @var AdapterInterface[]
      */
     protected array $adapters = [];
 
@@ -87,11 +87,11 @@ class Extractor
     /**
      * Adds an archive handler to support different archive formats.
      *
-     * @param ArchiveAdapterInterface $handler The archive handler.
+     * @param AdapterInterface $handler The archive handler.
      *
      * @return $this For method chaining.
      */
-    public function withAdapter(ArchiveAdapterInterface $handler): self
+    public function withAdapter(AdapterInterface $handler): self
     {
         $this->adapters[] = $handler;
 
@@ -101,7 +101,7 @@ class Extractor
     /**
      * Adds multiple archive handlers.
      *
-     * @param ArchiveAdapterInterface[] $handlers Array of archive handlers.
+     * @param AdapterInterface[] $handlers Array of archive handlers.
      *
      * @return $this For method chaining.
      */
@@ -197,7 +197,7 @@ class Extractor
         // Create destination directory if it does not exist
         // $this->ensureDirectoryExists($destination);
 
-        $supportHandlers = array_filter($this->adapters, fn (ArchiveAdapterInterface $archive) => $archive->canSupport($filePath));
+        $supportHandlers = array_filter($this->adapters, fn (AdapterInterface $archive) => $archive->canSupport($filePath));
 
         // Attempt extraction with all added handlers.
         foreach ($supportHandlers as $handler) {

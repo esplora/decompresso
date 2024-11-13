@@ -1,14 +1,15 @@
 <?php
 
-namespace Esplora\Decompresso\Tests;
+namespace Esplora\Lumos\Tests;
 
-use Esplora\Decompresso\Providers\ArrayPasswordProvider;
+use Esplora\Lumos\Contracts\AdapterInterface;
+use Esplora\Lumos\Providers\ArrayPasswordProvider;
+use PHPUnit\Framework\TestCase;
 
-/**
- * Trait for directory operations in tests.
- */
-trait Cleanup
+abstract class AdapterTests extends TestCase
 {
+    abstract protected function adepter(): AdapterInterface;
+
     /**
      * Returns the full path to the fixtures directory.
      *
@@ -18,7 +19,7 @@ trait Cleanup
      */
     protected function getFixturesDir(string $path): string
     {
-        return __DIR__.'/fixtures/'.$path;
+        return __DIR__ . '/fixtures/' . $path;
     }
 
     /**
@@ -30,7 +31,7 @@ trait Cleanup
      */
     protected function getReferenceDir(string $path): string
     {
-        return __DIR__.'/fixtures/reference/'.$path;
+        return __DIR__ . '/fixtures/reference/' . $path;
     }
 
     /**
@@ -42,7 +43,7 @@ trait Cleanup
      */
     protected function getExtractionPath(string $path = ''): string
     {
-        return __DIR__.'/extracted/'.$path;
+        return __DIR__ . '/extracted/' . $path;
     }
 
     /**
@@ -66,13 +67,13 @@ trait Cleanup
      */
     private function deleteDir(string $dir): void
     {
-        if (! is_dir($dir)) {
+        if (!is_dir($dir)) {
             return;
         }
 
         $items = array_diff(scandir($dir), ['.', '..']);
         foreach ($items as $item) {
-            $path = $dir.DIRECTORY_SEPARATOR.$item;
+            $path = $dir . DIRECTORY_SEPARATOR . $item;
             if (is_dir($path)) {
                 $this->deleteDir($path);
             } else {
@@ -86,6 +87,10 @@ trait Cleanup
     {
         parent::setUp();
         $this->deleteDir($this->getExtractionPath());
+
+        if (!$this->adepter()->isSupportedEnvironment()) {
+            $this->markTestSkipped($this->adepter()::class . ' is not supported.');
+        }
     }
 
     protected function tearDown(): void

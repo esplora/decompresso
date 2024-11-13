@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Esplora\Decompresso\Concerns;
+namespace Esplora\Lumos\Concerns;
 
 use Symfony\Component\Mime\MimeTypes;
 

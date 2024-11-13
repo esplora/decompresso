@@ -1,6 +1,6 @@
 {
-    "name": "esplora/decompresso",
-    "description": "PHP library for extracting contents from various archive formats with ease.",
+    "name": "esplora/lumos",
+    "description": "PHP library for unlock contents from various files with ease.",
     "type": "library",
     "keywords": ["decompression", "archives", "extracting"],
     "license": "MIT",
@@ -13,15 +13,14 @@
         }
     ],
     "require": {
-        "symfony/mime": "^6.4|^7.1",
+        "symfony/mime": "^7.1",
         "symfony/process": "^7.1",
-        "symfony/var-dumper": "^6.4|^7.1"
+        "symfony/var-dumper": "^7.1"
     },
     "require-dev": {
         "ext-zlib": "*",
         "laravel/pint": "^1.17",
-        "phpunit/phpunit": "^10.5",
-        "vimeo/psalm": "^5.0"
+        "phpunit/phpunit": "^10.5"
     },
     "suggest": {
         "ext-rar": "Required for RAR archives support.",
@@ -30,12 +29,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Esplora\\Decompresso\\": "src/"
+            "Esplora\\Lumos\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Esplora\\Decompresso\\Tests\\": "tests/"
+            "Esplora\\Lumos\\Tests\\": "tests/"
         }
     },
     "config": {

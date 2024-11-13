@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Esplora\Decompresso\Tests\Concerns;
+namespace Esplora\Lumos\Tests\Concerns;
 
-use Esplora\Decompresso\Concerns\SupportsAlways;
+use Esplora\Lumos\Concerns\SupportsAlways;
 use PHPUnit\Framework\TestCase;
 
 class SupportsAlwaysTest extends TestCase

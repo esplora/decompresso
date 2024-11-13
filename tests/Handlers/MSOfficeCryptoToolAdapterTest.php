@@ -15,24 +15,29 @@ class MSOfficeCryptoToolAdapterTest extends AdapterTests
      */
     protected function adepter(): AdapterInterface
     {
-        return new MSOfficeCryptoToolAdapter;
+        return new MSOfficeCryptoToolAdapter();
     }
 
-    public function testExtractionSuccessWithPasswordPPTX(): void
+    public function testExtractionSuccessWithPasswordPPT(): void
     {
-        $archivePath = $this->getFixturesDir('office-crypto/protected.pptx');
+        $archivePath = $this->getFixturesDir('office-crypto/protected.ppt');
 
-        $result = $this->adepter()->extract($archivePath, $this->getExtractionPath(), $this->getPasswords());
+        $result = $this->adepter()
+            ->extract(
+                $archivePath,
+                $this->getExtractionPath(),
+                $this->getPasswords()
+            );
 
         $this->assertTrue($result);
         $this->assertFilesExtracted([
-            'protected.pptx',
+            'protected.ppt',
         ]);
     }
 
     public function testExtractionFailureOnPassword(): void
     {
-        $archivePath = $this->getFixturesDir('office-crypto/protected.pptx');
+        $archivePath = $this->getFixturesDir('office-crypto/protected.ppt');
 
         $result = $this->adepter()->extract($archivePath, $this->getExtractionPath(), new ArrayPasswordProvider([
             'wrongpassword',

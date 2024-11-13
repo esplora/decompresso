@@ -71,6 +71,14 @@ class MSOfficeCryptoToolAdapter implements AdapterInterface
      */
     protected function tryDecrypting(string $filePath, string $destination, ?string $password = null): bool
     {
+        // Ensure the destination directory exists or create it
+        if (! is_dir($destination) && ! mkdir($destination, 0777, true) && ! is_dir($destination)) {
+            return false;
+        }
+
+        // Need save the file with the same name
+        $destination = $destination . basename($filePath);
+
         $command = [
             $this->bin,
             $filePath,
@@ -80,8 +88,6 @@ class MSOfficeCryptoToolAdapter implements AdapterInterface
         // Add password option if provided
         if ($password !== null) {
             $command[] = '--password='.$password;
-        } else {
-            $command[] = '--test';
         }
 
         $process = new Process($command);

@@ -98,7 +98,7 @@ class MSOfficeCryptoToolAdapter implements AdapterInterface
      */
     public function isSupportedEnvironment(): bool
     {
-        $command = [$this->bin, '-v'];
+        $command = [$this->bin, '--help'];
 
         $process = new Process($command);
         $process->run();

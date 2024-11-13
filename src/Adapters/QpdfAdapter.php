@@ -99,7 +99,7 @@ class QpdfAdapter implements AdapterInterface
      */
     public function isSupportedEnvironment(): bool
     {
-        $command = [$this->bin, '-v'];
+        $command = [$this->bin, '--version'];
 
         $process = new Process($command);
         $process->run();

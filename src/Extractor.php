@@ -54,7 +54,7 @@ class Extractor
      *
      * Initializes default handlers for successful and failed extractions.
      */
-    public function __construct()
+    public function __construct(iterable $adapters = [])
     {
         // Default password provider with an empty password list.
         $this->passwordProvider = new ArrayPasswordProvider([]);
@@ -67,6 +67,8 @@ class Extractor
 
         // Default callback for password failure.
         $this->passwordFailureCallback = fn () => false;
+
+        $this->withAdapters($adapters);
     }
 
     /**

@@ -18,13 +18,14 @@ with ease and efficiency.
 
 ## External Dependencies
 
-Lumos relies on the following third-party tools for specific operations:
+Lumos relies on the following third-party tools for specific operations.
+Each adapter is provided out of the box in the `Esplora\Lumos\Adapters\*` namespace:
 
-| **File Type**     | **Tool**                                                         | **Purpose**                                             | **Adapter Class**                                |
-|-------------------|------------------------------------------------------------------|---------------------------------------------------------|--------------------------------------------------|
-| PDF               | [qpdf](https://github.com/qpdf/qpdf)                             | Unlocks and processes encrypted or protected PDF files. | Esplora\Lumos\Adapters\QpdfAdapter               |
-| Microsoft Office  | [msoffcrypto-tool](https://github.com/msoffice/msoffcrypto-tool) | Decrypts password-protected Microsoft Office documents. | Esplora\Lumos\Adapters\MSOfficeCryptoToolAdapter |
-| Archive (ZIP, 7z) | [7-zip](https://www.7-zip.org/)                                  | Extracts and decrypts compressed archives               | Esplora\Lumos\Adapters\SevenZipAdapter           |
+| **File Type**     | **Tool**                                                         | **Purpose**                                             | **Adapter Class**         |
+|-------------------|------------------------------------------------------------------|---------------------------------------------------------|---------------------------|
+| PDF               | [qpdf](https://github.com/qpdf/qpdf)                             | Unlocks and processes encrypted or protected PDF files. | QpdfAdapter               |
+| Microsoft Office  | [msoffcrypto-tool](https://github.com/msoffice/msoffcrypto-tool) | Decrypts password-protected Microsoft Office documents. | MSOfficeCryptoToolAdapter |
+| Archive (ZIP, 7z) | [7-zip](https://www.7-zip.org/)                                  | Extracts and decrypts compressed archives               | SevenZipAdapter           |
 
 ## Installation
 

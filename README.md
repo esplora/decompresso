@@ -18,12 +18,11 @@ Lumos is a universal library designed to provide a unified interface for process
 
 Lumos relies on the following third-party tools for specific operations:
 
-| **File Type**         | **Tool**                     | **Description**                              |
-|-----------------------|------------------------------|----------------------------------------------|
-| PDF                   | [qpdf](https://github.com/qpdf/qpdf) | Handles processing and unlocking of PDF files. |
-| Office Formats        | [msoffcrypto-tool](https://github.com/msoffice/msoffcrypto-tool) | Manages decryption of Microsoft Office files. |
-| Zip Archive           | Built-in PHP classes         | Uses PHP's ZipArchive. |
-
+| **File Type**        | **Tool**                                                         | **Purpose**                                               |
+|----------------------|------------------------------------------------------------------|-----------------------------------------------------------|
+| PDF                  | [qpdf](https://github.com/qpdf/qpdf)                             | Unlocks and processes encrypted or protected PDF files.   |
+| Microsoft Office     | [msoffcrypto-tool](https://github.com/msoffice/msoffcrypto-tool) | Decrypts password-protected Microsoft Office documents.   |
+| Archive (ZIP, 7z)    | [7-zip](https://www.7-zip.org/)                                  | Extracts and manages compressed archives (ZIP, 7z, etc.). |
 
 ## Installation
 

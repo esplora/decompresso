@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Esplora\Decompresso\Tests;
+namespace Esplora\Lumos\Tests;
 
-use Esplora\Decompresso\Adapters\OfficeCryptoToolAdapter;
-use Esplora\Decompresso\Adapters\ZipArchiveAdapter;
-use Esplora\Decompresso\Providers\ArrayPasswordProvider;
+use Esplora\Lumos\Adapters\MSOfficeCryptoToolAdapter;
+use Esplora\Lumos\Adapters\ZipAdapter;
+use Esplora\Lumos\Providers\ArrayPasswordProvider;
 use PHPUnit\Framework\TestCase;
 
 class OfficeCryptoToolAdapterTest extends TestCase
@@ -17,7 +17,7 @@ class OfficeCryptoToolAdapterTest extends TestCase
     {
         $archivePath = $this->getFixturesDir('office-crypto/protected.pptx');
 
-        $handler = new OfficeCryptoToolAdapter;
+        $handler = new MSOfficeCryptoToolAdapter;
 
         $result = $handler->extract($archivePath, $this->getExtractionPath(), $this->getPasswords());
 
@@ -31,7 +31,7 @@ class OfficeCryptoToolAdapterTest extends TestCase
     {
         $archivePath = $this->getFixturesDir('zip/protected.zip');
 
-        $handler = new ZipArchiveAdapter;
+        $handler = new ZipAdapter;
 
         $result = $handler->extract($archivePath, $this->getExtractionPath(), new ArrayPasswordProvider([
             'wrongpassword',

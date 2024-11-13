@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Esplora\Decompresso\Tests;
+namespace Esplora\Lumos\Tests;
 
-use Esplora\Decompresso\Adapters\PdfArchiveAdapter;
-use Esplora\Decompresso\Adapters\ZipArchiveAdapter;
-use Esplora\Decompresso\Providers\ArrayPasswordProvider;
+use Esplora\Lumos\Adapters\QpdfAdapter;
+use Esplora\Lumos\Adapters\ZipAdapter;
+use Esplora\Lumos\Providers\ArrayPasswordProvider;
 use PHPUnit\Framework\TestCase;
 
 class PdfArchiveAdapterTest extends TestCase
@@ -15,7 +15,7 @@ class PdfArchiveAdapterTest extends TestCase
 
     public function testExtractionSuccess(): void
     {
-        $handler = new PdfArchiveAdapter;
+        $handler = new QpdfAdapter;
 
         $result = $handler->extract(
             $this->getFixturesDir('pdf/simple.pdf'),
@@ -33,7 +33,7 @@ class PdfArchiveAdapterTest extends TestCase
     {
         $archivePath = $this->getFixturesDir('pdf/protected.pdf');
 
-        $handler = new PdfArchiveAdapter;
+        $handler = new QpdfAdapter;
 
         $result = $handler->extract($archivePath, $this->getExtractionPath(), $this->getPasswords());
 
@@ -47,7 +47,7 @@ class PdfArchiveAdapterTest extends TestCase
     {
         $archivePath = $this->getFixturesDir('zip/protected.zip');
 
-        $handler = new ZipArchiveAdapter;
+        $handler = new ZipAdapter;
 
         $result = $handler->extract($archivePath, $this->getExtractionPath(), new ArrayPasswordProvider([
             'wrongpassword',

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Esplora\Decompresso\Tests;
+namespace Esplora\Lumos\Tests;
 
-use Esplora\Decompresso\Adapters\ZipArchiveAdapter;
-use Esplora\Decompresso\Providers\ArrayPasswordProvider;
+use Esplora\Lumos\Adapters\ZipAdapter;
+use Esplora\Lumos\Providers\ArrayPasswordProvider;
 use PHPUnit\Framework\TestCase;
 
 class ZipArchiveAdapterTest extends TestCase
@@ -26,7 +26,7 @@ class ZipArchiveAdapterTest extends TestCase
 
     public function testExtractionSuccess(): void
     {
-        $handler = new ZipArchiveAdapter;
+        $handler = new ZipAdapter;
 
         $result = $handler->extract(
             $this->getFixturesDir('zip/simple.zip'),
@@ -42,7 +42,7 @@ class ZipArchiveAdapterTest extends TestCase
     {
         $archivePath = $this->getFixturesDir('zip/protected.zip');
 
-        $handler = new ZipArchiveAdapter;
+        $handler = new ZipAdapter;
 
         $result = $handler->extract($archivePath, $this->getExtractionPath(), $this->getPasswords());
 
@@ -54,7 +54,7 @@ class ZipArchiveAdapterTest extends TestCase
     {
         $archivePath = $this->getFixturesDir('zip/protected.zip');
 
-        $handler = new ZipArchiveAdapter;
+        $handler = new ZipAdapter;
 
         $result = $handler->extract($archivePath, $this->getExtractionPath(), new ArrayPasswordProvider([
             'wrongpassword',

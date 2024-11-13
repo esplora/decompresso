@@ -101,7 +101,7 @@ class SevenZipAdapter implements AdapterInterface
      */
     public function isSupportedEnvironment(): bool
     {
-        $command = [$this->bin, '-v'];
+        $command = [$this->bin, 'i']; // i : Show information about supported formats
 
         $process = new Process($command);
         $process->run();

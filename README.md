@@ -38,15 +38,13 @@ To get started, create an instance of the `Extractor` class and add the necessar
 
 ```php
 use Esplora\Lumos\Extractor;
-use Esplora\Lumos\Adapters\ZipAdapter;
-use Esplora\Lumos\Adapters\GzipAdapter;
+use Esplora\Lumos\Adapters\SevenZipAdapter;
 
 $extractor = new Extractor();
 
 // Specify which file handlers will be used
 $extractor->withAdapters([
-    new ZipAdapter(),
-    new GzipAdapter(),
+    new SevenZipAdapter(),
 ]);
 
 // Process a file (returns a boolean depending on the outcome)
@@ -59,7 +57,7 @@ To work with password-protected documents, add a password provider. The example 
 
 ```php
 use Esplora\Lumos\Extractor;
-use Esplora\Lumos\Adapters\ZipAdapter;
+use Esplora\Lumos\Adapters\SevenZipAdapter;
 use Esplora\Lumos\Providers\ArrayPasswordProvider;
 
 $extractor = new Extractor();
@@ -70,12 +68,12 @@ $extractor
         'xxx123',
     ]))
     ->withAdapters([
-        new ZipAdapter(),
+        new SevenZipAdapter(),
         // Add more adapters as needed
     ]);
 
 // Process the file and returns a boolean depending on the outcome
-$extractor->process('/path/to/your/document.docx', '/path/to/save/to');
+$extractor->process('/path/to/your/archive.zip', '/path/to/save/to');
 ```
 
 If needed, you can create your own password provider by implementing the `PasswordProviderInterface`.
@@ -86,7 +84,7 @@ For more control over the file processing, you can add event handlers. This allo
 
 ```php
 use Esplora\Lumos\Extractor;
-use Esplora\Lumos\Handlers\ZipArchiveHandler;
+use Esplora\Lumos\Adapters\SevenZipAdapter;
 use Esplora\Lumos\Providers\ArrayPasswordProvider;
 
 $extractor = new Extractor();
@@ -97,7 +95,7 @@ $extractor
         'xxx123',
     ]))
     ->withAdapters([
-        new ZipArchiveAdapter(),
+        new SevenZipAdapter(),
         // Add more adapters as needed
     ])
     

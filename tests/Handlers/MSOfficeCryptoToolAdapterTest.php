@@ -5,11 +5,8 @@ declare(strict_types=1);
 namespace Esplora\Lumos\Tests;
 
 use Esplora\Lumos\Adapters\MSOfficeCryptoToolAdapter;
-use Esplora\Lumos\Adapters\SevenZipAdapter;
-use Esplora\Lumos\Adapters\ZipAdapter;
 use Esplora\Lumos\Contracts\AdapterInterface;
 use Esplora\Lumos\Providers\ArrayPasswordProvider;
-use PHPUnit\Framework\TestCase;
 
 class MSOfficeCryptoToolAdapterTest extends AdapterTests
 {

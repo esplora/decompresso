@@ -47,7 +47,6 @@ class SevenZipAdapterTest extends AdapterTests
     {
         $archivePath = $this->getFixturesDir('zip/protected.zip');
 
-
         $result = $this->adepter()
             ->extract(
                 $archivePath,

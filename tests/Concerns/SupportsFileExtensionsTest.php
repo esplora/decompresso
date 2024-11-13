@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Esplora\Lumos\Tests\Concerns;
 
 use Esplora\Lumos\Concerns\SupportsFileExtensions;
-use Esplora\Lumos\Tests\Cleanup;
 use PHPUnit\Framework\TestCase;
 
 class SupportsFileExtensionsTest extends TestCase

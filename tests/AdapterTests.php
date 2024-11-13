@@ -19,7 +19,7 @@ abstract class AdapterTests extends TestCase
      */
     protected function getFixturesDir(string $path): string
     {
-        return __DIR__ . '/fixtures/' . $path;
+        return __DIR__.'/fixtures/'.$path;
     }
 
     /**
@@ -31,7 +31,7 @@ abstract class AdapterTests extends TestCase
      */
     protected function getReferenceDir(string $path): string
     {
-        return __DIR__ . '/fixtures/reference/' . $path;
+        return __DIR__.'/fixtures/reference/'.$path;
     }
 
     /**
@@ -43,7 +43,7 @@ abstract class AdapterTests extends TestCase
      */
     protected function getExtractionPath(string $path = ''): string
     {
-        return __DIR__ . '/extracted/' . $path;
+        return __DIR__.'/extracted/'.$path;
     }
 
     /**
@@ -67,13 +67,13 @@ abstract class AdapterTests extends TestCase
      */
     private function deleteDir(string $dir): void
     {
-        if (!is_dir($dir)) {
+        if (! is_dir($dir)) {
             return;
         }
 
         $items = array_diff(scandir($dir), ['.', '..']);
         foreach ($items as $item) {
-            $path = $dir . DIRECTORY_SEPARATOR . $item;
+            $path = $dir.DIRECTORY_SEPARATOR.$item;
             if (is_dir($path)) {
                 $this->deleteDir($path);
             } else {
@@ -88,8 +88,8 @@ abstract class AdapterTests extends TestCase
         parent::setUp();
         $this->deleteDir($this->getExtractionPath());
 
-        if (!$this->adepter()->isSupportedEnvironment()) {
-            $this->markTestSkipped($this->adepter()::class . ' is not supported.');
+        if (! $this->adepter()->isSupportedEnvironment()) {
+            $this->markTestSkipped($this->adepter()::class.' is not supported.');
         }
     }
 

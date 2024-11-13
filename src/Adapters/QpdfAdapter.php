@@ -20,9 +20,7 @@ class QpdfAdapter implements AdapterInterface
     /**
      * @param string $bin
      */
-    public function __construct(protected string $bin = 'qpdf')
-    {
-    }
+    public function __construct(protected string $bin = 'qpdf') {}
 
     /**
      * Returns the list of supported MIME types.

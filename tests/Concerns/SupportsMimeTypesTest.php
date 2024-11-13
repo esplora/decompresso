@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Esplora\Lumos\Tests\Concerns;
 
 use Esplora\Lumos\Concerns\SupportsMimeTypes;
-use Esplora\Lumos\Tests\Cleanup;
 use PHPUnit\Framework\TestCase;
 
 class SupportsMimeTypesTest extends TestCase
@@ -22,8 +21,8 @@ class SupportsMimeTypesTest extends TestCase
             }
         };
 
-        $this->assertTrue($instance->canSupport(__DIR__ . '/../fixtures/zip/simple.zip'));
-        $this->assertTrue($instance->canSupport(__DIR__ . '/../fixtures/zip/protected.zip'));
+        $this->assertTrue($instance->canSupport(__DIR__.'/../fixtures/zip/simple.zip'));
+        $this->assertTrue($instance->canSupport(__DIR__.'/../fixtures/zip/protected.zip'));
     }
 
     public function testCanSupportWithUnsupportedMimeType(): void
@@ -38,7 +37,7 @@ class SupportsMimeTypesTest extends TestCase
             }
         };
 
-        $this->assertFalse($instance->canSupport(__DIR__ . '/../fixtures/zip/protected.zip'));
+        $this->assertFalse($instance->canSupport(__DIR__.'/../fixtures/zip/protected.zip'));
     }
 
     public function testCanSupportWithEmptySupportedMimeTypes(): void
@@ -53,6 +52,6 @@ class SupportsMimeTypesTest extends TestCase
             }
         };
 
-        $this->assertFalse($instance->canSupport(__DIR__ . '/../fixtures/zip/protected.zip'));
+        $this->assertFalse($instance->canSupport(__DIR__.'/../fixtures/zip/protected.zip'));
     }
 }

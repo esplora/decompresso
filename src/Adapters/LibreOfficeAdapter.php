@@ -20,9 +20,7 @@ class LibreOfficeAdapter implements AdapterInterface
     /**
      * @param string $bin
      */
-    public function __construct(protected string $bin = 'soffice')
-    {
-    }
+    public function __construct(protected string $bin = 'soffice') {}
 
     /**
      * Returns the list of supported MIME types.

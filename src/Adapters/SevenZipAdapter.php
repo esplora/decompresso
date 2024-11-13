@@ -20,9 +20,7 @@ class SevenZipAdapter implements AdapterInterface
     /**
      * @param string $bin
      */
-    public function __construct(protected string $bin = '7z')
-    {
-    }
+    public function __construct(protected string $bin = '7z') {}
 
     /**
      * Returns the list of supported MIME types.
@@ -80,14 +78,14 @@ class SevenZipAdapter implements AdapterInterface
     protected function tryExtract(string $filePath, string $destination, ?string $password = null): bool
     {
         // Ensure the destination directory exists or create it
-        if (!is_dir($destination) && !mkdir($destination, 0777, true) && !is_dir($destination)) {
+        if (! is_dir($destination) && ! mkdir($destination, 0777, true) && ! is_dir($destination)) {
             return false;
         }
 
-        $command = [$this->bin, 'x', $filePath, '-o' . $destination, '-y', '-scsUTF-8'];
+        $command = [$this->bin, 'x', $filePath, '-o'.$destination, '-y', '-scsUTF-8'];
 
         if ($password) {
-            $command[] = '-p' . $password;
+            $command[] = '-p'.$password;
         }
 
         $process = new Process($command);

@@ -15,7 +15,7 @@ class QpdfAdapterTest extends AdapterTests
      */
     protected function adepter(): AdapterInterface
     {
-        return new QpdfAdapter();
+        return new QpdfAdapter;
     }
 
     public function testExtractionSuccess(): void

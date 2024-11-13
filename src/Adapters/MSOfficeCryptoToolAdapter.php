@@ -14,9 +14,7 @@ class MSOfficeCryptoToolAdapter implements AdapterInterface
     /**
      * @param string $bin
      */
-    public function __construct(protected string $bin = 'msoffcrypto-tool')
-    {
-    }
+    public function __construct(protected string $bin = 'msoffcrypto-tool') {}
 
     /**
      * Returns the list of supported MIME types.

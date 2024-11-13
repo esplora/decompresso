@@ -90,12 +90,15 @@ Extractor::make([
         'qwerty',
         'xxx123',
     ]))
-    // Define logic to execute on successful processing
-    ->onSuccess(fn() => true)
-    // Handle cases where processing fails due to an incorrect password
-    ->onPasswordFailure(fn() => false)
-    // Handle any other errors encountered during processing
-    ->onFailure(fn() => false)
+    ->onSuccess(function ($file, $output) {
+        // Processing completed successfully!
+    })
+    ->onPasswordFailure(function ($file, $output) {
+        // The password was incorrect
+    })
+    ->onFailure(function ($throwable, $file, $output) {
+        // Handle the failure
+    })
     ->process('/path/to/your/archive.zip', '/path/to/save/to');
 ```
 

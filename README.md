@@ -1,7 +1,8 @@
 # <img src=".github/logo.svg?sanitize=true" width="32" height="32" alt="Lumos"> Lumos
 
 [![Tests](https://github.com/esplora/decompresso/actions/workflows/phpunit.yml/badge.svg)](https://github.com/esplora/decompresso/actions/workflows/phpunit.yml)
-[![Psalm](https://github.com/esplora/decompresso/actions/workflows/psalm.yml/badge.svg)](https://github.com/esplora/decompresso/actions/workflows/psalm.yml)
+[![Quality Assurance](https://github.com/esplora/lumos/actions/workflows/quality.yml/badge.svg)](https://github.com/esplora/lumos/actions/workflows/quality.yml)
+[![Coding Guidelines](https://github.com/esplora/lumos/actions/workflows/php-cs-fixer.yml/badge.svg)](https://github.com/esplora/lumos/actions/workflows/php-cs-fixer.yml)
 
 Lumos is a universal library designed to provide a unified interface for processing various file types. Whether you need to unlock passwords from office documents or extract contents from compressed archives, Lumos simplifies these tasks with ease and efficiency.
 

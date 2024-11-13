@@ -78,7 +78,7 @@ class Extractor
      */
     public static function make(iterable $adapters)
     {
-        return (new static())->withAdapters($adapters);
+        return (new static)->withAdapters($adapters);
     }
 
     /**

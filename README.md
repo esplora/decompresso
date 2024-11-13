@@ -12,7 +12,7 @@ with ease and efficiency.
 
 - **Unlock Password-Protected Files**: Remove passwords from encrypted office documents (PDF, DOC, etc.) effortlessly.
 - **Extract Archives**: Unpack various archive formats (ZIP, RAR, etc.), including those secured with passwords.
-- **Flexible Handler System**: Easily add and configure handlers for different file formats and operations.
+- **Flexible Adapter System**: Easily add and configure adapters for different file formats and operations.
 - **Intuitive Interface**: Utilize a fluent API for convenient configuration and handling of successful or failed
   operations.
 
@@ -20,11 +20,11 @@ with ease and efficiency.
 
 Lumos relies on the following third-party tools for specific operations:
 
-| **File Type**     | **Tool**                                                         | **Purpose**                                               |
-|-------------------|------------------------------------------------------------------|-----------------------------------------------------------|
-| PDF               | [qpdf](https://github.com/qpdf/qpdf)                             | Unlocks and processes encrypted or protected PDF files.   |
-| Microsoft Office  | [msoffcrypto-tool](https://github.com/msoffice/msoffcrypto-tool) | Decrypts password-protected Microsoft Office documents.   |
-| Archive (ZIP, 7z) | [7-zip](https://www.7-zip.org/)                                  | Extracts and manages compressed archives (ZIP, 7z, etc.). |
+| **File Type**     | **Tool**                                                         | **Purpose**                                                |
+|-------------------|------------------------------------------------------------------|------------------------------------------------------------|
+| PDF               | [qpdf](https://github.com/qpdf/qpdf)                             | Unlocks and processes encrypted or protected PDF files.    |
+| Microsoft Office  | [msoffcrypto-tool](https://github.com/msoffice/msoffcrypto-tool) | Decrypts password-protected Microsoft Office documents.    |
+| Archive (ZIP, 7z) | [7-zip](https://www.7-zip.org/)                                  | Extracts and decrypts compressed archives (ZIP, 7z, etc.). |
 
 ## Installation
 
@@ -36,15 +36,15 @@ composer require esplora/lumos
 
 ## Usage
 
-To get started, create an instance of the `Extractor` class and add the necessary handlers for file formats. The example
-below demonstrates using `ZipArchiveAdapter` for ZIP files, but you can add your own handlers or use built-in ones.
+To get started, create an instance of the `Extractor` class and add the necessary adapters for file formats. The example
+below demonstrates using `SevenZipAdapter` for archive, but you can add your own adapters or use built-in ones.
 
 ```php
 use Esplora\Lumos\Extractor;
 use Esplora\Lumos\Adapters\SevenZipAdapter;
 
 Extractor::make([
-    // Specify which file handlers will be used
+    // Specify which file adapters will be used
     new SevenZipAdapter(),
 ])
 // Process a file (returns a boolean depending on the outcome)
@@ -72,6 +72,11 @@ Extractor::make([
 ```
 
 If needed, you can create your own password provider by implementing the `PasswordProviderInterface`.
+
+> [!TIP]
+> If you don’t have a password database but want to try all possible combinations, you can
+use [SecLists](https://github.com/danielmiessler/SecLists/tree/master/Passwords) as a source of popular passwords for
+brute-forcing.
 
 ### Event Handling
 

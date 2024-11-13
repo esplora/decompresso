@@ -75,8 +75,8 @@ If needed, you can create your own password provider by implementing the `Passwo
 
 > [!TIP]
 > If you don’t have a password database but want to try all possible combinations, you can
-use [SecLists](https://github.com/danielmiessler/SecLists/tree/master/Passwords) as a source of popular passwords for
-brute-forcing.
+> use [SecLists](https://github.com/danielmiessler/SecLists/tree/master/Passwords) as a source of popular passwords for
+> brute-forcing.
 
 ### Event Handling
 
@@ -107,11 +107,12 @@ Extractor::make([
     ->extract('/path/to/your/archive.zip', '/path/to/save/to');
 ```
 
-### Local Testing
+### Testing
 
-We understand that you may need to test your library locally, for example, for debugging purposes or if you want to
-contribute to the project. To remain environment-independent, we recommend passing the path to the executable files of
-your dependencies via the constructor:
+Testing an application that depends on other services can be challenging, but this should not prevent you from
+contributing to the project.
+
+For adapters that depend on executable files, you can pass the path via the constructor:
 
 ```php
 use Esplora\Lumos\Adapters\SevenZipAdapter;

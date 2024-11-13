@@ -48,7 +48,7 @@ Extractor::make([
     new SevenZipAdapter(),
 ])
 // Process a file (returns a boolean depending on the outcome)
-->process('/path/to/your/archive.zip', '/path/to/extract/to');
+->extract('/path/to/your/archive.zip', '/path/to/extract/to');
 ```
 
 ### Handling Password-Protected Files
@@ -68,7 +68,7 @@ Extractor::make([
         'qwerty',
         'xxx123',
     ]))
-    ->process('/path/to/your/archive.zip', '/path/to/save/to');
+    ->extract('/path/to/your/archive.zip', '/path/to/save/to');
 ```
 
 If needed, you can create your own password provider by implementing the `PasswordProviderInterface`.
@@ -104,7 +104,7 @@ Extractor::make([
     ->onFailure(function ($throwable, $file, $output) {
         // Handle the failure
     })
-    ->process('/path/to/your/archive.zip', '/path/to/save/to');
+    ->extract('/path/to/your/archive.zip', '/path/to/save/to');
 ```
 
 ### Local Testing

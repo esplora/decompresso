@@ -70,6 +70,18 @@ class Extractor
     }
 
     /**
+     * Short hand method to create an Extractor instance with the provided files handlers.
+     *
+     * @param iterable $adapters
+     *
+     * @return \Esplora\Lumos\Extractor
+     */
+    public static function make(iterable $adapters)
+    {
+        return (new static())->withAdapters($adapters);
+    }
+
+    /**
      * Sets the password provider for handling protected archives.
      *
      * @param PasswordProviderInterface $provider The password provider to use.

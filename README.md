@@ -52,6 +52,13 @@ $extractor->withAdapters([
 
 // Process a file (returns a boolean depending on the outcome)
 $extractor->process('/path/to/your/archive.zip', '/path/to/extract/to');
+
+
+// Or shorter version
+Extractor::make([
+    new SevenZipAdapter(),
+])
+->process('/path/to/your/archive.zip', '/path/to/extract/to');
 ```
 
 ### Handling Password-Protected Files

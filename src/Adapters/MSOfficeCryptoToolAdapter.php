@@ -10,7 +10,7 @@ use Symfony\Component\Process\Process;
 
 class MSOfficeCryptoToolAdapter implements AdapterInterface
 {
-    use DirectoryEnsurer, SupportsMimeTypes;
+    use SupportsMimeTypes, DirectoryEnsurer;
 
     /**
      * @param string $bin
@@ -75,7 +75,7 @@ class MSOfficeCryptoToolAdapter implements AdapterInterface
         $this->ensureDirectoryExists($destination);
 
         // Need save the file with the same name
-        $destination = $destination.basename($filePath);
+        $destination .= basename($filePath);
 
         $command = [
             $this->bin,

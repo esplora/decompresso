@@ -29,6 +29,10 @@ abstract class AdapterTests extends TestCase
 
     protected function setUp(): void
     {
+        $dotenv = \Dotenv\Dotenv::createImmutable(__DIR__.'/../');
+        $dotenv->load();
+
+
         parent::setUp();
 
         if (! $this->adepter()->isSupportedEnvironment()) {

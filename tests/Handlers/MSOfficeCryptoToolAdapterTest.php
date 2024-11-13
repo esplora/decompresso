@@ -15,7 +15,9 @@ class MSOfficeCryptoToolAdapterTest extends AdapterTests
      */
     protected function adepter(): AdapterInterface
     {
-        return new MSOfficeCryptoToolAdapter('/Users/tabuna/Library/Python/3.9/bin/msoffcrypto-tool');
+        return new MSOfficeCryptoToolAdapter(
+            $_SERVER['MSOFFCRYPTO_TOOL_BIN_PATH'] ?? 'msoffcrypto-tool'
+        );
     }
 
     public function testExtractionSuccessWithPasswordPPT(): void

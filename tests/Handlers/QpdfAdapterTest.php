@@ -15,7 +15,9 @@ class QpdfAdapterTest extends AdapterTests
      */
     protected function adepter(): AdapterInterface
     {
-        return new QpdfAdapter;
+        return new QpdfAdapter(
+            $_SERVER['QPDF_BIN_PATH']  ?? 'qpdf'
+        );
     }
 
     public function testExtractionSuccess(): void

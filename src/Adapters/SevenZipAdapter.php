@@ -82,11 +82,15 @@ class SevenZipAdapter implements AdapterInterface
             return false;
         }
 
-        $command = [$this->bin, 'x', $filePath, '-o'.$destination, '-y', '-scsUTF-8'];
-
-        if ($password) {
-            $command[] = '-p'.$password;
-        }
+        $command = [
+            $this->bin,
+            'x',
+            $filePath,
+            '-o'.$destination,
+            '-scsUTF-8',
+            '-y',
+            $password !== null ? '-p'.$password : '-p',
+        ];
 
         $process = new Process($command);
         $process->run();

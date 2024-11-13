@@ -16,7 +16,7 @@ use Symfony\Component\Process\Process;
  */
 class QpdfAdapter implements AdapterInterface
 {
-    use SupportsMimeTypes, DirectoryEnsurer;
+    use DirectoryEnsurer, SupportsMimeTypes;
 
     /**
      * @param string $bin

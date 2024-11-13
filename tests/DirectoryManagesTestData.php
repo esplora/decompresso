@@ -2,7 +2,6 @@
 
 namespace Esplora\Lumos\Tests;
 
-
 trait DirectoryManagesTestData
 {
     /**

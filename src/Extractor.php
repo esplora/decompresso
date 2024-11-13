@@ -5,7 +5,6 @@ namespace Esplora\Lumos;
 use Esplora\Lumos\Contracts\AdapterInterface;
 use Esplora\Lumos\Contracts\PasswordProviderInterface;
 use Esplora\Lumos\Providers\ArrayPasswordProvider;
-use RuntimeException;
 
 /**
  * Class for extracting archives with support for passwords and archive handlers.

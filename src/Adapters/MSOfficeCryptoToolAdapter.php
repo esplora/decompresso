@@ -10,7 +10,7 @@ use Symfony\Component\Process\Process;
 
 class MSOfficeCryptoToolAdapter implements AdapterInterface
 {
-    use SupportsMimeTypes, DirectoryEnsurer;
+    use DirectoryEnsurer, SupportsMimeTypes;
 
     /**
      * @param string $bin

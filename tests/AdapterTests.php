@@ -12,7 +12,6 @@ abstract class AdapterTests extends TestCase
 
     abstract protected function adepter(): AdapterInterface;
 
-
     /**
      * Returns a list of passwords for testing.
      *
@@ -27,7 +26,6 @@ abstract class AdapterTests extends TestCase
             'Password1234_',
         ]);
     }
-
 
     protected function setUp(): void
     {

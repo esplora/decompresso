@@ -37,21 +37,20 @@ composer require esplora/lumos
 To get started, create an instance of the `FileProcessor` class and add the necessary handlers for file formats. The example below demonstrates using `ZipArchiveAdapter` for ZIP files, but you can add your own handlers or use built-in ones.
 
 ```php
-use Esplora\Lumos\FileProcessor;
+use Esplora\Lumos\Extractor;
 use Esplora\Lumos\Adapters\ZipAdapter;
 use Esplora\Lumos\Adapters\GzipAdapter;
 
-// Create a new FileProcessor instance to manage file processing
-$fileProcessor = new FileProcessor();
+$extractor = new Extractor();
 
 // Specify which file handlers will be used
-$fileProcessor->withAdapters([
+$extractor->withAdapters([
     new ZipAdapter(),
     new GzipAdapter(),
 ]);
 
 // Process a file (returns a boolean depending on the outcome)
-$fileProcessor->process('/path/to/your/archive.zip', '/path/to/extract/to');
+$extractor->process('/path/to/your/archive.zip', '/path/to/extract/to');
 ```
 
 ### Handling Password-Protected Files
@@ -63,9 +62,9 @@ use Esplora\Lumos\FileProcessor;
 use Esplora\Lumos\Adapters\ZipAdapter;
 use Esplora\Lumos\Providers\ArrayPasswordProvider;
 
-$fileProcessor = new FileProcessor();
+$extractor = new Extractor();
 
-$fileProcessor
+$extractor
     ->withPasswords(new ArrayPasswordProvider([
         'qwerty',
         'xxx123',
@@ -76,7 +75,7 @@ $fileProcessor
     ]);
 
 // Process the file and returns a boolean depending on the outcome
-$fileProcessor->process('/path/to/your/document.docx', '/path/to/save/to');
+$extractor->process('/path/to/your/document.docx', '/path/to/save/to');
 ```
 
 If needed, you can create your own password provider by implementing the `PasswordProviderInterface`.
@@ -90,9 +89,9 @@ use Esplora\Lumos\FileProcessor;
 use Esplora\Lumos\Handlers\ZipArchiveHandler;
 use Esplora\Lumos\Providers\ArrayPasswordProvider;
 
-$fileProcessor = new FileProcessor();
+$extractor = new Extractor();
 
-$fileProcessor
+$extractor
     ->withPasswords(new ArrayPasswordProvider([
         'qwerty',
         'xxx123',
@@ -112,19 +111,8 @@ $fileProcessor
     ->onFailure(fn() => false)
 
 // Processes the file and returns the result of the closure
-$fileProcessor->process('/path/to/your/archive.zip', '/path/to/extract/to');
+$extractor->process('/path/to/your/archive.zip', '/path/to/extract/to');
 ```
-
-## TODO
-
-- [x] Добавить файл ответа, который бы разделял "не смогли обработать" из-за ошибки и "не смогли обработать так как не подошёл пароль".
-- [ ] Добавить обработчик для RAR-архивов.
-- [ ] Добавить обработчик для 7z-архивов.
-- [x] Добавить проверку целостности в тестах.
-- [x] Ввести проверку на расширение файла для обработчика, чтобы он пропускал файлы неподдерживаемых форматов.
-- [ ] Подумать над тем, чтобы передавать сразу MIME-type в обработчик, а не создавать его каждый раз. - Нет. Будет нарушение ответственности.
-- [x] Не обращаться к провайдеру паролей, если он не нужен.
-- [ ] Нужно обновить комментарии! Про пароль тоже!
 
 ## License
 

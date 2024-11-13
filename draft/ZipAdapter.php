@@ -1,10 +1,10 @@
 <?php
 
-namespace Esplora\Decompresso\Adapters;
+namespace Esplora\Lumos\Adapters;
 
-use Esplora\Decompresso\Concerns\SupportsMimeTypes;
-use Esplora\Decompresso\Contracts\ArchiveAdapterInterface;
-use Esplora\Decompresso\Contracts\PasswordProviderInterface;
+use Esplora\Lumos\Concerns\SupportsMimeTypes;
+use Esplora\Lumos\Contracts\AdapterInterface;
+use Esplora\Lumos\Contracts\PasswordProviderInterface;
 use ZipArchive;
 
 /**
@@ -13,7 +13,7 @@ use ZipArchive;
  * This class implements the ArchiveInterface and provides functionality for extracting ZIP archives,
  * including support for password-protected archives.
  */
-class ZipArchiveAdapter implements ArchiveAdapterInterface
+class ZipAdapter implements AdapterInterface
 {
     use SupportsMimeTypes;
 

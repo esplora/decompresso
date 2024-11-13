@@ -1,10 +1,10 @@
 <?php
 
-namespace Esplora\Decompresso\Adapters;
+namespace Esplora\Lumos\Adapters;
 
-use Esplora\Decompresso\Concerns\SupportsMimeTypes;
-use Esplora\Decompresso\Contracts\ArchiveAdapterInterface;
-use Esplora\Decompresso\Contracts\PasswordProviderInterface;
+use Esplora\Lumos\Concerns\SupportsMimeTypes;
+use Esplora\Lumos\Contracts\AdapterInterface;
+use Esplora\Lumos\Contracts\PasswordProviderInterface;
 
 /**
  * Handler for GZIP archive files.
@@ -12,7 +12,7 @@ use Esplora\Decompresso\Contracts\PasswordProviderInterface;
  * This class implements the ArchiveInterface and provides functionality for extracting GZIP archives.
  * GZIP files typically contain a single file, so extraction involves simply unpacking it.
  */
-class GzipArchiveAdapter implements ArchiveAdapterInterface
+class GzipAdapter implements AdapterInterface
 {
     use SupportsMimeTypes;
 

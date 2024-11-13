@@ -1,10 +1,10 @@
 <?php
 
-namespace Esplora\Decompresso\Adapters;
+namespace Esplora\Lumos\Adapters;
 
-use Esplora\Decompresso\Concerns\SupportsMimeTypes;
-use Esplora\Decompresso\Contracts\ArchiveAdapterInterface;
-use Esplora\Decompresso\Contracts\PasswordProviderInterface;
+use Esplora\Lumos\Concerns\SupportsMimeTypes;
+use Esplora\Lumos\Contracts\AdapterInterface;
+use Esplora\Lumos\Contracts\PasswordProviderInterface;
 use Exception;
 use RarArchive;
 
@@ -14,7 +14,7 @@ use RarArchive;
  * This class implements the ArchiveInterface and provides functionality for extracting RAR archives,
  * including support for password-protected archives.
  */
-class RarArchiveAdapter implements ArchiveAdapterInterface
+class RarAdapter implements AdapterInterface
 {
     use SupportsMimeTypes;
 

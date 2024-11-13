@@ -43,21 +43,11 @@ below demonstrates using `ZipArchiveAdapter` for ZIP files, but you can add your
 use Esplora\Lumos\Extractor;
 use Esplora\Lumos\Adapters\SevenZipAdapter;
 
-$extractor = new Extractor();
-
-// Specify which file handlers will be used
-$extractor->withAdapters([
-    new SevenZipAdapter(),
-]);
-
-// Process a file (returns a boolean depending on the outcome)
-$extractor->process('/path/to/your/archive.zip', '/path/to/extract/to');
-
-
-// Or shorter version
 Extractor::make([
+    // Specify which file handlers will be used
     new SevenZipAdapter(),
 ])
+// Process a file (returns a boolean depending on the outcome)
 ->process('/path/to/your/archive.zip', '/path/to/extract/to');
 ```
 
@@ -71,20 +61,14 @@ use Esplora\Lumos\Extractor;
 use Esplora\Lumos\Adapters\SevenZipAdapter;
 use Esplora\Lumos\Providers\ArrayPasswordProvider;
 
-$extractor = new Extractor();
-
-$extractor
+Extractor::make([
+    new SevenZipAdapter(),
+])
     ->withPasswords(new ArrayPasswordProvider([
         'qwerty',
         'xxx123',
     ]))
-    ->withAdapters([
-        new SevenZipAdapter(),
-        // Add more adapters as needed
-    ]);
-
-// Process the file and returns a boolean depending on the outcome
-$extractor->process('/path/to/your/archive.zip', '/path/to/save/to');
+    ->process('/path/to/your/archive.zip', '/path/to/save/to');
 ```
 
 If needed, you can create your own password provider by implementing the `PasswordProviderInterface`.
@@ -99,29 +83,20 @@ use Esplora\Lumos\Extractor;
 use Esplora\Lumos\Adapters\SevenZipAdapter;
 use Esplora\Lumos\Providers\ArrayPasswordProvider;
 
-$extractor = new Extractor();
-
-$extractor
+Extractor::make([
+    new SevenZipAdapter(),
+])
     ->withPasswords(new ArrayPasswordProvider([
         'qwerty',
         'xxx123',
     ]))
-    ->withAdapters([
-        new SevenZipAdapter(),
-        // Add more adapters as needed
-    ])
-    
     // Define logic to execute on successful processing
     ->onSuccess(fn() => true)
-    
     // Handle cases where processing fails due to an incorrect password
     ->onPasswordFailure(fn() => false)
-    
     // Handle any other errors encountered during processing
     ->onFailure(fn() => false)
-
-// Processes the file and returns the result of the closure
-$extractor->process('/path/to/your/archive.zip', '/path/to/extract/to');
+    ->process('/path/to/your/archive.zip', '/path/to/save/to');
 ```
 
 ### Local Testing

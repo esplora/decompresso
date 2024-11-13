@@ -20,7 +20,8 @@
     "require-dev": {
         "ext-zlib": "*",
         "laravel/pint": "^1.17",
-        "phpunit/phpunit": "^10.5"
+        "phpunit/phpunit": "^10.5",
+        "vlucas/phpdotenv": "^5.4.1"
     },
     "autoload": {
         "psr-4": {

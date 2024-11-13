@@ -2,6 +2,7 @@
 
 namespace Esplora\Lumos\Adapters;
 
+use Esplora\Lumos\Concerns\DirectoryEnsurer;
 use Esplora\Lumos\Concerns\SupportsMimeTypes;
 use Esplora\Lumos\Contracts\AdapterInterface;
 use Esplora\Lumos\Contracts\PasswordProviderInterface;
@@ -15,7 +16,7 @@ use Symfony\Component\Process\Process;
  */
 class QpdfAdapter implements AdapterInterface
 {
-    use SupportsMimeTypes;
+    use SupportsMimeTypes, DirectoryEnsurer;
 
     /**
      * @param string $bin
@@ -68,10 +69,7 @@ class QpdfAdapter implements AdapterInterface
      */
     protected function tryDecrypting(string $filePath, string $destination, string $password): bool
     {
-        // Ensure the destination directory exists or create it
-        if (! is_dir($destination) && ! mkdir($destination, 0777, true) && ! is_dir($destination)) {
-            return false;
-        }
+        $this->ensureDirectoryExists($destination);
 
         $command = [
             $this->bin,

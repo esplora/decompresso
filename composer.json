@@ -22,11 +22,6 @@
         "laravel/pint": "^1.17",
         "phpunit/phpunit": "^10.5"
     },
-    "suggest": {
-        "ext-rar": "Required for RAR archives support.",
-        "ext-phar": "Required for TAR archives support.",
-        "ext-zlib": "Required for GZIP archives support."
-    },
     "autoload": {
         "psr-4": {
             "Esplora\\Lumos\\": "src/"

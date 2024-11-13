@@ -32,7 +32,7 @@ class MSOfficeCryptoToolAdapterTest extends AdapterTests
 
     public function testExtractionFailureOnPassword(): void
     {
-        $archivePath = $this->getFixturesDir('zip/protected.zip');
+        $archivePath = $this->getFixturesDir('office-crypto/protected.pptx');
 
         $result = $this->adepter()->extract($archivePath, $this->getExtractionPath(), new ArrayPasswordProvider([
             'wrongpassword',

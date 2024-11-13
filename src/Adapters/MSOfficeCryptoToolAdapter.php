@@ -73,17 +73,16 @@ class MSOfficeCryptoToolAdapter implements AdapterInterface
     {
         $command = [
             $this->bin,
-            '--decrypt',
+            $filePath,
+            $destination,
         ];
 
         // Add password option if provided
         if ($password !== null) {
-            $command[] = '--password='.$password;
+            $command[] = '--password=' . $password;
+        } else {
+            $command[] = '--test';
         }
-
-        // Add file paths
-        $command[] = $filePath;
-        $command[] = $destination;
 
         $process = new Process($command);
         $process->run();

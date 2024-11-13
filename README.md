@@ -34,7 +34,7 @@ composer require esplora/lumos
 
 ## Usage
 
-To get started, create an instance of the `FileProcessor` class and add the necessary handlers for file formats. The example below demonstrates using `ZipArchiveAdapter` for ZIP files, but you can add your own handlers or use built-in ones.
+To get started, create an instance of the `Extractor` class and add the necessary handlers for file formats. The example below demonstrates using `ZipArchiveAdapter` for ZIP files, but you can add your own handlers or use built-in ones.
 
 ```php
 use Esplora\Lumos\Extractor;
@@ -58,7 +58,7 @@ $extractor->process('/path/to/your/archive.zip', '/path/to/extract/to');
 To work with password-protected documents, add a password provider. The example below uses `ArrayPasswordProvider`, which accepts an array of passwords.
 
 ```php
-use Esplora\Lumos\FileProcessor;
+use Esplora\Lumos\Extractor;
 use Esplora\Lumos\Adapters\ZipAdapter;
 use Esplora\Lumos\Providers\ArrayPasswordProvider;
 
@@ -85,7 +85,7 @@ If needed, you can create your own password provider by implementing the `Passwo
 For more control over the file processing, you can add event handlers. This allows you to receive information about the reasons for failures or respond to successful completions.
 
 ```php
-use Esplora\Lumos\FileProcessor;
+use Esplora\Lumos\Extractor;
 use Esplora\Lumos\Handlers\ZipArchiveHandler;
 use Esplora\Lumos\Providers\ArrayPasswordProvider;
 

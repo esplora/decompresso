@@ -5,6 +5,7 @@ namespace Esplora\Lumos;
 use Esplora\Lumos\Contracts\AdapterInterface;
 use Esplora\Lumos\Contracts\PasswordProviderInterface;
 use Esplora\Lumos\Providers\ArrayPasswordProvider;
+use Illuminate\Support\Collection;
 
 /**
  * Class for extracting archives with support for passwords and archive handlers.
@@ -24,9 +25,9 @@ class Extractor
     /**
      * Array of archive handlers for extracting archives.
      *
-     * @var AdapterInterface[]
+     * @var AdapterInterface[]|Collection
      */
-    protected array $adapters = [];
+    protected Collection $adapters;
 
     /**
      * Callback for handling failed extractions.
@@ -68,7 +69,7 @@ class Extractor
         // Default callback for password failure.
         $this->passwordFailureCallback = fn () => false;
 
-        $this->withAdapters($adapters);
+        $this->adapters = collect($adapters);
     }
 
     /**
@@ -106,7 +107,7 @@ class Extractor
      */
     public function withAdapter(AdapterInterface $handler): self
     {
-        $this->adapters[] = $handler;
+        $this->adapters->push($handler);
 
         return $this;
     }
@@ -120,9 +121,7 @@ class Extractor
      */
     public function withAdapters(iterable $handlers): self
     {
-        foreach ($handlers as $handler) {
-            $this->withAdapter($handler);
-        }
+        $this->adapters->push(...$handlers);
 
         return $this;
     }
@@ -221,13 +220,11 @@ class Extractor
 
     /**
      * @param string $filePath
-     *
-     * @return array
+     * @return Collection
      */
-    public function getSupportedAdapters(string $filePath): array
+    public function getSupportedAdapters(string $filePath): Collection
     {
-        return array_filter($this->adapters,
-            fn (AdapterInterface $archive) => $archive->canSupport($filePath)
-        );
+       return $this->adapters
+            ->filter(fn (AdapterInterface $archive) => $archive->canSupport($filePath));
     }
 }

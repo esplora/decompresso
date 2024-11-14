@@ -15,10 +15,10 @@
     "require": {
         "symfony/mime": "^7.1",
         "symfony/process": "^7.1",
-        "symfony/var-dumper": "^7.1"
+        "illuminate/support": "v11.0"
     },
     "require-dev": {
-        "ext-zlib": "*",
+        "symfony/var-dumper": "^7.1",
         "laravel/pint": "^1.17",
         "phpunit/phpunit": "^10.5",
         "vlucas/phpdotenv": "^5.4.1"

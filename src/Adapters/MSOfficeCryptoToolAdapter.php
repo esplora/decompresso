@@ -15,7 +15,9 @@ class MSOfficeCryptoToolAdapter implements AdapterInterface
     /**
      * @param string $bin
      */
-    public function __construct(protected string $bin = 'msoffcrypto-tool') {}
+    public function __construct(protected string $bin = 'msoffcrypto-tool')
+    {
+    }
 
     /**
      * Returns the list of supported MIME types.
@@ -37,9 +39,9 @@ class MSOfficeCryptoToolAdapter implements AdapterInterface
     /**
      * Decrypts an office file using msoffcrypto-tool.
      *
-     * @param string                    $filePath    Path to the office file to decrypt.
-     * @param string                    $destination Path where the decrypted file will be saved.
-     * @param PasswordProviderInterface $passwords   List of passwords to try for decrypting the file.
+     * @param string $filePath Path to the office file to decrypt.
+     * @param string $destination Path where the decrypted file will be saved.
+     * @param PasswordProviderInterface $passwords List of passwords to try for decrypting the file.
      *
      * @return bool Returns true if decryption was successful, false otherwise.
      */
@@ -64,9 +66,9 @@ class MSOfficeCryptoToolAdapter implements AdapterInterface
      * Attempts to decrypt the office file with the provided password.
      * If no password is provided, it attempts to open the file without a password.
      *
-     * @param string      $filePath    Path to the office file.
-     * @param string      $destination Path where the decrypted file will be saved.
-     * @param string|null $password    Optional password to attempt for unlocking the file.
+     * @param string $filePath Path to the office file.
+     * @param string $destination Path where the decrypted file will be saved.
+     * @param string|null $password Optional password to attempt for unlocking the file.
      *
      * @return bool Returns true if decryption was successful, false otherwise.
      */
@@ -90,10 +92,21 @@ class MSOfficeCryptoToolAdapter implements AdapterInterface
             $command[] = '--test';
         }
 
+
         $process = new Process($command);
         $process->run();
 
-        return $process->isSuccessful();
+
+        if ($password !== null) {
+            return $process->isSuccessful();
+        }
+
+        if (!str_contains($process->getErrorOutput(), 'not encrypted')) {
+            return false;
+        }
+
+        copy($filePath, $destination);
+        return true;
     }
 
     /**

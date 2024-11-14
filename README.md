@@ -4,17 +4,8 @@
 [![Quality Assurance](https://github.com/esplora/lumos/actions/workflows/quality.yml/badge.svg)](https://github.com/esplora/lumos/actions/workflows/quality.yml)
 [![Coding Guidelines](https://github.com/esplora/lumos/actions/workflows/php-cs-fixer.yml/badge.svg)](https://github.com/esplora/lumos/actions/workflows/php-cs-fixer.yml)
 
-Lumos is a universal library designed to provide a unified interface for processing various file types. Whether you need
-to unlock passwords from office documents or extract contents from compressed archives, Lumos simplifies these tasks
-with ease and efficiency.
-
-## Features
-
-- **Unlock Password-Protected Files**: Remove passwords from encrypted office documents (PDF, DOC, etc.) effortlessly.
-- **Extract Archives**: Unpack various archive formats (ZIP, RAR, etc.), including those secured with passwords.
-- **Flexible Adapter System**: Easily add and configure adapters for different file formats and operations.
-- **Intuitive Interface**: Utilize a fluent API for convenient configuration and handling of successful or failed
-  operations.
+Lumos is a library that provides a interface for removing passwords from protected documents and extracting
+content from archives, making these tasks simple and accessible.
 
 ## External Dependencies
 

@@ -20,6 +20,21 @@ class MSOfficeCryptoToolAdapterTest extends AdapterTests
         );
     }
 
+    public function testExtractionSimpleDocSuccess(): void
+    {
+        $result = $this->adepter()
+            ->extract(
+                $this->getFixturesDir('office-crypto/simple.doc'),
+                $this->getExtractionPath(),
+                $this->getPasswords()
+            );
+
+        $this->assertTrue($result);
+        $this->assertFilesExtracted([
+            'simple.doc',
+        ]);
+    }
+
     public function testExtractionSuccessWithPasswordPPT(): void
     {
         $archivePath = $this->getFixturesDir('office-crypto/protected.ppt');

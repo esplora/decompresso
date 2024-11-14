@@ -85,7 +85,9 @@ class MSOfficeCryptoToolAdapter implements AdapterInterface
 
         // Add password option if provided
         if ($password !== null) {
-            $command[] = '--password='.$password;
+            $command[] = '--password=' . $password;
+        } else {
+            $command[] = '--test';
         }
 
         $process = new Process($command);

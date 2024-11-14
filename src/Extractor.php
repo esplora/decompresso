@@ -221,6 +221,7 @@ class Extractor
 
     /**
      * @param string $filePath
+     *
      * @return array
      */
     public function getSupportedAdapters(string $filePath): array

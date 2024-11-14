@@ -207,7 +207,7 @@ class Extractor
     {
         $destination = $destination ?: dirname($filePath);
 
-        $supportHandlers = array_filter($this->adapters, fn (AdapterInterface $archive) => $archive->canSupport($filePath));
+        $supportHandlers = $this->getSupportedAdapters($filePath);
 
         // Attempt extraction with all added handlers.
         foreach ($supportHandlers as $handler) {
@@ -217,5 +217,16 @@ class Extractor
         }
 
         return false;
+    }
+
+    /**
+     * @param string $filePath
+     * @return array
+     */
+    public function getSupportedAdapters(string $filePath): array
+    {
+        return array_filter($this->adapters,
+            fn (AdapterInterface $archive) => $archive->canSupport($filePath)
+        );
     }
 }

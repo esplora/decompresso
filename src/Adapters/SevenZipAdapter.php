@@ -2,6 +2,7 @@
 
 namespace Esplora\Lumos\Adapters;
 
+use Esplora\Lumos\Concerns\DirectoryEnsurer;
 use Esplora\Lumos\Concerns\SupportsMimeTypes;
 use Esplora\Lumos\Contracts\AdapterInterface;
 use Esplora\Lumos\Contracts\PasswordProviderInterface;
@@ -15,7 +16,7 @@ use Symfony\Component\Process\Process;
  */
 class SevenZipAdapter implements AdapterInterface
 {
-    use SupportsMimeTypes;
+    use DirectoryEnsurer, SupportsMimeTypes;
 
     /**
      * @param string $bin
@@ -77,6 +78,8 @@ class SevenZipAdapter implements AdapterInterface
      */
     protected function tryExtract(string $filePath, string $destination, ?string $password = null): bool
     {
+        $this->ensureDirectoryExists($destination);
+
         $command = [
             $this->bin,
             'x',

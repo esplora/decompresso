@@ -220,11 +220,12 @@ class Extractor
 
     /**
      * @param string $filePath
+     *
      * @return Collection
      */
     public function getSupportedAdapters(string $filePath): Collection
     {
-       return $this->adapters
+        return $this->adapters
             ->filter(fn (AdapterInterface $archive) => $archive->canSupport($filePath));
     }
 }

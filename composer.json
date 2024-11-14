@@ -18,9 +18,9 @@
         "illuminate/support": "v11.0"
     },
     "require-dev": {
-        "symfony/var-dumper": "^7.1",
         "laravel/pint": "^1.17",
         "phpunit/phpunit": "^10.5",
+        "symfony/var-dumper": "^7.1",
         "vlucas/phpdotenv": "^5.4.1"
     },
     "autoload": {

@@ -23,9 +23,9 @@ class Extractor
     protected PasswordProviderInterface $passwordProvider;
 
     /**
-     * Array of archive handlers for extracting archives.
+     * Collection of adapters handlers for extracting files.
      *
-     * @var AdapterInterface[]|Collection
+     * @var \Illuminate\Support\Collection<AdapterInterface>
      */
     protected Collection $adapters;
 

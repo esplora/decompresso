@@ -49,6 +49,10 @@ class QpdfAdapter implements AdapterInterface
      */
     public function extract(string $filePath, string $destination, PasswordProviderInterface $passwords): bool
     {
+        if ($this->tryDecrypting($filePath, $destination)) {
+            return true; // Successfully extracted without a password
+        }
+
         foreach ($passwords->getPasswords() as $password) {
             if ($this->tryDecrypting($filePath, $destination, $password)) {
                 return true;

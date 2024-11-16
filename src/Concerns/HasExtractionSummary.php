@@ -2,7 +2,6 @@
 
 namespace Esplora\Lumos\Concerns;
 
-use Esplora\Lumos\Contracts\ExtractionSummaryInterface;
 use Esplora\Lumos\Summary;
 
 trait HasExtractionSummary

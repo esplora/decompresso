@@ -18,7 +18,7 @@ use Symfony\Component\Process\Process;
  */
 class SevenZipAdapter implements AdapterInterface
 {
-    use DirectoryEnsurer, SupportsMimeTypes, HasExtractionSummary;
+    use DirectoryEnsurer, HasExtractionSummary, SupportsMimeTypes;
 
     /**
      * @param string $bin

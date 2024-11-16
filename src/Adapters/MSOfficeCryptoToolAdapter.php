@@ -12,7 +12,7 @@ use Symfony\Component\Process\Process;
 
 class MSOfficeCryptoToolAdapter implements AdapterInterface
 {
-    use DirectoryEnsurer, SupportsMimeTypes, HasExtractionSummary;
+    use DirectoryEnsurer, HasExtractionSummary, SupportsMimeTypes;
 
     /**
      * @param string $bin
@@ -91,6 +91,7 @@ class MSOfficeCryptoToolAdapter implements AdapterInterface
             $this->summary()->addStepForProcess($process, [
                 'existPassword' => true,
             ]);
+
             return $process->isSuccessful();
         }
 

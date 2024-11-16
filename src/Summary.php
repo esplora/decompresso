@@ -129,7 +129,6 @@ class Summary implements ExtractionSummaryInterface
             'exitCodeText' => $process->getExitCodeText(),
         ]);
 
-
         return $this->addStep($process->isSuccessful(), $context);
     }
 }

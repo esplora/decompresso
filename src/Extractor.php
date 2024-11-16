@@ -3,6 +3,7 @@
 namespace Esplora\Lumos;
 
 use Esplora\Lumos\Contracts\AdapterInterface;
+use Esplora\Lumos\Contracts\ExtractionSummaryInterface;
 use Esplora\Lumos\Contracts\PasswordProviderInterface;
 use Esplora\Lumos\Providers\ArrayPasswordProvider;
 use Illuminate\Support\Collection;
@@ -23,9 +24,9 @@ class Extractor
     protected PasswordProviderInterface $passwordProvider;
 
     /**
-     * Array of archive handlers for extracting archives.
+     * Collection of adapters handlers for extracting files.
      *
-     * @var AdapterInterface[]|Collection
+     * @var \Illuminate\Support\Collection<AdapterInterface>
      */
     protected Collection $adapters;
 
@@ -115,13 +116,13 @@ class Extractor
     /**
      * Adds multiple archive handlers.
      *
-     * @param AdapterInterface[] $handlers Array of archive handlers.
+     * @param AdapterInterface[] $handlers Array of adapters.
      *
      * @return $this For method chaining.
      */
-    public function withAdapters(iterable $handlers): self
+    public function withAdapters(array $handlers): self
     {
-        $this->adapters->push(...$handlers);
+        $this->adapters->merge($handlers);
 
         return $this;
     }
@@ -195,27 +196,31 @@ class Extractor
     }
 
     /**
-     * Performs the extraction using all added handlers.
+     * Performs the extraction using support adapters.
      *
      * @param string      $filePath    Path to the archive.
      * @param string|null $destination Directory to extract to. If not specified, uses the same directory as the archive.
      *
-     * @return bool Result of the extraction.
+     * @return Collection<ExtractionSummaryInterface>.
      */
-    private function performExtraction(string $filePath, ?string $destination = null): bool
+    private function performExtraction(string $filePath, ?string $destination = null): Collection
     {
         $destination = $destination ?: dirname($filePath);
 
-        $supportHandlers = $this->getSupportedAdapters($filePath);
+        $summaries = collect();
 
-        // Attempt extraction with all added handlers.
-        foreach ($supportHandlers as $handler) {
-            if ($handler->extract($filePath, $destination, $this->passwordProvider)) {
-                return true;
-            }
-        }
+        $this
+            ->getSupportedAdapters($filePath)
+            ->each(function (AdapterInterface $adapter) use ($filePath, $destination, $summaries) {
+                $summary = $adapter->extract($filePath, $destination, $this->passwordProvider);
 
-        return false;
+                $summaries->put($adapter::class, $summary);
+
+                // If extraction success, stop further iteration of adapters
+                return ! $summary->isSuccessful();
+            });
+
+        return $summaries;
     }
 
     /**

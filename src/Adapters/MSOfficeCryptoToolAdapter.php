@@ -3,14 +3,16 @@
 namespace Esplora\Lumos\Adapters;
 
 use Esplora\Lumos\Concerns\DirectoryEnsurer;
+use Esplora\Lumos\Concerns\HasExtractionSummary;
 use Esplora\Lumos\Concerns\SupportsMimeTypes;
 use Esplora\Lumos\Contracts\AdapterInterface;
+use Esplora\Lumos\Contracts\ExtractionSummaryInterface;
 use Esplora\Lumos\Contracts\PasswordProviderInterface;
 use Symfony\Component\Process\Process;
 
 class MSOfficeCryptoToolAdapter implements AdapterInterface
 {
-    use DirectoryEnsurer, SupportsMimeTypes;
+    use DirectoryEnsurer, SupportsMimeTypes, HasExtractionSummary;
 
     /**
      * @param string $bin
@@ -40,24 +42,22 @@ class MSOfficeCryptoToolAdapter implements AdapterInterface
      * @param string                    $filePath    Path to the office file to decrypt.
      * @param string                    $destination Path where the decrypted file will be saved.
      * @param PasswordProviderInterface $passwords   List of passwords to try for decrypting the file.
-     *
-     * @return bool Returns true if decryption was successful, false otherwise.
      */
-    public function extract(string $filePath, string $destination, PasswordProviderInterface $passwords): bool
+    public function extract(string $filePath, string $destination, PasswordProviderInterface $passwords): ExtractionSummaryInterface
     {
         // First, try to open the file without a password
         if ($this->tryDecrypting($filePath, $destination)) {
-            return true; // Successfully opened without password
+            return $this->summary(); // Successfully opened without password
         }
 
         // If that fails, try each provided password
         foreach ($passwords->getPasswords() as $password) {
             if ($this->tryDecrypting($filePath, $destination, $password)) {
-                return true; // Successfully decrypted with password
+                return $this->summary(); // Successfully decrypted with password
             }
         }
 
-        return false; // Decryption failed
+        return $this->summary(); // Decryption failed
     }
 
     /**
@@ -81,19 +81,16 @@ class MSOfficeCryptoToolAdapter implements AdapterInterface
             $this->bin,
             $filePath,
             $destination,
+            $password !== null ? '--password='.$password : '--test',
         ];
-
-        // Add password option if provided
-        if ($password !== null) {
-            $command[] = '--password='.$password;
-        } else {
-            $command[] = '--test';
-        }
 
         $process = new Process($command);
         $process->run();
 
         if ($password !== null) {
+            $this->summary()->addStepForProcess($process, [
+                'existPassword' => true,
+            ]);
             return $process->isSuccessful();
         }
 

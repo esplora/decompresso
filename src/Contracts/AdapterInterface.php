@@ -40,7 +40,7 @@ interface AdapterInterface
      * @param PasswordProviderInterface $passwords   Password provider object to attempt extraction if the archive is password-protected.
      *                                               This can be an array or any iterable object containing password strings.
      *
-     * @return bool Returns true if extraction was successful, false otherwise.
+     * @return ExtractionSummaryInterface Returns an object that contains extraction status, attempts, and steps.
      */
-    public function extract(string $filePath, string $destination, PasswordProviderInterface $passwords): bool;
+    public function extract(string $filePath, string $destination, PasswordProviderInterface $passwords): ExtractionSummaryInterface;
 }

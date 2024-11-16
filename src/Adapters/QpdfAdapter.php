@@ -3,8 +3,10 @@
 namespace Esplora\Lumos\Adapters;
 
 use Esplora\Lumos\Concerns\DirectoryEnsurer;
+use Esplora\Lumos\Concerns\HasExtractionSummary;
 use Esplora\Lumos\Concerns\SupportsMimeTypes;
 use Esplora\Lumos\Contracts\AdapterInterface;
+use Esplora\Lumos\Contracts\ExtractionSummaryInterface;
 use Esplora\Lumos\Contracts\PasswordProviderInterface;
 use Symfony\Component\Process\Process;
 
@@ -16,7 +18,7 @@ use Symfony\Component\Process\Process;
  */
 class QpdfAdapter implements AdapterInterface
 {
-    use DirectoryEnsurer, SupportsMimeTypes;
+    use DirectoryEnsurer, SupportsMimeTypes, HasExtractionSummary;
 
     /**
      * @param string $bin
@@ -44,18 +46,20 @@ class QpdfAdapter implements AdapterInterface
      * @param string                    $filePath    Path to the PDF file to process.
      * @param string                    $destination Path where the unlocked PDF will be saved.
      * @param PasswordProviderInterface $passwords   List of passwords to try for decrypting the PDF file.
-     *
-     * @return bool Returns true if the decryption was successful, false otherwise.
      */
-    public function extract(string $filePath, string $destination, PasswordProviderInterface $passwords): bool
+    public function extract(string $filePath, string $destination, PasswordProviderInterface $passwords): ExtractionSummaryInterface
     {
+        if ($this->tryDecrypting($filePath, $destination)) {
+            return $this->summary(); // Successfully extracted without a password
+        }
+
         foreach ($passwords->getPasswords() as $password) {
             if ($this->tryDecrypting($filePath, $destination, $password)) {
-                return true;
+                return $this->summary();
             }
         }
 
-        return false;
+        return $this->summary();
     }
 
     /**
@@ -81,6 +85,10 @@ class QpdfAdapter implements AdapterInterface
 
         $process = new Process($command);
         $process->run();
+
+        $this->summary()->addStepForProcess($process, [
+            'existPassword' => $password !== null,
+        ]);
 
         return $process->isSuccessful();
     }

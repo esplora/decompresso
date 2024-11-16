@@ -3,8 +3,10 @@
 namespace Esplora\Lumos\Adapters;
 
 use Esplora\Lumos\Concerns\DirectoryEnsurer;
+use Esplora\Lumos\Concerns\HasExtractionSummary;
 use Esplora\Lumos\Concerns\SupportsMimeTypes;
 use Esplora\Lumos\Contracts\AdapterInterface;
+use Esplora\Lumos\Contracts\ExtractionSummaryInterface;
 use Esplora\Lumos\Contracts\PasswordProviderInterface;
 use Symfony\Component\Process\Process;
 
@@ -16,7 +18,7 @@ use Symfony\Component\Process\Process;
  */
 class SevenZipAdapter implements AdapterInterface
 {
-    use DirectoryEnsurer, SupportsMimeTypes;
+    use DirectoryEnsurer, SupportsMimeTypes, HasExtractionSummary;
 
     /**
      * @param string $bin
@@ -48,23 +50,21 @@ class SevenZipAdapter implements AdapterInterface
      * @param string                    $filePath    Path to the 7-Zip archive.
      * @param string                    $destination Directory where the archive will be extracted. The directory will be created if it does not exist.
      * @param PasswordProviderInterface $passwords   List of passwords for protected archives.
-     *
-     * @return bool Returns true if extraction was successful, false otherwise.
      */
-    public function extract(string $filePath, string $destination, PasswordProviderInterface $passwords): bool
+    public function extract(string $filePath, string $destination, PasswordProviderInterface $passwords): ExtractionSummaryInterface
     {
         if ($this->tryExtract($filePath, $destination)) {
-            return true; // Successfully extracted without a password
+            return $this->summary(); // Successfully extracted without a password
         }
 
         // Attempt to extract the archive with each password from the list
         foreach ($passwords->getPasswords() as $password) {
             if ($this->tryExtract($filePath, $destination, $password)) {
-                return true;
+                return $this->summary();
             }
         }
 
-        return false;
+        return $this->summary();
     }
 
     /**
@@ -92,6 +92,10 @@ class SevenZipAdapter implements AdapterInterface
 
         $process = new Process($command);
         $process->run();
+
+        $this->summary()->addStepForProcess($process, [
+            'existPassword' => $password !== null,
+        ]);
 
         return $process->isSuccessful();
     }

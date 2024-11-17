@@ -28,7 +28,7 @@ interface SummaryInterface
      * which can be further processed or analyzed.
      *
      * @return Collection A collection of steps, each containing success status
-     *                   and context data.
+     *                    and context data.
      */
     public function steps(): Collection;
 

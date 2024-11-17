@@ -8,9 +8,7 @@ Lumos is a library that provides a interface for removing passwords from protect
 content), making these tasks simple and accessible.
 
 
-## What can I use this for?
-
-Lumos is perfect for preparing protected content for further processing, such as:
+###### What can I use this for?
 
 - Unlocking password-protected documents and archives before data extraction with tools like [Apache Tika](https://tika.apache.org/).
 - Online services for removing or attempting password recovery, such as through brute force.

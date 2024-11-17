@@ -77,7 +77,7 @@ class Extractor
      *
      * @param iterable $adapters iterable of file adapters.
      */
-    public static function make(iterable $adapters): static
+    public static function make(iterable $adapters): self
     {
         return (new static)->withAdapters($adapters);
     }

@@ -3,10 +3,8 @@
 namespace Esplora\Lumos\Adapters;
 
 use Esplora\Lumos\Concerns\Decryptable;
-use Esplora\Lumos\Concerns\DirectoryEnsurer;
 use Esplora\Lumos\Concerns\SupportsMimeTypes;
 use Esplora\Lumos\Contracts\AdapterInterface;
-use Esplora\Lumos\Contracts\PasswordProviderInterface;
 use Symfony\Component\Process\Process;
 
 class MSOfficeCryptoToolAdapter implements AdapterInterface

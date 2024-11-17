@@ -67,13 +67,13 @@ class QpdfAdapter implements AdapterInterface
     /**
      * Attempts to decrypt the PDF file with the provided password.
      *
-     * @param string $filePath    Path to the PDF file.
-     * @param string $destination Path where the unlocked PDF will be saved.
+     * @param string      $filePath    Path to the PDF file.
+     * @param string      $destination Path where the unlocked PDF will be saved.
      * @param string|null $password    Password to attempt for unlocking the PDF.
      *
      * @return bool Returns true if decryption was successful, false otherwise.
      */
-    protected function tryDecrypting(string $filePath, string $destination, string $password = null): bool
+    protected function tryDecrypting(string $filePath, string $destination, ?string $password = null): bool
     {
         $command = [
             $this->bin,

@@ -4,6 +4,7 @@ namespace Esplora\Lumos;
 
 use Esplora\Lumos\Contracts\AdapterInterface;
 use Esplora\Lumos\Contracts\PasswordProviderInterface;
+use Esplora\Lumos\Contracts\SummaryInterface;
 use Esplora\Lumos\Providers\ArrayPasswordProvider;
 use Illuminate\Support\Collection;
 
@@ -37,20 +38,6 @@ class Extractor
     protected $failureCallback;
 
     /**
-     * Callback for handling successful extractions.
-     *
-     * @var callable
-     */
-    protected $successCallback;
-
-    /**
-     * Callback for handling failed password attempts.
-     *
-     * @var callable
-     */
-    protected $passwordFailureCallback;
-
-    /**
      * Constructor for the Extractor class.
      *
      * Initializes default adapters for successful and failed extractions.
@@ -61,13 +48,7 @@ class Extractor
         $this->passwordProvider = new ArrayPasswordProvider([]);
 
         // Default callback for failed extraction.
-        $this->failureCallback = fn (\Throwable $exception) => false;
-
-        // Default callback for successful extraction.
-        $this->successCallback = fn () => true;
-
-        // Default callback for password failure.
-        $this->passwordFailureCallback = fn () => false;
+        $this->failureCallback = fn (\Throwable $throwable) => throw $throwable;
 
         $this->adapters = collect($adapters);
     }
@@ -77,7 +58,7 @@ class Extractor
      *
      * @param iterable $adapters iterable of file adapters.
      */
-    public static function make(iterable $adapters): self
+    public static function make(iterable $adapters = []): self
     {
         return (new static)->withAdapters($adapters);
     }
@@ -139,34 +120,6 @@ class Extractor
     }
 
     /**
-     * Sets the callback for handling password failures.
-     *
-     * @param callable $callback Callback for handling password failures.
-     *
-     * @return $this
-     */
-    public function onPasswordFailure(callable $callback): self
-    {
-        $this->passwordFailureCallback = $callback;
-
-        return $this;
-    }
-
-    /**
-     * Sets the callback for handling successful extractions.
-     *
-     * @param callable $callback Callback for handling successful extractions.
-     *
-     * @return $this For method chaining.
-     */
-    public function onSuccess(callable $callback): self
-    {
-        $this->successCallback = $callback;
-
-        return $this;
-    }
-
-    /**
      * Extracts the file to the specified location.
      *
      * This method performs the extraction and handles exceptions and callbacks for failure or success.
@@ -181,15 +134,10 @@ class Extractor
     public function extract(string $filePath, ?string $destination = null): mixed
     {
         try {
-            $success = $this->performExtraction($filePath, $destination);
+            return $this->performExtraction($filePath, $destination);
         } catch (\Throwable $throwable) {
             return call_user_func($this->failureCallback, $throwable, $filePath, $destination);
         }
-
-        $callback = $success ? $this->successCallback : $this->passwordFailureCallback;
-
-        // Call the appropriate callback based on extraction result.
-        return $callback($filePath, $destination);
     }
 
     /**
@@ -198,28 +146,24 @@ class Extractor
      * @param string      $filePath    Path to the file.
      * @param string|null $destination Directory to extract to. If not specified, uses the same directory as the file.
      *
-     * @return bool Result of the extraction.
+     * @return SummaryInterface Result of the extraction.
      */
-    private function performExtraction(string $filePath, ?string $destination = null): bool
+    private function performExtraction(string $filePath, ?string $destination = null): SummaryInterface
     {
         $destination = $destination ?: dirname($filePath);
 
-        $supportAdapters = $this->getSupportedAdapters($filePath);
+        $adapter = $this
+            ->getSupportedAdapters($filePath)
+            ->whenEmpty(fn () => throw new \RuntimeException("No adapter found for file: {$filePath}"))
+            ->first();
 
-        // Attempt extraction with all added adapters.
-        foreach ($supportAdapters as $adapter) {
-            if ($adapter->extract($filePath, $destination, $this->passwordProvider)) {
-                return true;
-            }
-        }
-
-        return false;
+        return $adapter->extract($filePath, $destination, $this->passwordProvider);
     }
 
     /**
      * @param string $filePath
      *
-     * @return Collection
+     * @return Collection<AdapterInterface>
      */
     public function getSupportedAdapters(string $filePath): Collection
     {

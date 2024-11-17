@@ -29,7 +29,7 @@ class MSOfficeCryptoToolAdapterTest extends AdapterTests
                 $this->getPasswords()
             );
 
-        $this->assertTrue($result);
+        $this->assertTrue($result->isSuccessful());
         $this->assertFilesExtracted([
             'simple.doc',
         ]);
@@ -46,7 +46,7 @@ class MSOfficeCryptoToolAdapterTest extends AdapterTests
                 $this->getPasswords()
             );
 
-        $this->assertTrue($result);
+        $this->assertTrue($result->isSuccessful());
         $this->assertFilesExtracted([
             'protected.ppt',
         ]);
@@ -60,6 +60,6 @@ class MSOfficeCryptoToolAdapterTest extends AdapterTests
             'wrongpassword',
         ]));
 
-        $this->assertFalse($result);
+        $this->assertFalse($result->isSuccessful());
     }
 }

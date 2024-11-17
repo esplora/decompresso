@@ -60,15 +60,24 @@ class MSOfficeCryptoToolAdapter implements AdapterInterface
 
         // When password exist and the process is successful, the file is decrypted
         if ($password !== null) {
+            $this->summary()
+                ->addStepWithProcess($process->isSuccessful(), $process, $password);
+
             return $process->isSuccessful();
         }
 
         // When password is not provided, check output for 'not encrypted' message
         if (! str_contains($process->getErrorOutput(), 'not encrypted')) {
+            $this->summary()
+                ->addStepWithProcess(false, $process, $password);
+
             return false;
         }
 
         copy($filePath, $destination);
+
+        $this->summary()
+            ->addStepWithProcess(true, $process, $password);
 
         return true;
     }

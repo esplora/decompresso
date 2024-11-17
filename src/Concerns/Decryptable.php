@@ -3,10 +3,11 @@
 namespace Esplora\Lumos\Concerns;
 
 use Esplora\Lumos\Contracts\PasswordProviderInterface;
+use Esplora\Lumos\Contracts\SummaryInterface;
 
 trait Decryptable
 {
-    use DirectoryEnsurer;
+    use DirectoryEnsurer, HasSummary;
 
     /**
      * Removes the password or extract from an files using adapters.
@@ -14,26 +15,24 @@ trait Decryptable
      * @param string                    $filePath    Path to the to file.
      * @param string                    $destination Path where the file will be saved.
      * @param PasswordProviderInterface $passwords   List of passwords to try for decrypting the file.
-     *
-     * @return bool Returns true if decryption was successful, false otherwise.
      */
-    public function extract(string $filePath, string $destination, PasswordProviderInterface $passwords): bool
+    public function extract(string $filePath, string $destination, PasswordProviderInterface $passwords): SummaryInterface
     {
         $this->ensureDirectoryExists($destination);
 
         // First, try to open the file without a password
         if ($this->tryDecrypting($filePath, $destination)) {
-            return true; // Successfully opened without password
+            return $this->summary(); // Successfully opened without password
         }
 
         // If that fails, try each provided password
         foreach ($passwords->getPasswords() as $password) {
             if ($this->tryDecrypting($filePath, $destination, $password)) {
-                return true; // Successfully decrypted with password
+                return $this->summary(); // Successfully decrypted with password
             }
         }
 
-        return false; // Decryption failed
+        return $this->summary(); // Decryption failed
     }
 
     /**

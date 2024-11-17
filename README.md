@@ -35,12 +35,12 @@ below demonstrates using `SevenZipAdapter` for archive, but you can add your own
 use Esplora\Lumos\Extractor;
 use Esplora\Lumos\Adapters\SevenZipAdapter;
 
-Extractor::make([
-    // Specify which file adapters will be used
-    new SevenZipAdapter(),
-])
-->extract('/path/to/your/archive.zip', '/path/to/extract/to');
-// Process a file (returns a boolean depending on the outcome)
+$lumos = Extractor::make()
+    ->withAdapter(new SevenZipAdapter())
+    ->extract('/path/to/your/archive.zip');
+
+$lumos->isSuccessful(); // true
+$lumos->steps()->count(); // 1
 ```
 
 > [!NOTE]
@@ -57,14 +57,18 @@ use Esplora\Lumos\Extractor;
 use Esplora\Lumos\Adapters\SevenZipAdapter;
 use Esplora\Lumos\Providers\ArrayPasswordProvider;
 
-Extractor::make([
-    new SevenZipAdapter(),
-])
-    ->withPasswords(new ArrayPasswordProvider([
-        'qwerty',
-        'xxx123',
-    ]))
-    ->extract('/path/to/your/archive.zip', '/path/to/save/to');
+$passwords = new ArrayPasswordProvider([
+    'qwerty',
+    'xxx123',
+]);
+
+Extractor::make()
+    ->withAdapters([
+        new SevenZipAdapter(),
+    ])
+    ->withPasswords($passwords)
+    ->extract('/path/to/your/archive.zip', '/path/to/save/to')
+    ->isSuccessful(); // false
 ```
 
 If needed, you can create your own password provider by implementing the `PasswordProviderInterface`.
@@ -73,35 +77,6 @@ If needed, you can create your own password provider by implementing the `Passwo
 > If you don’t have a password database but want to try all possible combinations, you can
 > use [SecLists](https://github.com/danielmiessler/SecLists/tree/master/Passwords) as a source of popular passwords for
 > brute-forcing.
-
-### Event Handling
-
-For more control over the file processing, you can add event handlers. This allows you to receive information about the
-reasons for failures or respond to successful completions.
-
-```php
-use Esplora\Lumos\Extractor;
-use Esplora\Lumos\Adapters\SevenZipAdapter;
-use Esplora\Lumos\Providers\ArrayPasswordProvider;
-
-Extractor::make([
-    new SevenZipAdapter(),
-])
-    ->withPasswords(new ArrayPasswordProvider([
-        'qwerty',
-        'xxx123',
-    ]))
-    ->onSuccess(function ($file, $output) {
-        // Processing completed successfully!
-    })
-    ->onPasswordFailure(function ($file, $output) {
-        // The password was incorrect
-    })
-    ->onFailure(function ($throwable, $file, $output) {
-        // Handle the failure
-    })
-    ->extract('/path/to/your/archive.zip', '/path/to/save/to');
-```
 
 ### Testing
 

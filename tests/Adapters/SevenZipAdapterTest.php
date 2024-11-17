@@ -59,18 +59,29 @@ class SevenZipAdapterTest extends AdapterTests
 
     public function testExtractionFailureOnPassword(): void
     {
+        $passwords = [
+            'wrongpassword',
+            'fewfwefgwegreg',
+            'gregre0u089ujg',
+        ];
+
         $archivePath = $this->getFixturesDir('zip/protected.zip');
 
         $result = $this->adepter()
             ->extract(
                 $archivePath,
                 $this->getExtractionPath(),
-                new ArrayPasswordProvider([
-                    'wrongpassword',
-                ])
+                new ArrayPasswordProvider($passwords)
             );
 
         $this->assertFalse($result->isSuccessful());
-        // $this->assertFilesDoesExtracted();
+
+        // Increment to one more than the number of passwords because the first attempt is without a password
+        $this->assertEquals(count($passwords) + 1, $result->attempts());
+
+        // Only unique output
+        $this->assertEquals(1, $result->steps()->count());
+
+        //$this->assertFilesDoesExtracted();
     }
 }

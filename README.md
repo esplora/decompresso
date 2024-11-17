@@ -43,6 +43,10 @@ Extractor::make([
 // Process a file (returns a boolean depending on the outcome)
 ```
 
+> [!NOTE]
+> When multiple adapters are suitable for a given file, the first adapter in the list will be selected.
+
+
 ### Handling Password-Protected Files
 
 To work with password-protected documents, add a password provider. The example below uses `ArrayPasswordProvider`,

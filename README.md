@@ -39,8 +39,8 @@ Extractor::make([
     // Specify which file adapters will be used
     new SevenZipAdapter(),
 ])
-// Process a file (returns a boolean depending on the outcome)
 ->extract('/path/to/your/archive.zip', '/path/to/extract/to');
+// Process a file (returns a boolean depending on the outcome)
 ```
 
 ### Handling Password-Protected Files

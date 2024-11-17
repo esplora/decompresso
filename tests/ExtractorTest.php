@@ -61,30 +61,6 @@ class ExtractorTest extends TestCase
             ->extract('/path/to/archive.zip');
     }
 
-    public function testBaseExtractionExceptionFailure(): void
-    {
-        $passwordProvider = $this->createMock(PasswordProviderInterface::class);
-        $passwordProvider->method('getPasswords')->willReturn(['123', 'xxx123']);
-
-        $archiveHandler = $this->createMock(AdapterInterface::class);
-        $archiveHandler->method('canSupport')
-            ->willReturn(true);
-
-        $archiveHandler->method('extract')
-            ->willThrowException(new \RuntimeException('Failed to extract archive.'));
-
-        // Set up handler to throw exception on general failure
-        $this->extractor->withPasswords($passwordProvider)
-            ->withAdapter($archiveHandler)
-            ->onFailure(fn ($e) => throw new \Exception('Error: '.$e->getMessage()));
-
-        // Expect an exception to be thrown
-        $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('Error: Failed to extract archive.');
-
-        $this->extractor->extract('/path/to/archive.zip');
-    }
-
     public function testBaseExtractionWithOutContinueOnSuccess(): void
     {
         $passwordProvider = $this->createMock(PasswordProviderInterface::class);
@@ -109,8 +85,7 @@ class ExtractorTest extends TestCase
             ->withAdapters([
                 $archiveHandler,
                 $archiveHandlerOther,
-            ])
-            ->onFailure(fn ($e) => throw new \Exception('Error: '.$e->getMessage()));
+            ]);
 
         // Expect no exception, as the first handler returns true
         $result = $this->extractor->extract('/path/to/archive.zip');

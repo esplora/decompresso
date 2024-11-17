@@ -29,13 +29,6 @@ class Extractor
     protected Collection $adapters;
 
     /**
-     * Callback for handling failed extractions.
-     *
-     * @var callable
-     */
-    protected $failureCallback;
-
-    /**
      * Constructor for the Extractor class.
      *
      * Initializes default adapters for successful and failed extractions.
@@ -44,9 +37,6 @@ class Extractor
     {
         // Default password provider with an empty password list.
         $this->passwordProvider = new ArrayPasswordProvider([]);
-
-        // Default callback for failed extraction.
-        $this->failureCallback = fn (\Throwable $throwable) => throw $throwable;
 
         $this->adapters = collect($adapters);
     }
@@ -104,20 +94,6 @@ class Extractor
     }
 
     /**
-     * Sets the callback for handling failed extractions.
-     *
-     * @param callable $callback Callback for handling extraction failures.
-     *
-     * @return $this For method chaining.
-     */
-    public function onFailure(callable $callback): self
-    {
-        $this->failureCallback = $callback;
-
-        return $this;
-    }
-
-    /**
      * Extracts the file to the specified location.
      *
      * This method performs the extraction and handles exceptions and callbacks for failure or success.
@@ -127,26 +103,9 @@ class Extractor
      *
      * @throws \Exception If the password provider is not set.
      *
-     * @return mixed Result of the success callback or password failure callback.
+     * @return SummaryInterface Result of the success callback or password failure callback.
      */
-    public function extract(string $filePath, ?string $destination = null): mixed
-    {
-        try {
-            return $this->performExtraction($filePath, $destination);
-        } catch (\Throwable $throwable) {
-            return call_user_func($this->failureCallback, $throwable, $filePath, $destination);
-        }
-    }
-
-    /**
-     * Performs the extraction using all added adapters.
-     *
-     * @param string      $filePath    Path to the file.
-     * @param string|null $destination Directory to extract to. If not specified, uses the same directory as the file.
-     *
-     * @return SummaryInterface Result of the extraction.
-     */
-    private function performExtraction(string $filePath, ?string $destination = null): SummaryInterface
+    public function extract(string $filePath, ?string $destination = null): SummaryInterface
     {
         $destination = $destination ?: dirname($filePath);
 

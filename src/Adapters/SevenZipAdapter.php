@@ -53,6 +53,8 @@ class SevenZipAdapter implements AdapterInterface
      */
     public function extract(string $filePath, string $destination, PasswordProviderInterface $passwords): bool
     {
+        $this->ensureDirectoryExists($destination);
+
         if ($this->tryExtract($filePath, $destination)) {
             return true; // Successfully extracted without a password
         }
@@ -78,8 +80,6 @@ class SevenZipAdapter implements AdapterInterface
      */
     protected function tryExtract(string $filePath, string $destination, ?string $password = null): bool
     {
-        $this->ensureDirectoryExists($destination);
-
         $command = [
             $this->bin,
             'x',

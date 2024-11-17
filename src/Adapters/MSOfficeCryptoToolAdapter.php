@@ -35,7 +35,7 @@ class MSOfficeCryptoToolAdapter implements AdapterInterface
     }
 
     /**
-     * Decrypts an office file using msoffcrypto-tool.
+     * Removes the password from an office file using msoffcrypto-tool.
      *
      * @param string                    $filePath    Path to the office file to decrypt.
      * @param string                    $destination Path where the decrypted file will be saved.
@@ -45,6 +45,8 @@ class MSOfficeCryptoToolAdapter implements AdapterInterface
      */
     public function extract(string $filePath, string $destination, PasswordProviderInterface $passwords): bool
     {
+        $this->ensureDirectoryExists($destination);
+
         // First, try to open the file without a password
         if ($this->tryDecrypting($filePath, $destination)) {
             return true; // Successfully opened without password
@@ -72,8 +74,6 @@ class MSOfficeCryptoToolAdapter implements AdapterInterface
      */
     protected function tryDecrypting(string $filePath, string $destination, ?string $password = null): bool
     {
-        $this->ensureDirectoryExists($destination);
-
         // Need save the file with the same name
         $destination .= basename($filePath);
 
@@ -81,22 +81,18 @@ class MSOfficeCryptoToolAdapter implements AdapterInterface
             $this->bin,
             $filePath,
             $destination,
+            $password !== null ? '--password='.$password : '--test',
         ];
-
-        // Add password option if provided
-        if ($password !== null) {
-            $command[] = '--password='.$password;
-        } else {
-            $command[] = '--test';
-        }
 
         $process = new Process($command);
         $process->run();
 
+        // When password exist and the process is successful, the file is decrypted
         if ($password !== null) {
             return $process->isSuccessful();
         }
 
+        // When password is not provided, check output for 'not encrypted' message
         if (! str_contains($process->getErrorOutput(), 'not encrypted')) {
             return false;
         }

@@ -36,7 +36,7 @@ class QpdfAdapter implements AdapterInterface
     }
 
     /**
-     * Extracts or removes the password from a PDF file.
+     * Removes the password from a PDF file.
      *
      * This method uses the qpdf utility to decrypt a password-protected PDF file.
      * It tries each password provided until it finds the correct one.
@@ -49,6 +49,8 @@ class QpdfAdapter implements AdapterInterface
      */
     public function extract(string $filePath, string $destination, PasswordProviderInterface $passwords): bool
     {
+        $this->ensureDirectoryExists($destination);
+
         if ($this->tryDecrypting($filePath, $destination)) {
             return true; // Successfully extracted without a password
         }
@@ -73,8 +75,6 @@ class QpdfAdapter implements AdapterInterface
      */
     protected function tryDecrypting(string $filePath, string $destination, string $password): bool
     {
-        $this->ensureDirectoryExists($destination);
-
         $command = [
             $this->bin,
             '--password='.$password,

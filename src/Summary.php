@@ -9,22 +9,31 @@ use Symfony\Component\Process\Process;
 class Summary implements SummaryInterface
 {
     /**
-     * Успешность извлечения.
+     * Success status of the extraction process.
+     *
+     * This flag indicates whether the extraction process has been successful.
+     * If at least one step was successful, the process is considered successful.
      */
     protected bool $success = false;
 
     /**
-     * Количество попыток извлечения.
+     * Number of attempts made during the extraction process.
+     *
+     * This counts all attempts, including both successful and failed steps.
      */
     protected int $attempts = 0;
 
     /**
-     * Шаги извлечения.
+     * Steps involved in the extraction process.
+     *
+     * Contains all the steps of the process, including the success status and context for each step.
      */
     protected Collection $steps;
 
     /**
-     * @return void
+     * Constructor.
+     *
+     * Initializes an empty collection to store the steps of the extraction process.
      */
     public function __construct()
     {
@@ -32,28 +41,35 @@ class Summary implements SummaryInterface
     }
 
     /**
-     * Добавляет шаг в отчет.
+     * Adds a step to the report.
      *
-     * @param bool  $success Успешность текущего шага.
-     * @param array $context Контекст текущего шага.
+     * This method logs the result of the current step, including its success status and optional context.
+     * Only unique steps are added to the collection.
+     *
+     * @param bool  $success The success status of the current step.
+     * @param array $context The context of the current step, such as additional data or metadata.
      *
      * @return $this For method chaining.
      */
     public function addStep(bool $success, array $context = []): static
     {
+        // If the current step is successful, mark the whole process as successful.
         if ($success) {
             $this->success = true;
         }
 
+        // Increment the number of attempts.
         $this->attempts++;
 
+        // Generate a unique hash for the step based on its success and context.
         $contextHash = $this->hashContext($success, $context);
 
-        // Добавляем только уникальные шаги
+        // Only add the step if it's not already in the collection (to avoid duplicates).
         if ($this->steps->has($contextHash)) {
             return $this;
         }
 
+        // Add the step to the collection.
         $this->steps->put($contextHash, [
             'success' => $success,
             'context' => $context,
@@ -63,21 +79,32 @@ class Summary implements SummaryInterface
     }
 
     /**
-     * Генерирует уникальный хеш для шага.
+     * Generates a unique hash for a step.
      *
-     * @param bool  $success Успешность шага.
-     * @param array $context Контекст шага.
+     * The hash is created based on the success status and the context of the step,
+     * ensuring uniqueness and preventing duplicate steps from being added to the collection.
+     *
+     * @param bool  $success The success status of the step.
+     * @param array $context The context of the step, containing additional information.
+     *
+     * @return string A unique hash for this step.
      */
     protected function hashContext(bool $success, array $context): string
     {
-        return sha1(json_encode([
-            'success' => $success,
-            'context' => $context,
-        ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
+       $json = collect($context)
+            ->except('password')
+            ->toJson(JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+
+        return sha1($json);
     }
 
     /**
-     * Возвращает все шаги отчета.
+     * Retrieves all steps recorded in the report.
+     *
+     * This method returns a collection of all the steps that have been added during the process.
+     * Each step includes its success status and associated context.
+     *
+     * @return Collection The collection of all steps in the report.
      */
     public function steps(): Collection
     {
@@ -85,7 +112,11 @@ class Summary implements SummaryInterface
     }
 
     /**
-     * Проверяет успешность всего процесса.
+     * Checks whether the entire process was successful.
+     *
+     * This method evaluates all steps and returns true if at least one step was successful.
+     *
+     * @return bool True if the process was successful, false otherwise.
      */
     public function isSuccessful(): bool
     {
@@ -93,14 +124,27 @@ class Summary implements SummaryInterface
     }
 
     /**
-     * Получить количество попыток.
+     * Retrieves the total number of attempts.
+     *
+     * This method returns the total number of attempts, counting both successful and unsuccessful steps.
+     *
+     * @return int The total number of attempts made during the extraction process.
      */
     public function attempts(): int
     {
-        return $this->attempts++;
+        return $this->attempts;
     }
 
     /**
+     * Adds a step with information about a process.
+     *
+     * This method logs a step with additional details from a Symfony Process object,
+     * such as the success status, output, error output, exit code, and any associated password.
+     *
+     * @param bool    $success The success status of the step.
+     * @param Process $process The Symfony Process object containing process details.
+     * @param string|null $password The password used in the extraction process, if any.
+     *
      * @return $this For method chaining.
      */
     public function addStepWithProcess(bool $success, Process $process, ?string $password = null): static

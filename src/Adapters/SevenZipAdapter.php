@@ -2,10 +2,9 @@
 
 namespace Esplora\Lumos\Adapters;
 
-use Esplora\Lumos\Concerns\DirectoryEnsurer;
+use Esplora\Lumos\Concerns\Decryptable;
 use Esplora\Lumos\Concerns\SupportsMimeTypes;
 use Esplora\Lumos\Contracts\AdapterInterface;
-use Esplora\Lumos\Contracts\PasswordProviderInterface;
 use Symfony\Component\Process\Process;
 
 /**
@@ -16,7 +15,7 @@ use Symfony\Component\Process\Process;
  */
 class SevenZipAdapter implements AdapterInterface
 {
-    use DirectoryEnsurer, SupportsMimeTypes;
+    use Decryptable, SupportsMimeTypes;
 
     /**
      * @param string $bin
@@ -43,33 +42,6 @@ class SevenZipAdapter implements AdapterInterface
     }
 
     /**
-     * Extracts the contents of a 7-Zip archive to the specified directory.
-     *
-     * @param string                    $filePath    Path to the 7-Zip archive.
-     * @param string                    $destination Directory where the archive will be extracted. The directory will be created if it does not exist.
-     * @param PasswordProviderInterface $passwords   List of passwords for protected archives.
-     *
-     * @return bool Returns true if extraction was successful, false otherwise.
-     */
-    public function extract(string $filePath, string $destination, PasswordProviderInterface $passwords): bool
-    {
-        $this->ensureDirectoryExists($destination);
-
-        if ($this->tryExtract($filePath, $destination)) {
-            return true; // Successfully extracted without a password
-        }
-
-        // Attempt to extract the archive with each password from the list
-        foreach ($passwords->getPasswords() as $password) {
-            if ($this->tryExtract($filePath, $destination, $password)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
      * Attempts to extract the archive contents with an optional password.
      *
      * @param string      $filePath    Path to the 7-Zip archive.
@@ -78,7 +50,7 @@ class SevenZipAdapter implements AdapterInterface
      *
      * @return bool Returns true if extraction was successful, false otherwise.
      */
-    protected function tryExtract(string $filePath, string $destination, ?string $password = null): bool
+    protected function tryDecrypting(string $filePath, string $destination, ?string $password = null): bool
     {
         $command = [
             $this->bin,

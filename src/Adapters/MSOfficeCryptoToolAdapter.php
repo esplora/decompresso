@@ -2,6 +2,7 @@
 
 namespace Esplora\Lumos\Adapters;
 
+use Esplora\Lumos\Concerns\Decryptable;
 use Esplora\Lumos\Concerns\DirectoryEnsurer;
 use Esplora\Lumos\Concerns\SupportsMimeTypes;
 use Esplora\Lumos\Contracts\AdapterInterface;
@@ -10,7 +11,7 @@ use Symfony\Component\Process\Process;
 
 class MSOfficeCryptoToolAdapter implements AdapterInterface
 {
-    use DirectoryEnsurer, SupportsMimeTypes;
+    use Decryptable, SupportsMimeTypes;
 
     /**
      * @param string $bin
@@ -32,34 +33,6 @@ class MSOfficeCryptoToolAdapter implements AdapterInterface
             'application/vnd.ms-excel', // XLS
             'application/vnd.ms-powerpoint', // PPT
         ];
-    }
-
-    /**
-     * Removes the password from an office file using msoffcrypto-tool.
-     *
-     * @param string                    $filePath    Path to the office file to decrypt.
-     * @param string                    $destination Path where the decrypted file will be saved.
-     * @param PasswordProviderInterface $passwords   List of passwords to try for decrypting the file.
-     *
-     * @return bool Returns true if decryption was successful, false otherwise.
-     */
-    public function extract(string $filePath, string $destination, PasswordProviderInterface $passwords): bool
-    {
-        $this->ensureDirectoryExists($destination);
-
-        // First, try to open the file without a password
-        if ($this->tryDecrypting($filePath, $destination)) {
-            return true; // Successfully opened without password
-        }
-
-        // If that fails, try each provided password
-        foreach ($passwords->getPasswords() as $password) {
-            if ($this->tryDecrypting($filePath, $destination, $password)) {
-                return true; // Successfully decrypted with password
-            }
-        }
-
-        return false; // Decryption failed
     }
 
     /**

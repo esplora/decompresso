@@ -2,10 +2,9 @@
 
 namespace Esplora\Lumos\Adapters;
 
-use Esplora\Lumos\Concerns\DirectoryEnsurer;
+use Esplora\Lumos\Concerns\Decryptable;
 use Esplora\Lumos\Concerns\SupportsMimeTypes;
 use Esplora\Lumos\Contracts\AdapterInterface;
-use Esplora\Lumos\Contracts\PasswordProviderInterface;
 use Symfony\Component\Process\Process;
 
 /**
@@ -16,7 +15,7 @@ use Symfony\Component\Process\Process;
  */
 class QpdfAdapter implements AdapterInterface
 {
-    use DirectoryEnsurer, SupportsMimeTypes;
+    use Decryptable, SupportsMimeTypes;
 
     /**
      * @param string $bin
@@ -33,35 +32,6 @@ class QpdfAdapter implements AdapterInterface
         return [
             'application/pdf',
         ];
-    }
-
-    /**
-     * Removes the password from a PDF file.
-     *
-     * This method uses the qpdf utility to decrypt a password-protected PDF file.
-     * It tries each password provided until it finds the correct one.
-     *
-     * @param string                    $filePath    Path to the PDF file to process.
-     * @param string                    $destination Path where the unlocked PDF will be saved.
-     * @param PasswordProviderInterface $passwords   List of passwords to try for decrypting the PDF file.
-     *
-     * @return bool Returns true if the decryption was successful, false otherwise.
-     */
-    public function extract(string $filePath, string $destination, PasswordProviderInterface $passwords): bool
-    {
-        $this->ensureDirectoryExists($destination);
-
-        if ($this->tryDecrypting($filePath, $destination)) {
-            return true; // Successfully extracted without a password
-        }
-
-        foreach ($passwords->getPasswords() as $password) {
-            if ($this->tryDecrypting($filePath, $destination, $password)) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     /**

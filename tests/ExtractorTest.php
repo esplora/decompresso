@@ -143,7 +143,6 @@ class ExtractorTest extends TestCase
         $this->assertTrue($result->isSuccessful());
     }
 
-
     private function createSummary(bool $status = true, Collection|array $steps = []): SummaryInterface
     {
         $summary = $this->createMock(SummaryInterface::class);

@@ -15,7 +15,7 @@ trait HasSummary
      */
     protected function summary(): Summary
     {
-        $this->summary ??= new Summary();
+        $this->summary ??= new Summary;
 
         return $this->summary;
     }

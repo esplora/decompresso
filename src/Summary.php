@@ -121,7 +121,7 @@ class Summary implements SummaryInterface
      *
      * @return $this For method chaining.
      */
-    public function addStepWithProcess(bool $success, Process $process, string $password = null): static
+    public function addStepWithProcess(bool $success, Process $process, ?string $password = null): static
     {
         return $this->addStep($success, [
             'isSuccessful' => $process->isSuccessful(),

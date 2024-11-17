@@ -58,7 +58,6 @@ class MSOfficeCryptoToolAdapter implements AdapterInterface
         $process = new Process($command);
         $process->run();
 
-
         // When password exist and the process is successful, the file is decrypted
         if ($password !== null) {
             $this->summary()

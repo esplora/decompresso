@@ -11,9 +11,6 @@ class MSOfficeCryptoToolAdapter implements AdapterInterface
 {
     use Decryptable, SupportsMimeTypes;
 
-    /**
-     * @param string $bin
-     */
     public function __construct(protected string $bin = 'msoffcrypto-tool') {}
 
     /**

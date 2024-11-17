@@ -17,9 +17,6 @@ class QpdfAdapter implements AdapterInterface
 {
     use Decryptable, SupportsMimeTypes;
 
-    /**
-     * @param string $bin
-     */
     public function __construct(protected string $bin = 'qpdf') {}
 
     /**

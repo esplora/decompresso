@@ -13,9 +13,6 @@ use PHPUnit\Framework\TestCase;
 
 class ExtractorTest extends TestCase
 {
-    /**
-     * @var Extractor
-     */
     private Extractor $extractor;
 
     protected function setUp(): void

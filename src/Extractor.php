@@ -18,8 +18,6 @@ class Extractor
 {
     /**
      * Password provider for handling protected files.
-     *
-     * @var PasswordProviderInterface
      */
     protected PasswordProviderInterface $passwordProvider;
 
@@ -161,8 +159,6 @@ class Extractor
     }
 
     /**
-     * @param string $filePath
-     *
      * @return Collection<AdapterInterface>
      */
     public function getSupportedAdapters(string $filePath): Collection

@@ -10,22 +10,16 @@ class Summary implements SummaryInterface
 {
     /**
      * Успешность извлечения.
-     *
-     * @var bool
      */
     protected bool $success = false;
 
     /**
      * Количество попыток извлечения.
-     *
-     * @var int
      */
     protected int $attempts = 0;
 
     /**
      * Шаги извлечения.
-     *
-     * @var \Illuminate\Support\Collection
      */
     protected Collection $steps;
 
@@ -73,8 +67,6 @@ class Summary implements SummaryInterface
      *
      * @param bool  $success Успешность шага.
      * @param array $context Контекст шага.
-     *
-     * @return string
      */
     protected function hashContext(bool $success, array $context): string
     {
@@ -86,8 +78,6 @@ class Summary implements SummaryInterface
 
     /**
      * Возвращает все шаги отчета.
-     *
-     * @return Collection
      */
     public function steps(): Collection
     {
@@ -96,8 +86,6 @@ class Summary implements SummaryInterface
 
     /**
      * Проверяет успешность всего процесса.
-     *
-     * @return bool
      */
     public function isSuccessful(): bool
     {
@@ -106,8 +94,6 @@ class Summary implements SummaryInterface
 
     /**
      * Получить количество попыток.
-     *
-     * @return int
      */
     public function attempts(): int
     {
@@ -115,9 +101,6 @@ class Summary implements SummaryInterface
     }
 
     /**
-     * @param bool                               $success
-     * @param \Symfony\Component\Process\Process $process
-     * @param string|null                        $password
      *
      * @return $this For method chaining.
      */

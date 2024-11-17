@@ -10,9 +10,6 @@ use Esplora\Lumos\Providers\ArrayPasswordProvider;
 
 class SevenZipAdapterTest extends AdapterTests
 {
-    /**
-     * @return \Esplora\Lumos\Contracts\AdapterInterface
-     */
     protected function adepter(): AdapterInterface
     {
         return new SevenZipAdapter(

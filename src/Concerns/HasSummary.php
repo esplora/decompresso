@@ -10,8 +10,6 @@ trait HasSummary
 
     /**
      * Initializes and returns the current summary object.
-     *
-     * @return Summary
      */
     protected function summary(): Summary
     {

@@ -6,10 +6,6 @@ trait DirectoryManagesTestData
 {
     /**
      * Returns the full path to the fixtures directory.
-     *
-     * @param string $path
-     *
-     * @return string
      */
     protected function getFixturesDir(string $path): string
     {
@@ -18,10 +14,6 @@ trait DirectoryManagesTestData
 
     /**
      * Returns the full path to the reference directory.
-     *
-     * @param string $path
-     *
-     * @return string
      */
     protected function getReferenceDir(string $path): string
     {
@@ -30,10 +22,6 @@ trait DirectoryManagesTestData
 
     /**
      * Returns the full path to the extraction directory.
-     *
-     * @param string $path
-     *
-     * @return string
      */
     protected function getExtractionPath(string $path = ''): string
     {

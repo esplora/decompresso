@@ -56,6 +56,9 @@ class QpdfAdapter implements AdapterInterface
         $process = new Process($command);
         $process->run();
 
+        $this->summary()
+            ->addStepWithProcess($process->isSuccessful(), $process, $password);
+
         return $process->isSuccessful();
     }
 

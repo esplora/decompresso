@@ -6,7 +6,9 @@ namespace Esplora\Lumos\Tests;
 
 use Esplora\Lumos\Contracts\AdapterInterface;
 use Esplora\Lumos\Contracts\PasswordProviderInterface;
+use Esplora\Lumos\Contracts\SummaryInterface;
 use Esplora\Lumos\Extractor;
+use Illuminate\Support\Collection;
 use PHPUnit\Framework\TestCase;
 
 class ExtractorTest extends TestCase
@@ -22,50 +24,47 @@ class ExtractorTest extends TestCase
         $this->extractor = new Extractor;
     }
 
-    public function testExtractionSuccess(): void
+    public function testBaseExtractionSuccess(): void
     {
         $passwordProvider = $this->createMock(PasswordProviderInterface::class);
         $passwordProvider->method('getPasswords')->willReturn(['123', 'xxx123']);
 
         $archiveHandler = $this->createMock(AdapterInterface::class);
         $archiveHandler->method('extract')
-            ->willReturn(true);
+            ->willReturn($this->createSummary());
 
         $archiveHandler->method('canSupport')
             ->willReturn(true);
 
-        $this->extractor->withPasswords($passwordProvider)
+        $result = $this->extractor->withPasswords($passwordProvider)
             ->withAdapter($archiveHandler)
-            ->onSuccess(fn ($filePath) => $filePath.' extracted successfully.')
-            ->onFailure(fn ($filePath) => 'Failed to extract '.$filePath);
+            ->extract('/path/to/archive.zip');
 
-        $result = $this->extractor->extract('/path/to/archive.zip');
-
-        $this->assertEquals('/path/to/archive.zip extracted successfully.', $result);
+        $this->assertInstanceOf(SummaryInterface::class, $result);
+        $this->assertTrue($result->isSuccessful());
     }
 
-    public function testExtractionPasswordFailure(): void
+    public function testBaseExtractionEmptyAdaptersFailure(): void
     {
         $passwordProvider = $this->createMock(PasswordProviderInterface::class);
         $passwordProvider->method('getPasswords')->willReturn(['123', 'xxx123']);
 
         $archiveHandler = $this->createMock(AdapterInterface::class);
-        $archiveHandler->method('extract')
-            ->willReturn(false); // Simulate extraction failure due to incorrect password
-
-        // Set up handler to throw exception on failure
-        $this->extractor->withPasswords($passwordProvider)
-            ->withAdapter($archiveHandler)
-            ->onPasswordFailure(fn ($filePath) => throw new \Exception("Failed to extract archive: {$filePath}"));
+        $archiveHandler->method('canSupport')
+            ->willReturn(false);
 
         // Expect an exception to be thrown
-        $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('Failed to extract archive: /path/to/archive.zip');
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('No adapter found for file: /path/to/archive.zip');
 
-        $this->extractor->extract('/path/to/archive.zip');
+        // Set up handler to throw exception on failure
+        $this->extractor
+            ->withPasswords($passwordProvider)
+            ->withAdapter($archiveHandler)
+            ->extract('/path/to/archive.zip');
     }
 
-    public function testExtractionExceptionFailure(): void
+    public function testBaseExtractionExceptionFailure(): void
     {
         $passwordProvider = $this->createMock(PasswordProviderInterface::class);
         $passwordProvider->method('getPasswords')->willReturn(['123', 'xxx123']);
@@ -89,7 +88,7 @@ class ExtractorTest extends TestCase
         $this->extractor->extract('/path/to/archive.zip');
     }
 
-    public function testExtractionWithOutContinueOnSuccess(): void
+    public function testBaseExtractionWithOutContinueOnSuccess(): void
     {
         $passwordProvider = $this->createMock(PasswordProviderInterface::class);
         $passwordProvider->method('getPasswords')->willReturn(['123', 'xxx123']);
@@ -99,7 +98,7 @@ class ExtractorTest extends TestCase
             ->willReturn(true);
 
         $archiveHandler->method('extract')
-            ->willReturn(true);
+            ->willReturn($this->createSummary());
 
         $archiveHandlerOther = $this->createMock(AdapterInterface::class);
         $archiveHandlerOther->method('canSupport')
@@ -119,10 +118,11 @@ class ExtractorTest extends TestCase
         // Expect no exception, as the first handler returns true
         $result = $this->extractor->extract('/path/to/archive.zip');
 
-        $this->assertTrue($result);
+        $this->assertInstanceOf(SummaryInterface::class, $result);
+        $this->assertTrue($result->isSuccessful());
     }
 
-    public function testExtractionNotCallPasswords(): void
+    public function testBaseExtractionNotCallPasswords(): void
     {
         $passwordProvider = $this->createMock(PasswordProviderInterface::class);
         $passwordProvider->method('getPasswords')
@@ -130,18 +130,30 @@ class ExtractorTest extends TestCase
 
         $archiveHandler = $this->createMock(AdapterInterface::class);
         $archiveHandler->method('extract')
-            ->willReturn(true);
+            ->willReturn($this->createSummary());
 
         $archiveHandler->method('canSupport')
             ->willReturn(true);
 
-        $this->extractor->withPasswords($passwordProvider)
+        $result = $this->extractor->withPasswords($passwordProvider)
             ->withAdapter($archiveHandler)
-            ->onSuccess(fn ($filePath) => $filePath.' extracted successfully.')
-            ->onFailure(fn ($filePath) => 'Failed to extract '.$filePath);
+            ->extract('/path/to/archive.zip');
 
-        $result = $this->extractor->extract('/path/to/archive.zip');
+        $this->assertInstanceOf(SummaryInterface::class, $result);
+        $this->assertTrue($result->isSuccessful());
+    }
 
-        $this->assertEquals('/path/to/archive.zip extracted successfully.', $result);
+
+    private function createSummary(bool $status = true, Collection|array $steps = []): SummaryInterface
+    {
+        $summary = $this->createMock(SummaryInterface::class);
+
+        $summary->method('isSuccessful')
+            ->willReturn($status);
+
+        $summary->method('steps')
+            ->willReturn(Collection::wrap($steps));
+
+        return $summary;
     }
 }

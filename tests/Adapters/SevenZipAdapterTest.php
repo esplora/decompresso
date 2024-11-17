@@ -41,7 +41,7 @@ class SevenZipAdapterTest extends AdapterTests
                 $this->getPasswords()
             );
 
-        $this->assertTrue($result);
+        $this->assertTrue($result->isSuccessful());
         $this->assertFilesExtracted();
     }
 
@@ -56,7 +56,7 @@ class SevenZipAdapterTest extends AdapterTests
                 $this->getPasswords()
             );
 
-        $this->assertTrue($result);
+        $this->assertTrue($result->isSuccessful());
         $this->assertFilesExtracted();
     }
 
@@ -73,7 +73,7 @@ class SevenZipAdapterTest extends AdapterTests
                 ])
             );
 
-        $this->assertFalse($result);
+        $this->assertFalse($result->isSuccessful());
         // $this->assertFilesDoesExtracted();
     }
 }

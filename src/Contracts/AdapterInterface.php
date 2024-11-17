@@ -39,8 +39,6 @@ interface AdapterInterface
      * @param string                    $destination Directory where the archive will be extracted. The directory will be created if it does not exist.
      * @param PasswordProviderInterface $passwords   Password provider object to attempt extraction if the archive is password-protected.
      *                                               This can be an array or any iterable object containing password strings.
-     *
-     * @return bool Returns true if extraction was successful, false otherwise.
      */
-    public function extract(string $filePath, string $destination, PasswordProviderInterface $passwords): bool;
+    public function extract(string $filePath, string $destination, PasswordProviderInterface $passwords): SummaryInterface;
 }

@@ -29,7 +29,7 @@ class QpdfAdapterTest extends AdapterTests
                 $this->getPasswords()
             );
 
-        $this->assertTrue($result);
+        $this->assertTrue($result->isSuccessful());
         $this->assertFilesExtracted([
             'simple.pdf',
         ]);
@@ -42,7 +42,7 @@ class QpdfAdapterTest extends AdapterTests
         $result = $this->adepter()
             ->extract($archivePath, $this->getExtractionPath(), $this->getPasswords());
 
-        $this->assertTrue($result);
+        $this->assertTrue($result->isSuccessful());
         $this->assertFilesExtracted([
             'protected.pdf',
         ]);
@@ -56,6 +56,6 @@ class QpdfAdapterTest extends AdapterTests
             'wrongpassword',
         ]));
 
-        $this->assertFalse($result);
+        $this->assertFalse($result->isSuccessful());
     }
 }

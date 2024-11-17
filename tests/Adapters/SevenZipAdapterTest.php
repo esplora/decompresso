@@ -82,6 +82,6 @@ class SevenZipAdapterTest extends AdapterTests
         // Only unique output
         $this->assertEquals(1, $result->steps()->count());
 
-        //$this->assertFilesDoesExtracted();
+        // $this->assertFilesDoesExtracted();
     }
 }

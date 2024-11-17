@@ -91,7 +91,7 @@ class Summary implements SummaryInterface
      */
     protected function hashContext(bool $success, array $context): string
     {
-       $json = collect($context)
+        $json = collect($context)
             ->except('password')
             ->toJson(JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
 
@@ -141,8 +141,8 @@ class Summary implements SummaryInterface
      * This method logs a step with additional details from a Symfony Process object,
      * such as the success status, output, error output, exit code, and any associated password.
      *
-     * @param bool    $success The success status of the step.
-     * @param Process $process The Symfony Process object containing process details.
+     * @param bool        $success  The success status of the step.
+     * @param Process     $process  The Symfony Process object containing process details.
      * @param string|null $password The password used in the extraction process, if any.
      *
      * @return $this For method chaining.

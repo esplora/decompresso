@@ -119,7 +119,7 @@ class Extractor
      */
     public function withAdapters(iterable $adapters): self
     {
-        $this->adapters->merge($adapters);
+        $this->adapters = $this->adapters->merge($adapters);
 
         return $this;
     }

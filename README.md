@@ -21,7 +21,7 @@ Each adapter is provided out of the box in the `Esplora\Lumos\Adapters\*` namesp
 | **File Type**     | **Tool**                                                         | **Adapter Class**         |
 |-------------------|------------------------------------------------------------------|---------------------------|
 | PDF               | [qpdf](https://github.com/qpdf/qpdf)                             | QpdfAdapter               |
-| Microsoft Office  | [msoffcrypto-tool](https://github.com/msoffice/msoffcrypto-tool) | MSOfficeCryptoToolAdapter |
+| Microsoft Office  | [msoffcrypto-tool](https://github.com/nolze/msoffcrypto-tool)    | MSOfficeCryptoToolAdapter |
 | Archive (ZIP, 7z) | [7-zip](https://www.7-zip.org/)                                  | SevenZipAdapter           |
 
 ## Installation

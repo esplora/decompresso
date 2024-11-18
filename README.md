@@ -86,26 +86,6 @@ If needed, you can create your own password provider by implementing the `Passwo
 > use [SecLists](https://github.com/danielmiessler/SecLists/tree/master/Passwords) as a source of popular passwords for
 > brute-forcing.
 
-### Testing
-
-Testing an application that depends on other services can be challenging, but this should not prevent you from
-contributing to the project.
-
-For adapters that depend on executable files, you can pass the path via the constructor:
-
-```php
-use Esplora\Lumos\Adapters\SevenZipAdapter;
-
-new SevenZipAdapter('/usr/bin/7z'),
-```
-
-For convenience, we also support using environment variables from a `.env` file to store paths to dependency executables
-in one place. To do this, create a `.env` file at the root of your project and add the environment variables as shown in
-the `.env.example`.
-
-> [!WARNING]  
-> Environment variables from the `.env` file will be loaded only for local testing and are added solely for the
-> convenience of developing this package.
 
 ### Extending File Support
 
@@ -158,6 +138,28 @@ class CustomAdapter implements AdapterInterface
     }
 }
 ```
+
+
+### Testing
+
+Testing an application that depends on other services can be challenging, but this should not prevent you from
+contributing to the project.
+
+For adapters that depend on executable files, you can pass the path via the constructor:
+
+```php
+use Esplora\Lumos\Adapters\SevenZipAdapter;
+
+new SevenZipAdapter('/usr/bin/7z'),
+```
+
+For convenience, we also support using environment variables from a `.env` file to store paths to dependency executables
+in one place. To do this, create a `.env` file at the root of your project and add the environment variables as shown in
+the `.env.example`.
+
+> [!WARNING]  
+> Environment variables from the `.env` file will be loaded only for local testing and are added solely for the
+> convenience of developing this package.
 
 
 ## License

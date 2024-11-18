@@ -105,6 +105,59 @@ the `.env.example`.
 > Environment variables from the `.env` file will be loaded only for local testing and are added solely for the
 > convenience of developing this package.
 
+### Extending File Support
+
+Lumos allows you to easily add support for new file types by creating custom adapters.
+To do so, implement a class that conforms to the `Esplora\Lumos\Contracts\AdapterInterface`.
+
+Example of a custom adapter implementation:
+
+```php
+namespace Esplora\Lumos\Adapters;
+
+use Esplora\Lumos\Contracts\AdapterInterface;
+use Esplora\Lumos\Contracts\PasswordProviderInterface;
+use Esplora\Lumos\Results\SummaryInterface;
+
+class CustomAdapter implements AdapterInterface
+{
+    /**
+     * Checks if the adapter supports the given file.
+     *
+     * @param string $filePath The file path.
+     * @return bool True if supported, otherwise false.
+     */
+    public function canSupport(string $filePath): bool
+    {
+        return str_ends_with($filePath, '.custom');
+    }
+
+    /**
+     * Checks if the environment is properly configured.
+     *
+     * @return bool True if configured, otherwise false.
+     */
+    public function isSupportedEnvironment(): bool
+    {
+        return true; // Check external dependencies here
+    }
+
+    /**
+     * Extracts the content to the specified directory.
+     *
+     * @param string $filePath The file path.
+     * @param string $destination The extraction destination.
+     * @param PasswordProviderInterface $passwords Password provider.
+     * @return SummaryInterface The extraction result.
+     */
+    public function extract(string $filePath, string $destination, PasswordProviderInterface $passwords): SummaryInterface
+    {
+        // Implement extraction logic here
+    }
+}
+```
+
+
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.

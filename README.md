@@ -42,11 +42,13 @@ use Esplora\Lumos\Extractor;
 use Esplora\Lumos\Adapters\SevenZipAdapter;
 
 $lumos = Extractor::make()
-    ->withAdapter(new SevenZipAdapter())
+    ->withAdapters([
+        new SevenZipAdapter(),
+    ])
     ->extract('/path/to/your/archive.zip');
 
 $lumos->isSuccessful(); // true
-$lumos->steps()->count(); // 1
+$lumos->attempts(); // 1
 ```
 
 > [!NOTE]

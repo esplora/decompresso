@@ -160,8 +160,3 @@ the `.env.example`.
 > [!WARNING]  
 > Environment variables from the `.env` file will be loaded only for local testing and are added solely for the
 > convenience of developing this package.
-
-
-## License
-
-The MIT License (MIT). Please see [License File](LICENSE.md) for more information.

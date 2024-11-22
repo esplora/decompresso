@@ -29,7 +29,7 @@ class SevenZipAdapterTest extends AdapterTests
         ];
     }
 
-    public function testExtractionSuccess(): void
+    public function test_extraction_success(): void
     {
         $result = $this->adepter()
             ->extract(
@@ -42,7 +42,7 @@ class SevenZipAdapterTest extends AdapterTests
         $this->assertFilesExtracted();
     }
 
-    public function testExtractionSuccessWithPassword(): void
+    public function test_extraction_success_with_password(): void
     {
         $archivePath = $this->getFixturesDir('zip/protected.zip');
 
@@ -57,7 +57,7 @@ class SevenZipAdapterTest extends AdapterTests
         $this->assertFilesExtracted();
     }
 
-    public function testExtractionFailureOnPassword(): void
+    public function test_extraction_failure_on_password(): void
     {
         $passwords = [
             'wrongpassword',

@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class SupportsAlwaysTest extends TestCase
 {
-    public function testAlwaysReturnsTrue(): void
+    public function test_always_returns_true(): void
     {
         $class = new class
         {

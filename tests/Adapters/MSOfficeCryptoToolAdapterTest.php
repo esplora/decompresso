@@ -17,7 +17,7 @@ class MSOfficeCryptoToolAdapterTest extends AdapterTests
         );
     }
 
-    public function testExtractionSimpleDocSuccess(): void
+    public function test_extraction_simple_doc_success(): void
     {
         $result = $this->adepter()
             ->extract(
@@ -32,7 +32,7 @@ class MSOfficeCryptoToolAdapterTest extends AdapterTests
         ]);
     }
 
-    public function testExtractionSuccessWithPasswordPPT(): void
+    public function test_extraction_success_with_password_ppt(): void
     {
         $archivePath = $this->getFixturesDir('office-crypto/protected.ppt');
 
@@ -49,7 +49,7 @@ class MSOfficeCryptoToolAdapterTest extends AdapterTests
         ]);
     }
 
-    public function testExtractionFailureOnPassword(): void
+    public function test_extraction_failure_on_password(): void
     {
         $archivePath = $this->getFixturesDir('office-crypto/protected.ppt');
 

@@ -12,7 +12,7 @@ class SupportsMimeTypesTest extends TestCase
 {
     use DirectoryManagesTestData;
 
-    public function testCanSupportWithSupportedMimeType(): void
+    public function test_can_support_with_supported_mime_type(): void
     {
         $instance = new class
         {
@@ -28,7 +28,7 @@ class SupportsMimeTypesTest extends TestCase
         $this->assertTrue($instance->canSupport($this->getFixturesDir('zip/protected.zip')));
     }
 
-    public function testCanSupportWithUnsupportedMimeType(): void
+    public function test_can_support_with_unsupported_mime_type(): void
     {
         $instance = new class
         {
@@ -43,7 +43,7 @@ class SupportsMimeTypesTest extends TestCase
         $this->assertFalse($instance->canSupport($this->getFixturesDir('zip/protected.zip')));
     }
 
-    public function testCanSupportWithEmptySupportedMimeTypes(): void
+    public function test_can_support_with_empty_supported_mime_types(): void
     {
         $instance = new class
         {

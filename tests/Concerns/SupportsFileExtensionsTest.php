@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class SupportsFileExtensionsTest extends TestCase
 {
-    public function testIsFileExtensionAllowed(): void
+    public function test_is_file_extension_allowed(): void
     {
         $instance = new class
         {

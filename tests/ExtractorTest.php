@@ -21,7 +21,7 @@ class ExtractorTest extends TestCase
         $this->extractor = new Extractor;
     }
 
-    public function testBaseExtractionSuccess(): void
+    public function test_base_extraction_success(): void
     {
         $passwordProvider = $this->createMock(PasswordProviderInterface::class);
         $passwordProvider->method('getPasswords')->willReturn(['123', 'xxx123']);
@@ -41,7 +41,7 @@ class ExtractorTest extends TestCase
         $this->assertTrue($result->isSuccessful());
     }
 
-    public function testBaseExtractionEmptyAdaptersFailure(): void
+    public function test_base_extraction_empty_adapters_failure(): void
     {
         $passwordProvider = $this->createMock(PasswordProviderInterface::class);
         $passwordProvider->method('getPasswords')->willReturn(['123', 'xxx123']);
@@ -61,7 +61,7 @@ class ExtractorTest extends TestCase
             ->extract('/path/to/archive.zip');
     }
 
-    public function testBaseExtractionWithOutContinueOnSuccess(): void
+    public function test_base_extraction_with_out_continue_on_success(): void
     {
         $passwordProvider = $this->createMock(PasswordProviderInterface::class);
         $passwordProvider->method('getPasswords')->willReturn(['123', 'xxx123']);
@@ -94,7 +94,7 @@ class ExtractorTest extends TestCase
         $this->assertTrue($result->isSuccessful());
     }
 
-    public function testBaseExtractionNotCallPasswords(): void
+    public function test_base_extraction_not_call_passwords(): void
     {
         $passwordProvider = $this->createMock(PasswordProviderInterface::class);
         $passwordProvider->method('getPasswords')

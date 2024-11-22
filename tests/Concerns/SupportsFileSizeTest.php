@@ -12,7 +12,7 @@ class SupportsFileSizeTest extends TestCase
 {
     use DirectoryManagesTestData;
 
-    public function testFileSizeBelowLimit(): void
+    public function test_file_size_below_limit(): void
     {
         $instance = new class
         {
@@ -27,7 +27,7 @@ class SupportsFileSizeTest extends TestCase
         $this->assertFalse($instance->canSupport($this->getFixturesDir('zip/protected.zip')));
     }
 
-    public function testFileSizeWithinLimit(): void
+    public function test_file_size_within_limit(): void
     {
         $instance = new class
         {

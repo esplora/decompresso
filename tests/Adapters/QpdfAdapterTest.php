@@ -17,7 +17,7 @@ class QpdfAdapterTest extends AdapterTests
         );
     }
 
-    public function testExtractionSuccess(): void
+    public function test_extraction_success(): void
     {
         $result = $this->adepter()
             ->extract(
@@ -32,7 +32,7 @@ class QpdfAdapterTest extends AdapterTests
         ]);
     }
 
-    public function testPdfExtractionSuccessWithPassword(): void
+    public function test_pdf_extraction_success_with_password(): void
     {
         $archivePath = $this->getFixturesDir('pdf/protected.pdf');
 
@@ -45,7 +45,7 @@ class QpdfAdapterTest extends AdapterTests
         ]);
     }
 
-    public function testExtractionFailureOnPassword(): void
+    public function test_extraction_failure_on_password(): void
     {
         $archivePath = $this->getFixturesDir('pdf/protected.pdf');
 

@@ -7,3 +7,7 @@
 /phpunit.xml.dist   export-ignore
 /tests              export-ignore
 /.github            export-ignore
+/.phpunit.xml       export-ignore
+/.pint.json         export-ignore
+/.psalm.xml         export-ignore
+/.env.example       export-ignore

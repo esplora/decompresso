@@ -57,7 +57,6 @@ class SevenZipAdapter implements AdapterInterface
             '-scsUTF-8',
             '-y',
             $password !== null ? '-p'.$password : '-p',
-            '-x!*',
         ];
 
         $process = new Process($command);

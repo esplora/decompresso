@@ -101,7 +101,7 @@ class Extractor
      * @param string      $filePath    Path to the file.
      * @param string|null $destination Directory to extract to. If not specified, uses the same directory as the file.
      *
-     * @throws \Exception If the password provider is not set.
+     * @throws \RuntimeException If the password provider is not set.
      *
      * @return SummaryInterface Result of the success callback or password failure callback.
      */
@@ -109,6 +109,7 @@ class Extractor
     {
         $destination = $destination ?: dirname($filePath);
 
+        /** @var AdapterInterface $adapter */
         $adapter = $this
             ->getSupportedAdapters($filePath)
             ->whenEmpty(fn () => throw new \RuntimeException("No adapter found for file: {$filePath}"))

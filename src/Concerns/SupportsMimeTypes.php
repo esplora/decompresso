@@ -18,8 +18,8 @@ trait SupportsMimeTypes
     public function canSupport(string $filePath): bool
     {
         $mimeTypesToCheck = [];
-        
-        if (!Str::of($filePath)->contains('__MACOSX')) {
+
+        if (! Str::of($filePath)->contains('__MACOSX')) {
             $fileExtension = pathinfo($filePath, PATHINFO_EXTENSION);
             $mimeTypesToCheck = MimeTypes::getDefault()->getMimeTypes($fileExtension);
         }
@@ -27,7 +27,7 @@ trait SupportsMimeTypes
         $mimeTypesToCheck[] = (new MimeTypes)->guessMimeType($filePath);
 
         return collect($mimeTypesToCheck)->contains(
-            fn(string $mimeType) => in_array($mimeType, $this->supportedMimeTypes(), true)
+            fn (string $mimeType) => in_array($mimeType, $this->supportedMimeTypes(), true)
         );
     }
 

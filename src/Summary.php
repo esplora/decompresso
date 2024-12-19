@@ -28,7 +28,7 @@ class Summary implements SummaryInterface
      *
      * This property stores the password associated with the last successful step.
      */
-    protected string|null $password;
+    protected ?string $password;
 
     /**
      * Steps involved in the extraction process.

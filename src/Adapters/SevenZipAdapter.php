@@ -55,7 +55,7 @@ class SevenZipAdapter implements AdapterInterface
             ->toString();
 
         // Testing the archive first to ensure it can be unpacked without leaving broken files.
-        if (!$this->runProcess('t', $filePath, $destinationWithFolder, $password)) {
+        if (! $this->runProcess('t', $filePath, $destinationWithFolder, $password)) {
             return false;
         }
 
@@ -66,10 +66,10 @@ class SevenZipAdapter implements AdapterInterface
     /**
      * Executes a 7-Zip command with the given parameters.
      *
-     * @param string      $action       The action to perform ('t' for test, 'x' for extract).
-     * @param string      $filePath     Path to the 7-Zip archive.
-     * @param string      $destination  Directory for extraction.
-     * @param string|null $password     Password (optional).
+     * @param string      $action      The action to perform ('t' for test, 'x' for extract).
+     * @param string      $filePath    Path to the 7-Zip archive.
+     * @param string      $destination Directory for extraction.
+     * @param string|null $password    Password (optional).
      *
      * @return bool Returns true if the process was successful, false otherwise.
      */
@@ -79,7 +79,7 @@ class SevenZipAdapter implements AdapterInterface
             $this->bin,
             $action,
             $filePath,
-            '-o' . $destination,
+            '-o'.$destination,
             '-scsUTF-8',
             '-y',
             $password !== null ? '-p'.$password : '-p',

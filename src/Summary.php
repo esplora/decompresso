@@ -24,6 +24,13 @@ class Summary implements SummaryInterface
     protected int $attempts = 0;
 
     /**
+     * The password used in the extraction process, if any.
+     *
+     * This property stores the password associated with the last successful step.
+     */
+    protected string|null $password;
+
+    /**
      * Steps involved in the extraction process.
      *
      * Contains all the steps of the process, including the success status and context for each step.
@@ -56,6 +63,7 @@ class Summary implements SummaryInterface
         // If the current step is successful, mark the whole process as successful.
         if ($success) {
             $this->success = true;
+            $this->password = $context['password'] ?? null;
         }
 
         // Increment the number of attempts.
@@ -133,6 +141,19 @@ class Summary implements SummaryInterface
     public function attempts(): int
     {
         return $this->attempts;
+    }
+
+    /**
+     * Retrieves the password used in the extraction process.
+     *
+     * This method returns the password that was associated with the last successful step.
+     * If no password was used or no successful steps were recorded, it returns null.
+     *
+     * @return string|null The password used, or null if not applicable.
+     */
+    public function password(): ?string
+    {
+        return $this->password;
     }
 
     /**

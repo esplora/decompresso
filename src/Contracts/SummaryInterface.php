@@ -51,4 +51,13 @@ interface SummaryInterface
      * @return int The total number of attempts recorded.
      */
     public function attempts(): int;
+
+    /**
+     * Get the password used in the process.
+     *
+     * This method returns the password associated with the process, if any.
+     *
+     * @return string|null The password or null if none was used.
+     */
+    public function password(): ?string;
 }

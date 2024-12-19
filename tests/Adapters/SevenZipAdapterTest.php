@@ -26,6 +26,7 @@ class SevenZipAdapterTest extends AdapterTests
                 $this->getPasswords()
             );
 
+        $this->assertNull($result->password());
         $this->assertTrue($result->isSuccessful());
         $this->assertFilesExtracted([
             'simple/simple.txt',
@@ -43,6 +44,7 @@ class SevenZipAdapterTest extends AdapterTests
                 $this->getPasswords()
             );
 
+        $this->assertSame('12345', $result->password());
         $this->assertTrue($result->isSuccessful());
         $this->assertFilesExtracted([
             'protected/simple.txt',

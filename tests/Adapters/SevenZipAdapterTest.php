@@ -17,18 +17,6 @@ class SevenZipAdapterTest extends AdapterTests
         );
     }
 
-    /**
-     * Returns the expected list of files after extraction.
-     *
-     * @return array<string>
-     */
-    protected function getExpectedFiles(): array
-    {
-        return [
-            'simple.txt',
-        ];
-    }
-
     public function test_extraction_success(): void
     {
         $result = $this->adepter()
@@ -39,7 +27,9 @@ class SevenZipAdapterTest extends AdapterTests
             );
 
         $this->assertTrue($result->isSuccessful());
-        $this->assertFilesExtracted();
+        $this->assertFilesExtracted([
+            'simple/simple.txt',
+        ]);
     }
 
     public function test_extraction_success_with_password(): void
@@ -54,7 +44,37 @@ class SevenZipAdapterTest extends AdapterTests
             );
 
         $this->assertTrue($result->isSuccessful());
-        $this->assertFilesExtracted();
+        $this->assertFilesExtracted([
+            'protected/simple.txt',
+        ]);
+    }
+
+    public function test_extraction_multipart_with_password(): void
+    {
+        $archivePath = $this->getFixturesDir('zip/gg.zip.001');
+
+        $result = $this->adepter()
+            ->extract(
+                $archivePath,
+                $this->getExtractionPath(),
+                $this->getPasswords()
+            );
+
+        $this->assertFalse($result->isSuccessful());
+    }
+
+    public function test_extraction_multipart_with_password2(): void
+    {
+        $archivePath = $this->getFixturesDir('zip/XcwfXuLNEY.zip');
+
+        $result = $this->adepter()
+            ->extract(
+                $archivePath,
+                $this->getExtractionPath(),
+                $this->getPasswords()
+            );
+
+        $this->assertFalse($result->isSuccessful());
     }
 
     public function test_extraction_failure_on_password(): void

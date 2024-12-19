@@ -22,6 +22,8 @@ abstract class AdapterTests extends TestCase
             '12345',
             '123456',
             'Password1234_',
+            'XcwfXuLNEY',
+            'gg',
         ]);
     }
 

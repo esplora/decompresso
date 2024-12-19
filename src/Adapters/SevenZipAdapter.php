@@ -49,11 +49,15 @@ class SevenZipAdapter implements AdapterInterface
      */
     protected function tryDecrypting(string $filePath, string $destination, ?string $password = null): bool
     {
+        $destinationWithFolder = Str::of($destination)
+            ->finish('/' . pathinfo($filePath, PATHINFO_FILENAME))
+            ->toString();
+        
         $command = [
             $this->bin,
             'x',
             $filePath,
-            '-o'.$destination,
+            '-o'.$destinationWithFolder,
             '-scsUTF-8',
             '-y',
             $password !== null ? '-p'.$password : '-p',

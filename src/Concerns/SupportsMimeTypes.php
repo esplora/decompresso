@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Esplora\Lumos\Concerns;
 
+use Illuminate\Support\Str;
 use Symfony\Component\Mime\MimeTypes;
 
 trait SupportsMimeTypes
@@ -19,7 +20,7 @@ trait SupportsMimeTypes
     {
         $mimeTypesToCheck = [];
 
-        if (! Str::of($filePath)->contains('__MACOSX')) {
+        if (! Str::of($filePath)->contains('/__MACOSX')) {
             $fileExtension = pathinfo($filePath, PATHINFO_EXTENSION);
             $mimeTypesToCheck = MimeTypes::getDefault()->getMimeTypes($fileExtension);
         }

@@ -5,6 +5,7 @@ namespace Esplora\Lumos\Adapters;
 use Esplora\Lumos\Concerns\Decryptable;
 use Esplora\Lumos\Concerns\SupportsMimeTypes;
 use Esplora\Lumos\Contracts\AdapterInterface;
+use Illuminate\Support\Str;
 use Symfony\Component\Process\Process;
 
 /**
